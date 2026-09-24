@@ -1,6 +1,6 @@
 """Build + submit a Wan 2.2 Fun-VACE 14B two-stage depth->era still (API format).
 usage: python make_still_graph.py <era 1955|1980s> [frames] [depth_strength] [seed] [--submit]"""
-import json, sys, urllib.request
+import json, os, sys, urllib.request
 era = sys.argv[1]; N = int(sys.argv[2]) if len(sys.argv) > 2 else 33
 STR = float(sys.argv[3]) if len(sys.argv) > 3 else 0.8
 SEED = int(sys.argv[4]) if len(sys.argv) > 4 else 1234
@@ -9,7 +9,8 @@ CAM = next((a.split("=",1)[1] for a in sys.argv if a.startswith("--cam=")), "C1"
 SKIP = int(next((a.split("=",1)[1] for a in sys.argv if a.startswith("--skip=")), "0"))
 VID = next((a.split("=",1)[1] for a in sys.argv if a.startswith("--video=")), "depth_C1.mp4")
 SRC = __import__("re").sub(r"depth_C\d_","",VID).replace(".mp4","") if "cesium" in VID else "box"
-TAG = CAM + "_" + SRC + f"_s{STR}" + ("_noref" if NOREF else "_ref")
+PREC = "bf16" if ("--bf16" in sys.argv or os.environ.get("PLATES_BF16") == "1") else "fp8_scaled"   # bf16: Ampere has no fp8 math
+TAG = CAM + "_" + SRC + f"_s{STR}" + ("_noref" if NOREF else "_ref") + ("_bf16" if PREC == "bf16" else "")
 LANE = ("positioned in the RIGHT-HAND lane of a two-way city street, the painted centre line runs up the left third "
         "of the frame, a car ahead in the same lane, oncoming traffic on the far side of the centre line, cars parked "
         "at the kerb to the right, storefronts and sidewalks on both sides, the bottom edge of the frame is clean "
@@ -19,13 +20,16 @@ CAMTXT = {
  "C5": ("view looking straight BACKWARD out of the rear of a car driving in the right-hand lane of a two-way city street, "
         "the road recedes behind us to the vanishing point, a car following close behind us in our lane with its headlights "
         "facing the camera, more following cars further back, the painted centre line runs up the RIGHT third of the frame, "
-        "traffic on the far side of the centre line driving away from us, cars parked at the kerb on the LEFT, storefronts and "
+        "traffic on the far side of the centre line driving away from us, a few cars parked at the kerb on the LEFT facing toward us so we "
+        "see their front grilles and headlights, never their tail lights, light evening traffic, storefronts and "
         "sidewalks on both sides, the bottom edge of the frame is clean asphalt, viewpoint 1.8 m above the road"),
  "C3": ("side view looking straight out to the RIGHT of a car driving along a city boulevard, parked cars at the kerb close in "
         "the foreground seen side-on, the sidewalk with pedestrians, storefronts, shop windows and signs facing the camera, "
-        "motion from the side, viewpoint 1.8 m above the road, level horizon"),
+        "motion from the side, light evening traffic with only a few scattered cars, the road in the distance is mostly open, "
+        "viewpoint 1.8 m above the road, level horizon"),
  "C7": ("side view looking straight out to the LEFT of a car driving in the right-hand lane of a city boulevard, the adjacent "
-        "lane close in the foreground with cars passing us seen side-on, the centre line and oncoming traffic lanes beyond, the far "
+        "lane close in the foreground with one or two cars passing us seen side-on, the centre line and oncoming lanes beyond with "
+        "light evening traffic, only a few scattered cars, the road in the distance mostly open, the far "
         "sidewalk and storefronts across the street, viewpoint 1.8 m above the road, level horizon"),
 }
 ERA = {
@@ -37,13 +41,13 @@ ERA = {
            "slightly warm faded colour, natural film grain, realistic photographic detail, ", "ref_1978_lane.png"),
 }[era]
 NEG = ("car hood, bonnet, dashboard, car door, window frame, side mirror, rear window, windshield, camera rig, roof mount, part of our car, modern cars, modern signage, "
-       "LED screens, video game, 3D render, CGI, cartoon, plastic, flat grey buildings, blocky slabs, blurry, text, watermark, "
+       "LED screens, traffic jam, gridlock, bumper-to-bumper traffic, crowded road, dozens of cars, cars facing the wrong way, video game, 3D render, CGI, cartoon, plastic, flat grey buildings, blocky slabs, blurry, text, watermark, "
        "distorted, low quality")
 g = {
  "1": {"class_type": "VHS_LoadVideo", "inputs": {"video": VID, "force_rate": 0, "custom_width": 832, "custom_height": 480,
        "frame_load_cap": N, "skip_first_frames": SKIP, "select_every_nth": 1}},
- "2": {"class_type": "UNETLoader", "inputs": {"unet_name": "wan2.2_fun_vace_high_noise_14B_fp8_scaled.safetensors", "weight_dtype": "default"}},
- "3": {"class_type": "UNETLoader", "inputs": {"unet_name": "wan2.2_fun_vace_low_noise_14B_fp8_scaled.safetensors", "weight_dtype": "default"}},
+ "2": {"class_type": "UNETLoader", "inputs": {"unet_name": f"wan2.2_fun_vace_high_noise_14B_{PREC}.safetensors", "weight_dtype": "default"}},
+ "3": {"class_type": "UNETLoader", "inputs": {"unet_name": f"wan2.2_fun_vace_low_noise_14B_{PREC}.safetensors", "weight_dtype": "default"}},
  "4": {"class_type": "CLIPLoader", "inputs": {"clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors", "type": "wan"}},
  "5": {"class_type": "VAELoader", "inputs": {"vae_name": "wan_2.1_vae.safetensors"}},
  "6": {"class_type": "ModelSamplingSD3", "inputs": {"model": ["2", 0], "shift": 8.0}},
@@ -68,7 +72,7 @@ g = {
 }
 if NOREF:
     del g["10"]; del g["11"]["inputs"]["reference_image"]
-out = f"C:/Users/danie/Documents/OrbitalPlates/comfy_workflows/wan22_funvace_still_{era}_api.json"
+out = f"{os.path.expanduser('~')}/Documents/OrbitalPlates/comfy_workflows/wan22_funvace_still_{era}_api.json"
 json.dump(g, open(out, "w"), indent=1)
 if "--submit" in sys.argv:
     r = urllib.request.urlopen(urllib.request.Request("http://127.0.0.1:8188/prompt", json.dumps({"prompt": g}).encode(),

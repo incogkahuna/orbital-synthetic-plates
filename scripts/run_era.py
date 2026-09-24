@@ -10,8 +10,10 @@ ERA = sys.argv[1]; SECS = float(sys.argv[2]) if len(sys.argv) > 2 else 30
 N = int(sys.argv[3]) if len(sys.argv) > 3 else 49; OV = int(sys.argv[4]) if len(sys.argv) > 4 else 8
 CAM = sys.argv[5] if len(sys.argv) > 5 else "C1"; START = int(sys.argv[6]) if len(sys.argv) > 6 else 0
 GEO = sys.argv[7] if len(sys.argv) > 7 else "v4"
-ROOT = "C:/Users/danie/Documents/OrbitalPlates"; SH = "C:/Users/danie/AppData/Local/Comfy-Desktop/ComfyUI-Shared"
-DEPTH = sorted(glob.glob(f"{ROOT}/renders/Cesium_{CAM}_png/depth_*.png"))[START:]
+ROOT = os.environ.get("ORBITAL_ROOT", os.path.expanduser("~/Documents/OrbitalPlates")).replace("\\", "/")
+SH = os.environ.get("COMFY_DIR", "C:/ComfyUI")   # Comfy input/output root (old desktop: Comfy-Desktop\ComfyUI-Shared)
+_dd = f"{ROOT}/renders/Cesium_{CAM}_{GEO}_png"   # e.g. Cesium_C5_v7_png; falls back to the unversioned folder
+DEPTH = sorted(glob.glob(f"{_dd if os.path.isdir(_dd) else f'{ROOT}/renders/Cesium_{CAM}_png'}/depth_*.png"))[START:]
 TOTAL = min(int(SECS * 24) + 1, len(DEPTH)); STEP = N - OV
 sys.argv = ["x", ERA, str(N), "0.8", "1955" if ERA == "1955" else "1980", "--noref", f"--cam={CAM}"]
 _E, _N, _C = ERA, N, CAM
@@ -62,7 +64,7 @@ while s < TOTAL - OV or w == 0:
 out_frames = out_frames[:TOTAL]
 fdir = f"{ROOT}/renders/{RUN.replace('/', '_')}_frames"; os.makedirs(fdir, exist_ok=True)
 for i, f in enumerate(out_frames): f.save(f"{fdir}/{i:06d}.png")
-ff = shutil.which("ffmpeg") or glob.glob("C:/Users/danie/AppData/Local/Microsoft/WinGet/Packages/*/*/bin/ffmpeg.exe")[0]
+ff = shutil.which("ffmpeg") or glob.glob(os.path.expanduser("~/AppData/Local/Microsoft/WinGet/Packages/*/*/bin/ffmpeg.exe"))[0]
 mp4 = f"{ROOT}/deliverables/{ERA}_{CAM}_cesium_{GEO}_{int(SECS)}s.mp4"; os.makedirs(os.path.dirname(mp4), exist_ok=True)
 subprocess.run([ff, "-y", "-loglevel", "error", "-framerate", "24000/1001", "-i", f"{fdir}/%06d.png",
                 "-c:v", "libx264", "-profile:v", "high", "-pix_fmt", "yuv420p", "-crf", "14", mp4], check=True)

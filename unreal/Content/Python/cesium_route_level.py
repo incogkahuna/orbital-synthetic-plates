@@ -79,10 +79,14 @@ def main():
     geo.set_editor_property("origin_latitude", ROUTE["origin_lat"])
     geo.set_editor_property("origin_longitude", ROUTE["origin_lon"])
     geo.set_editor_property("origin_height", ROUTE["origin_height_m"])
+    # Tag it as THE default so Cesium actors resolve to it instead of spawning a second georeference at
+    # Cesium's Denver default. That duplicate put the tiles in Colorado while the rig used LA (2026-09-23).
+    if "DEFAULT_GEOREFERENCE" not in [str(t) for t in geo.tags]:
+        geo.set_editor_property("tags", list(geo.tags) + [unreal.Name("DEFAULT_GEOREFERENCE")])
     spawn(unreal.CesiumSunSky, "CesiumSunSky")
-    tileset("Cesium_WorldTerrain", ION["terrain"])
-    tileset("Cesium_OSMBuildings", ION["osm_buildings"])
-    tileset("Google3D_ReferenceOnly_DONOTRENDER", ION["google_3d"], hidden=True)
+    tileset("Cesium_WorldTerrain", ION["terrain"], geo)
+    tileset("Cesium_OSMBuildings", ION["osm_buildings"], geo)
+    tileset("Google3D_ReferenceOnly_DONOTRENDER", ION["google_3d"], geo, hidden=True)
     LES.save_current_level()
     log("done — georeferenced route level with terrain + OSM buildings (+ hidden Google reference)")
 

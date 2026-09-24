@@ -136,22 +136,35 @@ def _cube_actor(label, movable=True):
     return a
 
 
+def _proxy_part(parent, label, L, W, body_h, size_cm, offset_cm):
+    """Axis-aligned block attached to a car body. Relative values live in the body's scaled
+    space (cube = 100 cm), so sizes divide by the body size and offsets by the body scale."""
+    p = _cube_actor(label)
+    if p.get_attach_parent_actor() != parent:
+        p.attach_to_actor(parent, "", unreal.AttachmentRule.KEEP_RELATIVE,
+                          unreal.AttachmentRule.KEEP_RELATIVE, unreal.AttachmentRule.KEEP_RELATIVE, False)
+    p.root_component.set_relative_scale3d(unreal.Vector(size_cm[0] / L, size_cm[1] / W, size_cm[2] / body_h))
+    p.root_component.set_relative_location(
+        unreal.Vector(offset_cm[0] / (L / 100.0), offset_cm[1] / (W / 100.0), offset_cm[2] / (body_h / 100.0)),
+        False, False)
+    return p
+
+
 def ensure_proxy(label, size=(CAR_L, CAR_W, CAR_H)):
     """Car-shaped proxy so direction reads in depth: a low body (the keyed actor, pivot at
-    body centre) plus a cabin block set toward the REAR (-X), attached so it follows the keys."""
+    body centre, +X = front) plus a cabin set well toward the REAR (long hood, short trunk)
+    and a half-height step in front of the cabin standing in for a raked windshield.
+    Symmetric boxes let Wan guess the facing and it drew parked cars backward (2026-09-23)."""
     L, W, H = size
     body_h = CAR_BODY_H
     a = _cube_actor(label)
     a.set_actor_scale3d(unreal.Vector(L / 100.0, W / 100.0, body_h / 100.0))
-    cab = _cube_actor(label + "_Cabin")
-    cab_l, cab_w, cab_h = L * 0.45, W * 0.78, CAR_CAB_H
-    if cab.get_attach_parent_actor() != a:
-        cab.attach_to_actor(a, "", unreal.AttachmentRule.KEEP_RELATIVE,
-                            unreal.AttachmentRule.KEEP_RELATIVE, unreal.AttachmentRule.KEEP_RELATIVE, False)
-    # relative values live in the body's scaled space (cube = 100 cm)
-    cab.root_component.set_relative_scale3d(unreal.Vector(cab_l / L, cab_w / W, cab_h / body_h))
-    cab.root_component.set_relative_location(
-        unreal.Vector(-0.09 * L / (L / 100.0), 0.0, (body_h / 2 + cab_h / 2) / (body_h / 100.0)), False, False)
+    cab_l, cab_w, cab_h = L * 0.40, W * 0.78, CAR_CAB_H
+    cab_x = -0.13 * L                                     # cabin spans -0.33L..+0.07L: hood 0.43L, trunk 0.17L
+    _proxy_part(a, label + "_Cabin", L, W, body_h, (cab_l, cab_w, cab_h), (cab_x, 0.0, body_h / 2 + cab_h / 2))
+    scr_l, scr_h = L * 0.10, cab_h * 0.5                  # windshield step, front side of the cabin only
+    _proxy_part(a, label + "_Screen", L, W, body_h, (scr_l, cab_w, scr_h),
+                (cab_x + cab_l / 2 + scr_l / 2, 0.0, body_h / 2 + scr_h / 2))
     return a
 
 

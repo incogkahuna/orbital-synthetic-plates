@@ -27,7 +27,7 @@ UES = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem)
 S = {"t": 0, "h": None, "phase": "wait", "act": None, "llh": [], "hits": [], "i": 0, "wait": 0}
 
 rig.CONFIG.update({
-    "duration_s": 30.0,
+    "duration_s": 120.0,                         # 2 min MVP plate: 1.61 km at 30 mph, fits the 2.08 km route
     "build_placeholder_world": False,
     "content_root": "/Game/OrbitalPlates/Cesium",
     "oncoming_offsets_cm": [-1000.0, -1350.0],   # oncoming lanes beyond the centre turn lane

@@ -2,7 +2,7 @@
  "1": {
   "class_type": "VHS_LoadVideo",
   "inputs": {
-   "video": "depth_C7_cesium_v5.mp4",
+   "video": "depth_C7_cesium_v6.mp4",
    "force_rate": 0,
    "custom_width": 832,
    "custom_height": 480,
@@ -65,7 +65,7 @@
     "4",
     0
    ],
-   "text": "35mm Kodachrome photograph, Los Angeles 1955, a boulevard at dusk, magic hour, warm glowing sky, car headlights and neon signs switched on, 1940s and 1950s American cars with chrome bumpers and rounded fenders, neon and painted shop signs, telephone poles, pedestrians in 1950s clothes, natural film grain, realistic photographic detail, side view looking straight out to the LEFT of a car driving in the right-hand lane of a city boulevard, the adjacent lane close in the foreground with cars passing us seen side-on, the centre line and oncoming traffic lanes beyond, the far sidewalk and storefronts across the street, viewpoint 1.8 m above the road, level horizon"
+   "text": "35mm Kodachrome photograph, Los Angeles 1955, a boulevard at dusk, magic hour, warm glowing sky, car headlights and neon signs switched on, 1940s and 1950s American cars with chrome bumpers and rounded fenders, neon and painted shop signs, telephone poles, pedestrians in 1950s clothes, natural film grain, realistic photographic detail, side view looking straight out to the LEFT of a car driving in the right-hand lane of a city boulevard, the adjacent lane close in the foreground with one or two cars passing us seen side-on, the centre line and oncoming lanes beyond with light evening traffic, only a few scattered cars, the road in the distance mostly open, the far sidewalk and storefronts across the street, viewpoint 1.8 m above the road, level horizon"
   }
  },
  "9": {
@@ -75,7 +75,7 @@
     "4",
     0
    ],
-   "text": "car hood, bonnet, dashboard, car door, window frame, side mirror, rear window, windshield, camera rig, roof mount, part of our car, modern cars, modern signage, LED screens, video game, 3D render, CGI, cartoon, plastic, flat grey buildings, blocky slabs, blurry, text, watermark, distorted, low quality"
+   "text": "car hood, bonnet, dashboard, car door, window frame, side mirror, rear window, windshield, camera rig, roof mount, part of our car, modern cars, modern signage, LED screens, traffic jam, gridlock, bumper-to-bumper traffic, crowded road, dozens of cars, cars facing the wrong way, video game, 3D render, CGI, cartoon, plastic, flat grey buildings, blocky slabs, blurry, text, watermark, distorted, low quality"
   }
  },
  "11": {
@@ -112,7 +112,7 @@
     0
    ],
    "add_noise": "enable",
-   "noise_seed": 1,
+   "noise_seed": 1234,
    "steps": 20,
    "cfg": 3.5,
    "sampler_name": "uni_pc",
@@ -142,7 +142,7 @@
     0
    ],
    "add_noise": "disable",
-   "noise_seed": 1,
+   "noise_seed": 1234,
    "steps": 20,
    "cfg": 3.5,
    "sampler_name": "uni_pc",
@@ -208,7 +208,7 @@
     "16",
     0
    ],
-   "filename_prefix": "plates/still_1955_C7_depth_C7_cesium_v5_s0.8_noref"
+   "filename_prefix": "plates/still_1955_C7_cesium_v6_s0.8_noref"
   }
  },
  "18": {
@@ -220,7 +220,7 @@
    ],
    "frame_rate": 24,
    "loop_count": 0,
-   "filename_prefix": "plates/still_1955_C7_depth_C7_cesium_v5_s0.8_noref_clip",
+   "filename_prefix": "plates/still_1955_C7_cesium_v6_s0.8_noref_clip",
    "format": "video/h264-mp4",
    "pix_fmt": "yuv420p",
    "crf": 16,
