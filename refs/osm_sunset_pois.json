@@ -1,0 +1,1660 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-09-24T18:38:14Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 349338599,
+  "lat": 34.0996138,
+  "lon": -118.3289013,
+  "tags": {
+    "amenity": "restaurant",
+    "created_by": "Potlatch 0.10f",
+    "name": "Big Wang's"
+  }
+},
+{
+  "type": "node",
+  "id": 349338821,
+  "lat": 34.0998981,
+  "lon": -118.3293304,
+  "tags": {
+    "addr:housenumber": "6371",
+    "addr:street": "Selma Avenue",
+    "amenity": "restaurant",
+    "name": "Cafe Etc.",
+    "opening_hours": "Mo-Fr 07:00-21:00; Sa-Su 07:00-21:00",
+    "phone": "+1 323-464-8824",
+    "website": "https://www.caffeetc.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 349339405,
+  "lat": 34.0981853,
+  "lon": -118.3275360,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6922",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "Sunset Boulevard",
+    "addr:suite": "106",
+    "amenity": "fast_food",
+    "brand": "Baja Fresh",
+    "brand:wikidata": "Q2880019",
+    "contact:phone": "+1-323-467-4620",
+    "contact:website": "http://www.bajafresh.com/",
+    "cuisine": "mexican",
+    "name": "Baja Fresh",
+    "official_name": "Baja Fresh Mexican Grill",
+    "opening_hours": "Mo-Th 10:00-22:00; Fr-Sa 10:00-23:00; Su 10:00-22:00",
+    "ref:store_number": "30266",
+    "source": "http://www.bajafresh.com/stores/30266",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 349339593,
+  "lat": 34.0981831,
+  "lon": -118.3268991,
+  "tags": {
+    "brand": "Walgreens",
+    "brand:wikidata": "Q1591889",
+    "name": "Walgreens",
+    "opening_hours": "24/7",
+    "shop": "chemist"
+  }
+},
+{
+  "type": "node",
+  "id": 358785965,
+  "lat": 34.0988979,
+  "lon": -118.3400772,
+  "tags": {
+    "amenity": "school",
+    "ele": "110",
+    "gnis:feature_id": "243550",
+    "name": "Hollywood Senior High School"
+  }
+},
+{
+  "type": "node",
+  "id": 368171401,
+  "lat": 34.0991667,
+  "lon": -118.3372222,
+  "tags": {
+    "addr:state": "CA",
+    "amenity": "theatre",
+    "ele": "109",
+    "gnis:feature_id": "2353802",
+    "name": "Stages Trilingual Theater",
+    "source": "USGS Geonames"
+  }
+},
+{
+  "type": "node",
+  "id": 560958815,
+  "lat": 34.0960683,
+  "lon": -118.3264426,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:country": "US",
+    "addr:full": "1360 Vine Street, Los Angeles, CA 90028",
+    "addr:housenumber": "1360",
+    "addr:postcode": "90028",
+    "addr:street": "Vine Street",
+    "amenity": "restaurant",
+    "cuisine": "peruvian",
+    "name": "Los Balcones"
+  }
+},
+{
+  "type": "node",
+  "id": 853942951,
+  "lat": 34.0990787,
+  "lon": -118.3269050,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Tom Breneman's Restaurant"
+  }
+},
+{
+  "type": "node",
+  "id": 1068119303,
+  "lat": 34.0979262,
+  "lon": -118.3221727,
+  "tags": {
+    "amenity": "post_box",
+    "source": "survey"
+  }
+},
+{
+  "type": "node",
+  "id": 1270766754,
+  "lat": 34.0973564,
+  "lon": -118.3264568,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6290",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "West Sunset Boulevard",
+    "amenity": "fast_food",
+    "brand": "Chipotle",
+    "brand:wikidata": "Q465751",
+    "cuisine": "mexican",
+    "name": "Chipotle",
+    "official_name": "Chipotle Mexican Grill",
+    "phone": "+1 213-521-2441",
+    "source": "local_knowledge",
+    "takeaway": "yes",
+    "website": "https://locations.chipotle.com/ca/los-angeles/6290-w-sunset-blvd"
+  }
+},
+{
+  "type": "node",
+  "id": 1270766755,
+  "lat": 34.0977395,
+  "lon": -118.3269704,
+  "tags": {
+    "amenity": "bank",
+    "brand": "Bank of America",
+    "brand:wikidata": "Q487907",
+    "name": "Bank of America",
+    "source": "local_knowledge",
+    "website": "https://locators.bankofamerica.com/ca/hollywood/financial-centers-hollywood-8445.html"
+  }
+},
+{
+  "type": "node",
+  "id": 1270766762,
+  "lat": 34.0977995,
+  "lon": -118.3264072,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "american",
+    "name": "Go Burger",
+    "source": "local_knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 1270766763,
+  "lat": 34.0978006,
+  "lon": -118.3262710,
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "Tender Greens",
+    "brand:wikidata": "Q113585516",
+    "cuisine": "salad",
+    "name": "Tender Greens",
+    "source": "local_knowledge",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1830411804,
+  "lat": 34.0981891,
+  "lon": -118.3297193,
+  "tags": {
+    "amenity": "cafe",
+    "name": "greenwork"
+  }
+},
+{
+  "type": "node",
+  "id": 1860234745,
+  "lat": 34.0990182,
+  "lon": -118.3448777,
+  "tags": {
+    "self_service": "yes",
+    "shop": "laundry"
+  }
+},
+{
+  "type": "node",
+  "id": 2165194436,
+  "lat": 34.0999116,
+  "lon": -118.3297730,
+  "tags": {
+    "amenity": "nightclub",
+    "name": "AV Nightclub",
+    "opening_hours": "Mo 22:30-03:00; Fr-Sa 22:30-03:00",
+    "phone": "+1 323-466-1400",
+    "website": "http://www.avnightclub.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 2165269061,
+  "lat": 34.0999992,
+  "lon": -118.3293350,
+  "tags": {
+    "amenity": "restaurant",
+    "email": "saintfelix.libertine@gmail.com",
+    "name": "Saint Felix Hollywood",
+    "opening_hours": "Mo-Su 11:00 - 02:00",
+    "phone": "+1 323-469-5001",
+    "website": "https://www.saintfelix.net/"
+  }
+},
+{
+  "type": "node",
+  "id": 2247860156,
+  "lat": 34.0997432,
+  "lon": -118.3282980,
+  "tags": {
+    "addr:city": "Hollywood",
+    "addr:housenumber": "1600",
+    "addr:postcode": "90028",
+    "addr:street": "Ivar Avenue",
+    "amenity": "marketplace",
+    "name": "Hollywood Farmers Market",
+    "note": "Sunday mornings only.",
+    "opening_hours": "Su 08:00-13:00",
+    "website": "https://hfm.la/"
+  }
+},
+{
+  "type": "node",
+  "id": 2247897599,
+  "lat": 34.0981258,
+  "lon": -118.3318980,
+  "tags": {
+    "addr:housenumber": "6523",
+    "addr:postcode": "90028",
+    "addr:street": "West Sunset Boulevard",
+    "amenity": "nightclub",
+    "name": "Eden Sunset",
+    "note": "Formerly Boulevard 3."
+  }
+},
+{
+  "type": "node",
+  "id": 2570230112,
+  "lat": 34.0985353,
+  "lon": -118.3268840,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housename": "Sunset & Vine",
+    "addr:postcode": "90028",
+    "addr:street": "Vine Street",
+    "check_date:currency:XBT": "2025-04-22",
+    "currency:XBT": "yes",
+    "fixme": "check opening hours",
+    "name": "Wynn Nail Spa",
+    "opening_hours": "09:30-10:00",
+    "phone": "+1 323-871-8001",
+    "shop": "beauty",
+    "source": "Wynn Nail Spa",
+    "website": "http://www.wynnnailspa.com",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3384647297,
+  "lat": 34.0977459,
+  "lon": -118.3431874,
+  "tags": {
+    "shop": "vacant"
+  }
+},
+{
+  "type": "node",
+  "id": 3384647298,
+  "lat": 34.0976800,
+  "lon": -118.3431884,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "7040",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "Sunset Boulevard",
+    "addr:unit": "C",
+    "amenity": "fast_food",
+    "brand": "Subway",
+    "brand:wikidata": "Q244457",
+    "cuisine": "sandwich",
+    "name": "Subway",
+    "opening_hours": "Mo-Th 09:00-22:00; Fr-Sa 09:00-23:00; Su 09:00-21:00",
+    "phone": "+1 323-465-4342",
+    "takeaway": "yes",
+    "website": "https://restaurants.subway.com/united-states/ca/los-angeles/7040-sunset-blvd"
+  }
+},
+{
+  "type": "node",
+  "id": 3384647299,
+  "lat": 34.0978027,
+  "lon": -118.3431865,
+  "tags": {
+    "addr:city": "Hollywood",
+    "addr:housenumber": "7040",
+    "addr:postcode": "90028-7567",
+    "addr:state": "CA",
+    "addr:street": "Sunset Boulevard",
+    "addr:unit": "A",
+    "atm": "yes",
+    "brand": "7-Eleven",
+    "brand:wikidata": "Q259340",
+    "contact:website": "https://www.7-eleven.com/locations/ca/hollywood/7040-sunset-blvd-a-29261",
+    "fast_food": "yes",
+    "fuel:propane": "yes",
+    "name": "7-Eleven",
+    "phone": "+1 323-463-9772",
+    "ref": "29261",
+    "shop": "convenience",
+    "website": "https://www.7-eleven.com/locations/ca/hollywood/7040-sunset-blvd.-a-29261"
+  }
+},
+{
+  "type": "node",
+  "id": 3878770659,
+  "lat": 34.0975180,
+  "lon": -118.3431908,
+  "tags": {
+    "amenity": "money_transfer",
+    "brand": "Western Union",
+    "brand:wikidata": "Q861042",
+    "description": "Checks Cashed",
+    "name": "Western Union"
+  }
+},
+{
+  "type": "node",
+  "id": 3878770862,
+  "lat": 34.0976026,
+  "lon": -118.3431895,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "chinese",
+    "name": "Ohana Hawaiian BBQ"
+  }
+},
+{
+  "type": "node",
+  "id": 3878770863,
+  "lat": 34.0975484,
+  "lon": -118.3431904,
+  "tags": {
+    "brand": "H&R Block",
+    "brand:wikidata": "Q5627799",
+    "name": "H&R Block",
+    "office": "tax_advisor"
+  }
+},
+{
+  "type": "node",
+  "id": 3878770864,
+  "lat": 34.0974585,
+  "lon": -118.3436930,
+  "tags": {
+    "brand": "Dunn-Edwards Paints",
+    "brand:wikidata": "Q110586577",
+    "name": "Dunn-Edwards Paints",
+    "shop": "paint"
+  }
+},
+{
+  "type": "node",
+  "id": 3878771057,
+  "lat": 34.0974411,
+  "lon": -118.3433261,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "7060",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "West Sunset Boulevard",
+    "brand": "Ross",
+    "brand:wikidata": "Q3442791",
+    "description": "Dress for Less",
+    "name": "Ross",
+    "official_name": "Ross Dress for Less",
+    "opening_hours": "09:00-22:00",
+    "phone": "+1 323-465-0738",
+    "ref": "356",
+    "shop": "department_store"
+  }
+},
+{
+  "type": "node",
+  "id": 3878792658,
+  "lat": 34.0985106,
+  "lon": -118.3438446,
+  "tags": {
+    "addr:city": "Hollywood",
+    "addr:housenumber": "7075",
+    "addr:postcode": "90028",
+    "addr:street": "West Sunset Boulevard",
+    "amenity": "restaurant",
+    "cuisine": "thai",
+    "description": "Thai-Sunset-La Brea",
+    "name": "Pa Ord Noodle",
+    "opening_hours": "11:00-22:45",
+    "phone": "+1-323-464-2989",
+    "website": "http://www.paordnoodle.com"
+  }
+},
+{
+  "type": "node",
+  "id": 3922299720,
+  "lat": 34.0994564,
+  "lon": -118.3293462,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "1544",
+    "addr:postcode": "90028",
+    "addr:street": "North Cahuenga Blvd",
+    "amenity": "restaurant",
+    "cuisine": "burger",
+    "email": "info@stoutburgersandbeers.com",
+    "name": "Stout",
+    "phone": "+1-323-469-3801",
+    "website": "https://www.stoutburgersandbeers.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4123733980,
+  "lat": 34.0998785,
+  "lon": -118.3290098,
+  "tags": {
+    "addr:housenumber": "6363",
+    "addr:postcode": "90028",
+    "addr:street": "Selma",
+    "check_date": "2024-10-07",
+    "contact:facebook": "https://www.facebook.com/museumofdeathofficial/",
+    "contact:instagram": "https://www.instagram.com/museumofdeath_hollywood",
+    "fee": "yes",
+    "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.pM7D56inQBu41Lq9SAcbRgHaFQ%26pid%3DApi&f=1&ipt=41bfb4970b0b44f1de35dc609496fa544bc3da01682f01d103fa605fd70da082&ipo=images",
+    "name": "Museum of Death",
+    "opening_hours": "11:00-20:00",
+    "payment:cash": "no",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "tourism": "museum",
+    "website": "http://www.museumofdeath.net/",
+    "wikidata": "Q15715949",
+    "wikimedia_commons": "Category:Museum of Death in Hollywood",
+    "wikipedia": "en:Museum of Death"
+  }
+},
+{
+  "type": "node",
+  "id": 4217635502,
+  "lat": 34.0981526,
+  "lon": -118.3312720,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6501",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "Sunset Blvd",
+    "description": "Record Nations is dedicated to helping homes and businesses with all types of data conversion projects.",
+    "name": "Record Nations",
+    "office": "company",
+    "phone": "+1-323-982-7671",
+    "website": "https://www.recordnations.com/featured/los-angeles/"
+  }
+},
+{
+  "type": "node",
+  "id": 4259746591,
+  "lat": 34.0982190,
+  "lon": -118.3334180,
+  "tags": {
+    "addr:housenumber": "6601",
+    "addr:street": "West Sunset Boulevard",
+    "amenity": "restaurant",
+    "name": "Ponchik Factory"
+  }
+},
+{
+  "type": "node",
+  "id": 4259746592,
+  "lat": 34.0986041,
+  "lon": -118.3221158,
+  "tags": {
+    "addr:housenumber": "1514",
+    "addr:street": "Gower Street",
+    "amenity": "restaurant",
+    "name": "Roscoes's chicken"
+  }
+},
+{
+  "type": "node",
+  "id": 4259746599,
+  "lat": 34.0977236,
+  "lon": -118.3358846,
+  "tags": {
+    "addr:floor": "1",
+    "addr:housenumber": "6660",
+    "addr:street": "West Sunset Boulevard",
+    "amenity": "restaurant",
+    "check_date": "2026-03-22",
+    "contact:facebook": "https://www.facebook.com/Luv2eatThaiBistro/",
+    "contact:instagram": "https://www.instagram.com/luv2eat.thaibistro",
+    "level": "0",
+    "name": "Luv2eat Thai Bistro",
+    "opening_hours": "11:00-22:00",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "phone": "+1 323-498-5835",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4259747293,
+  "lat": 34.0992669,
+  "lon": -118.3269049,
+  "tags": {
+    "addr:housenumber": "1557",
+    "addr:street": "Vine Street",
+    "alt_name": "Burlington Coat Factory",
+    "brand": "Burlington",
+    "brand:wikidata": "Q4999220",
+    "name": "Burlington",
+    "shop": "department_store",
+    "was:name": "Bath bed n beyond"
+  }
+},
+{
+  "type": "node",
+  "id": 5243857679,
+  "lat": 34.0976352,
+  "lon": -118.3285521,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6374",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "Sunset Boulevard",
+    "amenity": "restaurant",
+    "contact:phone": "+1-323-391-2241",
+    "contact:website": "http://www.bluecsushi.com",
+    "cuisine": "sushi",
+    "happy_hours": "Mo-Th 15:00-18:00",
+    "name": "Blue C Sushi",
+    "opening_hours": "Mo-Th 12:00-22:00; Fr-Sa 12:00-23:00; Su 12:00-22:00"
+  }
+},
+{
+  "type": "node",
+  "id": 5515705021,
+  "lat": 34.0968984,
+  "lon": -118.3263689,
+  "tags": {
+    "brand": "FedEx Office",
+    "brand:wikidata": "Q474379",
+    "name": "FedEx Office",
+    "shop": "copyshop"
+  }
+},
+{
+  "type": "node",
+  "id": 5882906737,
+  "lat": 34.0981255,
+  "lon": -118.3435591,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "7055",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "Sunset Boulevard",
+    "amenity": "cafe",
+    "branch": "Sunset & La Brea",
+    "brand": "Starbucks",
+    "brand:wikidata": "Q37158",
+    "cuisine": "coffee_shop",
+    "name": "Starbucks",
+    "official_name": "Starbucks Coffee",
+    "phone": "+1 323-469-6994",
+    "ref": "11568",
+    "source": "survey",
+    "takeaway": "yes",
+    "website": "https://www.starbucks.com/store-locator/store/11568/sunset-la-brea-7055-sunset-blvd-los-angeles-ca-900287509-us"
+  }
+},
+{
+  "type": "node",
+  "id": 6300624871,
+  "lat": 34.0996297,
+  "lon": -118.3314153,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6500",
+    "addr:street": "Selma Avenue",
+    "addr:zip": "90028",
+    "amenity": "bar",
+    "name": "Mama's rooftop",
+    "website": "https://www.mamashelter.com/en/los-angeles/restaurants/rooftop"
+  }
+},
+{
+  "type": "node",
+  "id": 6334723223,
+  "lat": 34.0976785,
+  "lon": -118.3233587,
+  "tags": {
+    "amenity": "pharmacy",
+    "brand": "Rite Aid",
+    "brand:wikidata": "Q3433273",
+    "dispensing": "yes",
+    "healthcare": "pharmacy",
+    "name": "Rite Aid"
+  }
+},
+{
+  "type": "node",
+  "id": 6334723224,
+  "lat": 34.0974297,
+  "lon": -118.3232394,
+  "tags": {
+    "name": "Henry Printing",
+    "shop": "copyshop"
+  }
+},
+{
+  "type": "node",
+  "id": 6334723225,
+  "lat": 34.0974319,
+  "lon": -118.3231536,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Kickin' Crab"
+  }
+},
+{
+  "type": "node",
+  "id": 6334723226,
+  "lat": 34.0974242,
+  "lon": -118.3230382,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Noodle World"
+  }
+},
+{
+  "type": "node",
+  "id": 6334723227,
+  "lat": 34.0974353,
+  "lon": -118.3229537,
+  "tags": {
+    "brand": "Supercuts",
+    "brand:wikidata": "Q7643239",
+    "name": "Supercuts",
+    "shop": "hairdresser"
+  }
+},
+{
+  "type": "node",
+  "id": 6334723228,
+  "lat": 34.0974297,
+  "lon": -118.3228706,
+  "tags": {
+    "brand": "T-Mobile",
+    "brand:wikidata": "Q3511885",
+    "name": "T-Mobile",
+    "shop": "mobile_phone",
+    "website": "https://www.t-mobile.com/stores/bd/t-mobile-los-angeles-ca-90028-2199"
+  }
+},
+{
+  "type": "node",
+  "id": 6334723229,
+  "lat": 34.0974242,
+  "lon": -118.3228035,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6110",
+    "addr:postcode": "90028",
+    "addr:street": "Sunset Boulevard",
+    "amenity": "restaurant",
+    "cuisine": "persian",
+    "name": "Vala Kitchen",
+    "opening_hours": "Mo-Su 11:00-21:00",
+    "phone": "+1-323-800-0081",
+    "website": "https://valakitchen.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 6334723230,
+  "lat": 34.0974264,
+  "lon": -118.3226332,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Lucifer's Pizza"
+  }
+},
+{
+  "type": "node",
+  "id": 6334723231,
+  "lat": 34.0974286,
+  "lon": -118.3225170,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6102",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "West Sunset Boulevard",
+    "amenity": "cafe",
+    "branch": "Sunset & Gower",
+    "brand": "Starbucks",
+    "brand:wikidata": "Q37158",
+    "cuisine": "coffee_shop",
+    "name": "Starbucks",
+    "official_name": "Starbucks Coffee",
+    "phone": "+1 323-467-6404",
+    "ref": "9353",
+    "takeaway": "yes",
+    "website": "https://www.starbucks.com/store-locator/store/9353/sunset-gower-6102-w-sunset-blvd-unit-6102-los-angeles-ca-900286"
+  }
+},
+{
+  "type": "node",
+  "id": 6371850605,
+  "lat": 34.0982199,
+  "lon": -118.3225107,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6115",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "West Sunset Boulevard",
+    "addr:unit": "#170",
+    "amenity": "restaurant",
+    "cuisine": "sushi",
+    "email": "Hollywood@urgentsushi.la",
+    "name": "SUGARFISH Hollywood",
+    "opening_hours": "Mo-Sa 11:30-22:00; Su 12:00-21:00",
+    "outdoor_seating": "no",
+    "phone": "+1-323-320-4800",
+    "website": "https://sugarfishsushi.com/our-locations/hollywood/"
+  }
+},
+{
+  "type": "node",
+  "id": 6467063965,
+  "lat": 34.0983342,
+  "lon": -118.3234370,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6121",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "Sunset Boulevard",
+    "internet_access": "yes",
+    "name": "NeueHouse",
+    "note": "Website: http://neuehouse.com\nTelephone: +1-323-337-1420",
+    "office": "coworking",
+    "wikidata": "Q5009236"
+  }
+},
+{
+  "type": "node",
+  "id": 6525550251,
+  "lat": 34.0976467,
+  "lon": -118.3313287,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6464",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "Sunset Boulevard",
+    "addr:unit": "Lobby Level",
+    "amenity": "cinema",
+    "email": "info@arenascreen.com",
+    "name": "Arena Cinelounge Hollywood",
+    "phone": "+1-323-924-1644",
+    "screen": "1",
+    "website": "http://arenascreen.com"
+  }
+},
+{
+  "type": "node",
+  "id": 6772010371,
+  "lat": 34.0995608,
+  "lon": -118.3448526,
+  "tags": {
+    "leisure": "fitness_centre"
+  }
+},
+{
+  "type": "node",
+  "id": 6952507841,
+  "lat": 34.0982535,
+  "lon": -118.3217907,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6087",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "West Sunset Boulevard",
+    "amenity": "studio",
+    "name": "Siren Studios",
+    "studio": "video"
+  }
+},
+{
+  "type": "node",
+  "id": 7066108504,
+  "lat": 34.0987251,
+  "lon": -118.3293976,
+  "tags": {
+    "addr:city": "Hollywood",
+    "addr:housenumber": "1520",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "North Cahuenga Boulevard",
+    "addr:unit": "10",
+    "contact:instagram": "pharmacy_boardshop",
+    "name": "Pharmacy Boardshop",
+    "operator": "Pharmacy Boardshop",
+    "shop": "sports",
+    "sport": "skateboard",
+    "website": "https://pharmacyboardshop.com"
+  }
+},
+{
+  "type": "node",
+  "id": 7110715885,
+  "lat": 34.0982237,
+  "lon": -118.3373914,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Catalina Jazz club",
+    "wikidata": "Q17515016"
+  }
+},
+{
+  "type": "node",
+  "id": 7118830685,
+  "lat": 34.0985889,
+  "lon": -118.3255630,
+  "tags": {
+    "name": "Hollywood walk of fame Headquarters",
+    "office": "yes",
+    "phone": "+1-323-464-6453",
+    "website": "https://www.losangelescriminallawyer.pro/"
+  }
+},
+{
+  "type": "node",
+  "id": 7391252785,
+  "lat": 34.0994991,
+  "lon": -118.3290646,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Banh Oui"
+  }
+},
+{
+  "type": "node",
+  "id": 7455233486,
+  "lat": 34.0976601,
+  "lon": -118.3264470,
+  "tags": {
+    "amenity": "restaurant",
+    "brand": "Blaze Pizza",
+    "brand:wikidata": "Q23016666",
+    "cuisine": "pizza",
+    "name": "Blaze Pizza"
+  }
+},
+{
+  "type": "node",
+  "id": 7590568085,
+  "lat": 34.0978014,
+  "lon": -118.3333933,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Gwen Speciaty"
+  }
+},
+{
+  "type": "node",
+  "id": 8174666182,
+  "lat": 34.0982876,
+  "lon": -118.3418529,
+  "tags": {
+    "covered": "no",
+    "leisure": "picnic_table"
+  }
+},
+{
+  "type": "node",
+  "id": 8174666183,
+  "lat": 34.0982863,
+  "lon": -118.3418276,
+  "tags": {
+    "covered": "no",
+    "leisure": "picnic_table"
+  }
+},
+{
+  "type": "node",
+  "id": 8174666184,
+  "lat": 34.0982867,
+  "lon": -118.3418020,
+  "tags": {
+    "covered": "no",
+    "leisure": "picnic_table"
+  }
+},
+{
+  "type": "node",
+  "id": 8174666185,
+  "lat": 34.0982863,
+  "lon": -118.3417736,
+  "tags": {
+    "covered": "no",
+    "leisure": "picnic_table"
+  }
+},
+{
+  "type": "node",
+  "id": 8174666186,
+  "lat": 34.0982875,
+  "lon": -118.3417457,
+  "tags": {
+    "covered": "no",
+    "leisure": "picnic_table"
+  }
+},
+{
+  "type": "node",
+  "id": 8174666187,
+  "lat": 34.0983009,
+  "lon": -118.3415981,
+  "tags": {
+    "covered": "no",
+    "leisure": "picnic_table"
+  }
+},
+{
+  "type": "node",
+  "id": 8174666188,
+  "lat": 34.0983014,
+  "lon": -118.3416288,
+  "tags": {
+    "covered": "no",
+    "leisure": "picnic_table"
+  }
+},
+{
+  "type": "node",
+  "id": 8174666189,
+  "lat": 34.0982648,
+  "lon": -118.3418600,
+  "tags": {
+    "covered": "no",
+    "leisure": "picnic_table"
+  }
+},
+{
+  "type": "node",
+  "id": 8174666190,
+  "lat": 34.0983010,
+  "lon": -118.3416500,
+  "tags": {
+    "covered": "no",
+    "leisure": "picnic_table"
+  }
+},
+{
+  "type": "node",
+  "id": 8459513330,
+  "lat": 34.0967084,
+  "lon": -118.3439450,
+  "tags": {
+    "artwork_type": "statue",
+    "name": "Kermit the Frog",
+    "tourism": "artwork"
+  }
+},
+{
+  "type": "node",
+  "id": 8459513333,
+  "lat": 34.0968236,
+  "lon": -118.3437500,
+  "tags": {
+    "name": "The Jim Henson Company",
+    "office": "yes",
+    "website": "https://www.henson.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 8459525057,
+  "lat": 34.0968852,
+  "lon": -118.3438950,
+  "tags": {
+    "name": "Jim Henson's Creature Shop",
+    "office": "yes",
+    "website": "https://creatureshop.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 8828568458,
+  "lat": 34.0974905,
+  "lon": -118.3443519,
+  "tags": {
+    "amenity": "bicycle_parking",
+    "bicycle_parking": "stands",
+    "capacity": "5",
+    "covered": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 9102763245,
+  "lat": 34.0983203,
+  "lon": -118.3262876,
+  "tags": {
+    "amenity": "bank",
+    "brand": "Chase",
+    "brand:wikidata": "Q524629",
+    "check_date": "2024-09-17",
+    "check_date:opening_hours": "2024-09-17",
+    "name": "Chase",
+    "opening_hours": "Mo-Fr 09:00-17:00; Sa 09:00-14:00; Su closed",
+    "phone": "+1 323-466-1121",
+    "website": "https://locator.chase.com/ca/hollywood/1500-n-vine-st"
+  }
+},
+{
+  "type": "node",
+  "id": 9102763246,
+  "lat": 34.0983225,
+  "lon": -118.3268800,
+  "tags": {
+    "alt_name": "Verizon Wireless",
+    "brand": "Verizon",
+    "brand:wikidata": "Q919641",
+    "name": "Verizon",
+    "operator": "Victra",
+    "operator:website": "https://victra.com/stores/ca-hollywood/",
+    "operator:wikidata": "Q118402656",
+    "shop": "mobile_phone"
+  }
+},
+{
+  "type": "node",
+  "id": 9102763247,
+  "lat": 34.0984469,
+  "lon": -118.3268857,
+  "tags": {
+    "beauty": "waxing",
+    "brand": "European Wax Center",
+    "brand:wikidata": "Q5413426",
+    "name": "European Wax Center",
+    "shop": "beauty",
+    "website": "https://locations.waxcenter.com/ca/losangeles/hollywood-sunset-vine-0471.html"
+  }
+},
+{
+  "type": "node",
+  "id": 9102763248,
+  "lat": 34.0988334,
+  "lon": -118.3269206,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "pizza",
+    "name": "800 Degrees"
+  }
+},
+{
+  "type": "node",
+  "id": 9703886758,
+  "lat": 34.0978074,
+  "lon": -118.3339175,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6616",
+    "addr:street": "West Sunset Boulevard",
+    "description": "Affiliated with the Church of Scientology, museum examines psychiatry from a skeptic's perspective.",
+    "name": "Psychiatry: An Industry of Death Museum",
+    "operator": "Citizens Commission on Human Rights (CCHR) International, Church of Scientology",
+    "operator:type": "private",
+    "tourism": "museum",
+    "website": "https://www.cchr.org/",
+    "wikidata": "Q7256248",
+    "wikipedia": "en:Psychiatry: An Industry of Death"
+  }
+},
+{
+  "type": "node",
+  "id": 9703886759,
+  "lat": 34.0978125,
+  "lon": -118.3337843,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6616",
+    "addr:street": "West Sunset Boulevard",
+    "name": "Citizens Commission on Human Rights (CCHR) International",
+    "office": "association",
+    "operator": "Church of Scientology",
+    "website": "https://www.cchrint.org/",
+    "wikidata": "Q677232",
+    "wikipedia": "en:Citizens Commission on Human Rights"
+  }
+},
+{
+  "type": "node",
+  "id": 9936456018,
+  "lat": 34.0987913,
+  "lon": -118.3448994,
+  "tags": {
+    "addr:housenumber": "1525",
+    "addr:street": "North La Brea Avenue",
+    "amenity": "ice_cream",
+    "name": "Mashti Malone’s",
+    "operator:wikidata": "Q130249103"
+  }
+},
+{
+  "type": "node",
+  "id": 9998598105,
+  "lat": 34.0977771,
+  "lon": -118.3301200,
+  "tags": {
+    "amenity": "cafe",
+    "brand": "Philz Coffee",
+    "brand:wikidata": "Q18156812",
+    "cuisine": "coffee_shop",
+    "name": "Philz Coffee",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10133029572,
+  "lat": 34.0982066,
+  "lon": -118.3343658,
+  "tags": {
+    "access": "private",
+    "leisure": "playground"
+  }
+},
+{
+  "type": "node",
+  "id": 10135968350,
+  "lat": 34.0964455,
+  "lon": -118.3213855,
+  "tags": {
+    "access": "private",
+    "amenity": "restaurant",
+    "name": "Food & Bounty"
+  }
+},
+{
+  "type": "node",
+  "id": 10286540059,
+  "lat": 34.0983041,
+  "lon": -118.3388382,
+  "tags": {
+    "amenity": "bicycle_rental",
+    "brand": "Metro Bike Share",
+    "brand:wikidata": "Q60749521",
+    "name": "Highland & Sunset",
+    "network": "Metro Bike Share",
+    "network:wikidata": "Q60749521",
+    "operator": "Bicycle Transit Systems",
+    "operator:wikidata": "Q104005517"
+  }
+},
+{
+  "type": "node",
+  "id": 10576943279,
+  "lat": 34.0977177,
+  "lon": -118.3306570,
+  "tags": {
+    "addr:city": "Hollywood",
+    "addr:housenumber": "6450",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "Sunset Boulevard",
+    "brand": "Staples",
+    "brand:wikidata": "Q785943",
+    "name": "Staples",
+    "opening_hours": "Mo-Fr 08:00-20:00; Sa 10:00-20:00; Su 11:00-17:00",
+    "shop": "stationery",
+    "website": "https://stores.staples.com/ca/hollywood/6450-sunset-blvd"
+  }
+},
+{
+  "type": "node",
+  "id": 10853591506,
+  "lat": 34.0985576,
+  "lon": -118.3441264,
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "Nick The Greek",
+    "brand:wikidata": "Q117222612",
+    "cuisine": "greek",
+    "name": "Nick The Greek",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11649705790,
+  "lat": 34.0974372,
+  "lon": -118.3354803,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6660",
+    "addr:postcode": "90028-7104",
+    "addr:state": "CA",
+    "addr:street": "West Sunset Boulevard",
+    "atm": "yes",
+    "brand": "7-Eleven",
+    "brand:wikidata": "Q259340",
+    "delivery": "yes",
+    "fast_food": "yes",
+    "fuel:propane": "yes",
+    "name": "7-Eleven",
+    "phone": "+1 323-462-3415",
+    "ref": "26747",
+    "shop": "convenience",
+    "website": "https://www.7-eleven.com/locations/ca/los-angeles/6660-w.-sunset-blvd-26747"
+  }
+},
+{
+  "type": "node",
+  "id": 11654503669,
+  "lat": 34.0975680,
+  "lon": -118.3390592,
+  "tags": {
+    "addr:housenumber": "6800",
+    "addr:postcode": "90028",
+    "addr:street": "West Sunset Boulevard",
+    "amenity": "fast_food",
+    "brand": "Raising Cane's",
+    "brand:wikidata": "Q7285144",
+    "cuisine": "chicken",
+    "drive_through": "yes",
+    "name": "Raising Cane's",
+    "official_name": "Raising Cane's Chicken Fingers",
+    "takeaway": "yes",
+    "was:name": "Hart House"
+  }
+},
+{
+  "type": "node",
+  "id": 11670013808,
+  "lat": 34.0996128,
+  "lon": -118.3264054,
+  "tags": {
+    "brand": "Equinox",
+    "brand:wikidata": "Q5384535",
+    "leisure": "fitness_centre",
+    "name": "Equinox"
+  }
+},
+{
+  "type": "node",
+  "id": 12080927169,
+  "lat": 34.0986117,
+  "lon": -118.3285970,
+  "tags": {
+    "addr:street": "Ivar Avenue",
+    "amenity": "restaurant",
+    "name": "The Oyster Boys"
+  }
+},
+{
+  "type": "node",
+  "id": 12080965569,
+  "lat": 34.0970860,
+  "lon": -118.3388586,
+  "tags": {
+    "addr:housenumber": "1429",
+    "addr:postcode": "90028",
+    "addr:street": "North Highland Avenue",
+    "amenity": "ice_cream",
+    "name": "Whipp'd LA"
+  }
+},
+{
+  "type": "node",
+  "id": 12182897110,
+  "lat": 34.0995467,
+  "lon": -118.3289715,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "1556",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "North Cahuenga Boulevard",
+    "alt_name": "Trejo‘s Tacos",
+    "amenity": "fast_food",
+    "check_date:opening_hours": "2024-09-17",
+    "contact:facebook": "https://facebook.com/trejostacos",
+    "contact:instagram": "https://instagram.com/trejostacos",
+    "contact:linkedin": "https://linkedin.com/company/trejo%27s-tacos",
+    "contact:tiktok": "https://tiktok.com/@trejos.tacos",
+    "contact:twitter": "https://twitter.com/trejostacos",
+    "cuisine": "mexican;tacos;burritos;quesadillas;empanada;taquitos",
+    "diet:non-vegetarian": "yes",
+    "diet:vegan": "yes",
+    "diet:vegetarian": "yes",
+    "drink:beer": "yes",
+    "drink:cocktail": "margarita",
+    "drink:horchata": "yes",
+    "drink:wine": "yes",
+    "drive_through": "no",
+    "name": "Trejo‘s Cantina",
+    "opening_hours": "Su-Th 11:30-21:00; Fr-Sa 11:30-22:00",
+    "opening_hours:url": "https://www.trejostacos.com/hollywood",
+    "phone": "+1-323-461-8226",
+    "source": "https://www.trejostacos.com/hollywood",
+    "website": "https://www.trejostacos.com/hollywood",
+    "website:menu": "https://www.trejostacos.com/hollywood#loc-menu"
+  }
+},
+{
+  "type": "node",
+  "id": 12623570712,
+  "lat": 34.0981387,
+  "lon": -118.3372300,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6275",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "West Sunset Boulevard",
+    "alt_name": "Javista Hollywood",
+    "amenity": "cafe",
+    "currency:XBT": "yes",
+    "name": "Javista Coffee",
+    "opening_hours": "Mo-Su 7:00-17:00",
+    "payment:lightning": "yes",
+    "payment:lightning:operator": "square",
+    "phone": "323 696 6725",
+    "website": "https://www.javistacoffee.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 12640364848,
+  "lat": 34.0985856,
+  "lon": -118.3254356,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6255",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "Sunset Boulevard",
+    "addr:unit": "Suite 1520",
+    "contact:email": "Mkraut@krautlawgroup.com",
+    "language:en": "yes",
+    "language:es": "yes",
+    "name": "Kraut Law Group Criminal & DUI Lawyers",
+    "office": "lawyer",
+    "opening_hours": "24/7",
+    "payment:cash": "yes",
+    "payment:cashiers_check": "yes",
+    "payment:cheque": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "payment:paypal": "yes",
+    "payment:wire_transfer": "yes",
+    "phone": "+1-323-464-6453",
+    "website": "https://www.losangelescriminallawyer.pro/",
+    "year_of_construction": "2008"
+  }
+},
+{
+  "type": "node",
+  "id": 12759844883,
+  "lat": 34.0982762,
+  "lon": -118.3418406,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 12759981365,
+  "lat": 34.0982720,
+  "lon": -118.3418406,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 13030895573,
+  "lat": 34.0986162,
+  "lon": -118.3388410,
+  "tags": {
+    "amenity": "bench"
+  }
+},
+{
+  "type": "node",
+  "id": 13030895574,
+  "lat": 34.0985924,
+  "lon": -118.3388403,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 13030895583,
+  "lat": 34.0976957,
+  "lon": -118.3385498,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 13030895588,
+  "lat": 34.0964367,
+  "lon": -118.3387998,
+  "tags": {
+    "amenity": "bench"
+  }
+},
+{
+  "type": "node",
+  "id": 13309602202,
+  "lat": 34.0983367,
+  "lon": -118.3311625,
+  "tags": {
+    "addr:housenumber": "1507",
+    "addr:postcode": "90028",
+    "addr:street": "Wilcox Avenue",
+    "name": "Memento Mori",
+    "opening_hours": "Th-Tu 12:00-18:00",
+    "shop": "boutique",
+    "website": "https://mementomori-la.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 13634330729,
+  "lat": 34.0995535,
+  "lon": -118.3281341,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "1600",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "Ivar Avenue",
+    "check_date": "2026-03-10",
+    "currency:XBT": "yes",
+    "name": "Grow & Go Co",
+    "opening_hours": "Su 08:00-13:00",
+    "payment:lightning": "yes",
+    "payment:lightning:operator": "square",
+    "payment:lightning_contactless": "no",
+    "payment:onchain": "no",
+    "phone": "+1-323-301-0241",
+    "shop": "farm",
+    "website": "https://rebrothbonebroth.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 13644793558,
+  "lat": 34.0984743,
+  "lon": -118.3221612,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6095 1/2",
+    "addr:postcode": "90028-6434",
+    "addr:state": "CA",
+    "addr:street": "West Sunset Boulevard",
+    "contact:facebook": "https://www.facebook.com/103434595042231",
+    "name": "Oligarc Wine & Spirits Liquor",
+    "phone": "+13234617734",
+    "shop": "alcohol"
+  }
+},
+{
+  "type": "node",
+  "id": 13665213891,
+  "lat": 34.0985263,
+  "lon": -118.3253737,
+  "tags": {
+    "amenity": "restaurant",
+    "dog": "yes",
+    "name": "Toastique LA"
+  }
+},
+{
+  "type": "node",
+  "id": 13757373125,
+  "lat": 34.0972836,
+  "lon": -118.3278541,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6370",
+    "addr:postcode": "90038",
+    "addr:state": "CA",
+    "addr:street": "West Sunset Boulevard",
+    "addr:unit": "506",
+    "check_date": "2026-04-23",
+    "contact:instagram": "https://www.instagram.com/juan.barber_unique",
+    "currency:XBT": "yes",
+    "female": "yes",
+    "hairdresser": "barber",
+    "male": "yes",
+    "name": "Unique Hair Studio",
+    "opening_hours": "Tu-Th 10:00-19:30; Fr 10:00-20:00; Sa 09:00-18:00",
+    "payment:lightning": "yes",
+    "payment:lightning:operator": "square",
+    "payment:lightning_contactless": "no",
+    "payment:onchain": "no",
+    "phone": "+1-213-260-0244",
+    "shop": "hairdresser"
+  }
+},
+{
+  "type": "node",
+  "id": 13912931901,
+  "lat": 34.0990572,
+  "lon": -118.3374304,
+  "tags": {
+    "amenity": "restaurant",
+    "brand": "L'Antica Pizzeria da Michele",
+    "brand:wikidata": "Q137571344",
+    "cuisine": "pizza",
+    "name": "L'Antica Pizzeria da Michele"
+  }
+},
+{
+  "type": "node",
+  "id": 13935747901,
+  "lat": 34.0978075,
+  "lon": -118.3311933,
+  "tags": {
+    "addr:housenumber": "6464",
+    "addr:postcode": "90028",
+    "addr:street": "West Sunset Boulevard",
+    "amenity": "restaurant",
+    "cuisine": "japanese;sushi",
+    "name": "IKI Nori",
+    "website": "https://ikiramen.com/iki-nori"
+  }
+},
+{
+  "type": "node",
+  "id": 13935748301,
+  "lat": 34.0978075,
+  "lon": -118.3311933,
+  "tags": {
+    "addr:housenumber": "6464",
+    "addr:postcode": "90028",
+    "addr:street": "West Sunset Boulevard",
+    "amenity": "restaurant",
+    "cuisine": "japanese;sushi",
+    "name": "IKI Nori",
+    "phone": "+1 323-994-9478",
+    "website": "https://ikiramen.com/iki-nori"
+  }
+},
+{
+  "type": "node",
+  "id": 13935764601,
+  "lat": 34.0977692,
+  "lon": -118.3325746,
+  "tags": {
+    "addr:housenumber": "6530",
+    "addr:postcode": "90028",
+    "addr:street": "West Sunset Boulevard",
+    "amenity": "restaurant",
+    "cuisine": "american;breakfast;coffee_shop;regional",
+    "name": "Superba Food + Bread",
+    "website": "https://www.lifesuperba.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 14210530681,
+  "lat": 34.0982117,
+  "lon": -118.3225619,
+  "tags": {
+    "addr:city": "Los Angeles",
+    "addr:housenumber": "6115",
+    "addr:postcode": "90028",
+    "addr:state": "CA",
+    "addr:street": "West Sunset Boulevard",
+    "amenity": "cafe",
+    "check_date": "2026-09-24",
+    "check_date:currency:XBT": "2026-09-24",
+    "contact:instagram": "louiscoffeebar",
+    "currency:XBT": "yes",
+    "email": "info@louiscoffeebar.com",
+    "name": "Louis Coffee Bar",
+    "opening_hours": "Mo–Su 07:00–19:00",
+    "outdoor_seating": "no",
+    "payment:lightning": "yes",
+    "payment:lightning:operator": "square",
+    "payment:lightning_contactless": "no",
+    "payment:onchain": "no",
+    "phone": "+1 818 322 6203",
+    "website": "https://order.louiscoffeebar.com/order"
+  }
+}
+
+  ]
+}

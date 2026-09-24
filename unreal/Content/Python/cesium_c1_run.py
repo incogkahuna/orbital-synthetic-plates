@@ -13,6 +13,7 @@ import sys, os, json, math, traceback, unreal
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import orbital_plates_rig as rig
 import cesium_route_level as crl
+import world_dress
 
 LANE_START = (-118.3440998, 34.0979128)   # lon, lat (right-hand lane centre at La Brea)
 LANE_END = (-118.3215900, 34.0979552)     # at Gower
@@ -22,6 +23,11 @@ SAVED = unreal.Paths.project_saved_dir()
 MARK = os.path.join(SAVED, "cesium_c1_status.txt")
 RAW = os.path.join(SAVED, "cesium_route_raw.json")
 RENDER_JOBS = ["SEQ_PlateRing_C5", "SEQ_PlateRing_C3", "SEQ_PlateRing_C7"]   # rear + side profiles first
+# Optional per-run overrides: Saved/run_options.json, e.g. {"era": "1955", "dress": true, "duration_s": 30,
+# "jobs": ["SEQ_PlateRing_C5"]}. Absent = the defaults below (no street dressing, 120 s, C5/C3/C7).
+OPTS_PATH = os.path.join(unreal.Paths.project_saved_dir(), "run_options.json")
+OPTS = json.load(open(OPTS_PATH)) if os.path.exists(OPTS_PATH) else {}
+RENDER_JOBS = OPTS.get("jobs", RENDER_JOBS)
 EAS = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)
 UES = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem)
 S = {"t": 0, "h": None, "phase": "wait", "act": None, "llh": [], "hits": [], "i": 0, "wait": 0}
@@ -38,6 +44,8 @@ rig.CONFIG.update({
     "following_traffic": True,
 })
 rig.CONFIG["render"]["output_dir"] = "{project_dir}/Saved/PlateRenders/Cesium/{sequence_name}"
+if "duration_s" in OPTS:
+    rig.CONFIG["duration_s"] = float(OPTS["duration_s"])
 
 
 def mark(s):
@@ -280,6 +288,15 @@ def build_and_render():
 
     build_street_edges(spl)
     build_street_furniture(spl)
+    if OPTS.get("dress"):
+        # parked proxies are re-planned around driveways / bus stops, so drop the old set (and their cabin parts)
+        for a in EAS.get_all_level_actors():
+            if a.get_actor_label().startswith("Traffic_Parked"):
+                EAS.destroy_actor(a)
+        rig.CONFIG["no_park_m"] = world_dress.dress(spl, OPTS.get("era", "timeless"), OPTS.get("seed", 1978),
+                                                    INTERSECTIONS_M, mark)
+    else:
+        world_dress.clear()
     rig.main()
     mark("rig built + level saved")
     # diagnostics: where traffic sits relative to our lane at frame 0 (lateral + = right/kerb)
@@ -328,5 +345,5 @@ def tick(dt):
         unreal.SystemLibrary.quit_editor()
 
 
-mark("---- run start")
+mark(f"---- run start {OPTS if OPTS else '(default options)'}")
 S["h"] = unreal.register_slate_post_tick_callback(tick)

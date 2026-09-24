@@ -201,7 +201,8 @@ def ensure_traffic():
     # kerb parking with gaps (driveways, hydrants)
     x, i = 1200.0, 0
     while x < route_len and i < 60:
-        if rnd.random() > 0.25:
+        no_park = any(a * 100 <= x <= b * 100 for a, b in CONFIG.get("no_park_m", []))   # driveways, bus stops, corners
+        if rnd.random() > 0.25 and not no_park:
             plan.append((f"Traffic_Parked{i+1:02d}", CONFIG.get("parked_offset_cm", LANE_W * 0.95), x, 0.0)); i += 1
         x += rnd.uniform(600, 2400)
     out = []
