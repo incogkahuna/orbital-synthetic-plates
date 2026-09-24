@@ -1,0 +1,232 @@
+{
+ "1": {
+  "class_type": "VHS_LoadVideo",
+  "inputs": {
+   "video": "depth_C7_cesium_v5.mp4",
+   "force_rate": 0,
+   "custom_width": 832,
+   "custom_height": 480,
+   "frame_load_cap": 33,
+   "skip_first_frames": 440,
+   "select_every_nth": 1
+  }
+ },
+ "2": {
+  "class_type": "UNETLoader",
+  "inputs": {
+   "unet_name": "wan2.2_fun_vace_high_noise_14B_fp8_scaled.safetensors",
+   "weight_dtype": "default"
+  }
+ },
+ "3": {
+  "class_type": "UNETLoader",
+  "inputs": {
+   "unet_name": "wan2.2_fun_vace_low_noise_14B_fp8_scaled.safetensors",
+   "weight_dtype": "default"
+  }
+ },
+ "4": {
+  "class_type": "CLIPLoader",
+  "inputs": {
+   "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+   "type": "wan"
+  }
+ },
+ "5": {
+  "class_type": "VAELoader",
+  "inputs": {
+   "vae_name": "wan_2.1_vae.safetensors"
+  }
+ },
+ "6": {
+  "class_type": "ModelSamplingSD3",
+  "inputs": {
+   "model": [
+    "2",
+    0
+   ],
+   "shift": 8.0
+  }
+ },
+ "7": {
+  "class_type": "ModelSamplingSD3",
+  "inputs": {
+   "model": [
+    "3",
+    0
+   ],
+   "shift": 8.0
+  }
+ },
+ "8": {
+  "class_type": "CLIPTextEncode",
+  "inputs": {
+   "clip": [
+    "4",
+    0
+   ],
+   "text": "35mm Kodak film photograph, Los Angeles 1982, a boulevard at dusk, magic hour, warm glowing sky, car headlights and neon signs switched on, late-1970s and early-1980s American cars, boxy sedans and station wagons, palm trees, faded billboards and storefront signs, slightly warm faded colour, natural film grain, realistic photographic detail, side view looking straight out to the LEFT of a car driving in the right-hand lane of a city boulevard, the adjacent lane close in the foreground with cars passing us seen side-on, the centre line and oncoming traffic lanes beyond, the far sidewalk and storefronts across the street, viewpoint 1.8 m above the road, level horizon"
+  }
+ },
+ "9": {
+  "class_type": "CLIPTextEncode",
+  "inputs": {
+   "clip": [
+    "4",
+    0
+   ],
+   "text": "car hood, bonnet, dashboard, car door, window frame, side mirror, rear window, windshield, camera rig, roof mount, part of our car, modern cars, modern signage, LED screens, video game, 3D render, CGI, cartoon, plastic, flat grey buildings, blocky slabs, blurry, text, watermark, distorted, low quality"
+  }
+ },
+ "11": {
+  "class_type": "WanVaceToVideo",
+  "inputs": {
+   "positive": [
+    "8",
+    0
+   ],
+   "negative": [
+    "9",
+    0
+   ],
+   "vae": [
+    "5",
+    0
+   ],
+   "width": 832,
+   "height": 480,
+   "length": 33,
+   "batch_size": 1,
+   "strength": 0.8,
+   "control_video": [
+    "1",
+    0
+   ]
+  }
+ },
+ "12": {
+  "class_type": "KSamplerAdvanced",
+  "inputs": {
+   "model": [
+    "6",
+    0
+   ],
+   "add_noise": "enable",
+   "noise_seed": 1980,
+   "steps": 20,
+   "cfg": 3.5,
+   "sampler_name": "uni_pc",
+   "scheduler": "simple",
+   "positive": [
+    "11",
+    0
+   ],
+   "negative": [
+    "11",
+    1
+   ],
+   "latent_image": [
+    "11",
+    2
+   ],
+   "start_at_step": 0,
+   "end_at_step": 10,
+   "return_with_leftover_noise": "enable"
+  }
+ },
+ "13": {
+  "class_type": "KSamplerAdvanced",
+  "inputs": {
+   "model": [
+    "7",
+    0
+   ],
+   "add_noise": "disable",
+   "noise_seed": 1980,
+   "steps": 20,
+   "cfg": 3.5,
+   "sampler_name": "uni_pc",
+   "scheduler": "simple",
+   "positive": [
+    "11",
+    0
+   ],
+   "negative": [
+    "11",
+    1
+   ],
+   "latent_image": [
+    "12",
+    0
+   ],
+   "start_at_step": 10,
+   "end_at_step": 10000,
+   "return_with_leftover_noise": "disable"
+  }
+ },
+ "14": {
+  "class_type": "TrimVideoLatent",
+  "inputs": {
+   "samples": [
+    "13",
+    0
+   ],
+   "trim_amount": [
+    "11",
+    3
+   ]
+  }
+ },
+ "15": {
+  "class_type": "VAEDecode",
+  "inputs": {
+   "samples": [
+    "14",
+    0
+   ],
+   "vae": [
+    "5",
+    0
+   ]
+  }
+ },
+ "16": {
+  "class_type": "ImageFromBatch",
+  "inputs": {
+   "image": [
+    "15",
+    0
+   ],
+   "batch_index": 32,
+   "length": 1
+  }
+ },
+ "17": {
+  "class_type": "SaveImage",
+  "inputs": {
+   "images": [
+    "16",
+    0
+   ],
+   "filename_prefix": "plates/still_1980s_C7_depth_C7_cesium_v5_s0.8_noref"
+  }
+ },
+ "18": {
+  "class_type": "VHS_VideoCombine",
+  "inputs": {
+   "images": [
+    "15",
+    0
+   ],
+   "frame_rate": 24,
+   "loop_count": 0,
+   "filename_prefix": "plates/still_1980s_C7_depth_C7_cesium_v5_s0.8_noref_clip",
+   "format": "video/h264-mp4",
+   "pix_fmt": "yuv420p",
+   "crf": 16,
+   "save_metadata": false,
+   "pingpong": false,
+   "save_output": true
+  }
+ }
+}

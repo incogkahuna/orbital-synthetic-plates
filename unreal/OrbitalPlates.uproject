@@ -1,0 +1,44 @@
+{
+    "FileVersion":  3,
+    "EngineAssociation":  "5.8",
+    "Category":  "",
+    "Description":  "Orbital Synthetic Plates",
+    "Plugins":  [
+                    {
+                        "Name":  "ModelContextProtocol",
+                        "Enabled":  true
+                    },
+                    {
+                        "Name":  "ToolsetRegistry",
+                        "Enabled":  true
+                    },
+                    {
+                        "Name":  "AllToolsets",
+                        "Enabled":  true
+                    },
+                    {
+                        "Name":  "PythonScriptPlugin",
+                        "Enabled":  true
+                    },
+                    {
+                        "Name":  "EditorScriptingUtilities",
+                        "Enabled":  true
+                    },
+                    {
+                        "Name":  "MovieRenderPipeline",
+                        "Enabled":  true
+                    },
+                    {
+                        "Name":  "MoviePipelineMaskRenderPass",
+                        "Enabled":  true
+                    },
+                    {
+                        "Name":  "CineCameraRigs",
+                        "Enabled":  true
+                    },
+                    {
+                        "Name":  "CesiumForUnreal",
+                        "Enabled":  true
+                    }
+                ]
+}

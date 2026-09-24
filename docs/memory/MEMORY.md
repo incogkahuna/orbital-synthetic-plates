@@ -1,0 +1,7 @@
+- [Orbital desktop setup](orbital-plates-desktop-setup.md) — project home, Comfy paths, UE 5.8, disk layout
+- [Orbital working style](orbital-plates-working-style.md) — full control, don't stop to ask for access
+- [Orbital parallel sessions](orbital-plates-parallel-sessions.md) — ON HOLD; rules written, one session for now
+- [Orbital Cesium path](orbital-cesium-primary-path.md) — Cesium real-street geometry is primary; C1 flag-run workflow
+- [Orbital winning look](orbital-plates-winning-look.md) — Cesium depth + Wan2.2 VACE s0.8 no-ref dusk recipe Danny loved
+- [Orbital camera priority](orbital-plates-camera-priority.md) — rear C5 + side profiles matter most, forward C1 least
+- [Orbital pitch deck](orbital-pitch-deck.md) — delivered v12 deck, build_deck.js, Danny's deck preferences

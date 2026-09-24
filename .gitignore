@@ -1,0 +1,10 @@
+*.exr
+*.uasset
+*.umap
+Saved/
+Intermediate/
+DerivedDataCache/
+*.safetensors
+*.gguf
+renders/
+__pycache__/
