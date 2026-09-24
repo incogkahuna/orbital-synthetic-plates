@@ -19,10 +19,12 @@ SPH = "/Engine/BasicShapes/Sphere"
 KERB_S, KERB_N = 4.1, -17.2          # our kerbs (m), cesium_c1_run.KERB_R_CM / KERB_L_CM
 KERB_H = 0.22                         # sidewalk top above the lane (m), cesium_c1_run.KERB_H_CM
 GF_H = 4.2                            # ground-floor storefront height (m)
+# Palms dominate: primitive leaf-clump trees read as sign clusters to Wan (A/B v9d/v9e, 2026-09-24); leafy trees
+# stay rare until real tree meshes come from Fab. Frond-crown palms read as palms.
 ERA_MIX = {   # probabilities per era
-    "1955":     {"awning": 0.60, "blade": 0.80, "shelter": 0.0, "racks": 2, "palm": 0.45},
-    "1980s":    {"awning": 0.35, "blade": 0.40, "shelter": 1.0, "racks": 3, "palm": 0.60},
-    "timeless": {"awning": 0.45, "blade": 0.55, "shelter": 0.5, "racks": 2, "palm": 0.50},
+    "1955":     {"awning": 0.60, "blade": 0.80, "shelter": 0.0, "racks": 2, "palm": 0.85},
+    "1980s":    {"awning": 0.35, "blade": 0.40, "shelter": 1.0, "racks": 3, "palm": 0.90},
+    "timeless": {"awning": 0.45, "blade": 0.55, "shelter": 0.5, "racks": 2, "palm": 0.85},
 }
 
 
@@ -135,13 +137,19 @@ class Dresser:
                                      yaw_off=yaw, pitch=-droop)
                         c["palms"] += 1
                     else:
-                        # street tree: trunk + three overlapping lumps so the canopy edge is irregular
+                        # street tree: trunk + a ragged cloud of small leaf clumps. A few big smooth spheres read
+                        # as round neon signs to Wan (A/B 2026-09-24); foliage needs a broken, clumpy silhouette.
                         th = self.rnd.uniform(3.0, 4.0)
                         self.put("TreeTrunk", CYL, x, ty, KERH(th / 2), (0.32, 0.32, th))
-                        for k in range(3):
-                            s = self.rnd.uniform(3.2, 4.6)
-                            self.put("TreeCanopy", SPH, x + self.rnd.uniform(-1.2, 1.2), ty + self.rnd.uniform(-0.8, 0.8),
-                                     KERH(th + 1.6 + self.rnd.uniform(0, 1.4)), (s, s * 0.9, s * 0.75))
+                        R = self.rnd.uniform(2.0, 2.8)
+                        for k in range(self.rnd.randint(10, 14)):
+                            a, e = self.rnd.uniform(0, 2 * math.pi), self.rnd.uniform(-0.6, 1.0)
+                            r = R * self.rnd.uniform(0.3, 1.0)
+                            s = self.rnd.uniform(0.9, 1.7)
+                            self.put("TreeClump", SPH if k % 3 else CUBE,
+                                     x + math.cos(a) * r, ty + math.sin(a) * r * 0.8,
+                                     KERH(th + 1.8 + e * R * 0.7), (s, s * self.rnd.uniform(0.7, 1.0), s * 0.8),
+                                     yaw_off=self.rnd.uniform(0, 90), roll=self.rnd.uniform(-20, 20))
                         c["trees"] += 1
                     trees.append(x)
                 x += self.rnd.uniform(11, 15)

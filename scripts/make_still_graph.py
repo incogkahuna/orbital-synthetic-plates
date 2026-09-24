@@ -38,10 +38,10 @@ NEUTRAL = ("photoreal footage from a clean modern digital cinema camera, neutral
            "and white balance, sharp, no film grain, no colour grade, ")
 ERA = {
  "1955": (NEUTRAL + "Los Angeles in 1955, a boulevard at dusk, magic hour, warm glowing sky, car headlights and neon signs switched on, 1940s and 1950s American cars "
-          "with chrome bumpers and rounded fenders, neon and painted shop signs, telephone poles, pedestrians in 1950s clothes, "
+          "with chrome bumpers and rounded fenders, neon and painted shop signs, leafy street trees and palm trees along the sidewalks, telephone poles, pedestrians in 1950s clothes, "
           "realistic detail, ", "ref_1955_lane.png"),
  "1980s": (NEUTRAL + "Los Angeles in 1982, a boulevard at dusk, magic hour, warm glowing sky, car headlights and neon signs switched on, late-1970s and early-1980s "
-           "American cars, boxy sedans and station wagons, palm trees, billboards and storefront signs, "
+           "American cars, boxy sedans and station wagons, leafy street trees and palm trees along the sidewalks, billboards and storefront signs, "
            "realistic detail, ", "ref_1978_lane.png"),
 }[era]
 NEG = ("film grain, vintage photo, film stock look, sepia, faded colours, colour grading, colour cast, retro filter, "

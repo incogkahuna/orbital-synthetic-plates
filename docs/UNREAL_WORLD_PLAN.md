@@ -45,6 +45,32 @@ map to paint on."
 - Test per layer: re-render depth for C5 + C3 (30 s is enough), one Wan still each, side by side with v1 at the
   same frames. Each layer is kept only if it helps.
 
+## What the first dressing tests showed (2026-09-24, 1955, seed 1234, neutral prompt, A/B at 33 frames)
+- **Silhouette decides what Wan paints.** Smooth round shapes on poles become **round neon signs**: a sphere
+  canopy turned into a giant sign (v9d), a disc palm crown into a sign on a pole, and even clusters of small
+  clumps became sign clusters (v9e). **Frond-crown palms read as real palms** (v9e). Leafy trees need real meshes.
+- **The prompt has to name what the geometry is.** Adding "leafy street trees and palm trees along the sidewalks"
+  turned some blobs into trees and gave C3 a real tree-lined street; it could not rescue near-camera clumps.
+- **Storefront band works on the side views** (C3): awnings, pilasters and sign boards become shopfronts.
+- **Parked-car facing still flips between seeds** with box proxies: real car meshes are the fix, not prompts.
+- Neutral prompt confirmed: clean true-to-life dusk colour, no grain.
+- **v9f (palms 85–90%, leafy trees rare) is the keeper**: C5 reads as a palm-lined Sunset Blvd with no phantom
+  signs; C3 gets a tree-lined street. Sheets: `plates/dress_ab_1955*.png`.
+
+## Car models: what to pick on Fab (Danny's account)
+Only the **shape** matters (depth pass), so cheap low/mid-poly models are fine; textures and interiors are wasted.
+- **Needed per era, 5–8 body types:**
+  - 1955: 4-door sedans (Chevy Bel Air / Ford Fairlane class), a 2-door hardtop, a station wagon, a pickup
+    (Ford F-100 class), a delivery van/panel truck, a city bus (GM "old look").
+  - 1980s: boxy sedans (Chevy Caprice / Ford LTD / Crown Vic class), a compact (Honda Accord / Toyota Corolla
+    class), a station wagon with wood panel, a pickup, a van (Ford Econoline class), an RTD bus (GMC RTS).
+- **Must-haves:** real-world scale (or easy to scale), single static mesh or a few parts, clear front vs back,
+  UE-ready FBX/uasset, Fab **Standard** licence (covers rendered output). Wheels as part of the mesh is fine.
+- **Avoid:** branded logos (not needed and a clearance risk), modern cars (read as modern at depth strength 0.8).
+- **Search terms:** "1950s car pack low poly", "vintage american car", "classic sedan 1955", "retro pickup truck",
+  "1980s car pack", "80s sedan", "boxy station wagon", "vintage bus", "old city bus".
+- Once imported under `/Game/Vehicles/<era>/`, the rig swaps proxies for them by `CONFIG["era"]` (to build).
+
 ## Needs from Danny
 1. **Car models on Fab** (his Epic account; purchases are his call). Search terms and a shortlist to come.
 2. Era rules sign-off (e.g. 1955 overhead wires everywhere, 1980s bus shelters).
