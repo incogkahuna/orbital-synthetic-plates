@@ -2,7 +2,7 @@
  "1": {
   "class_type": "VHS_LoadVideo",
   "inputs": {
-   "video": "depth_C7_cesium_v6.mp4",
+   "video": "depth_C5_cesium_v7.mp4",
    "force_rate": 0,
    "custom_width": 832,
    "custom_height": 480,
@@ -14,14 +14,14 @@
  "2": {
   "class_type": "UNETLoader",
   "inputs": {
-   "unet_name": "wan2.2_fun_vace_high_noise_14B_fp8_scaled.safetensors",
+   "unet_name": "wan2.2_fun_vace_high_noise_14B_bf16.safetensors",
    "weight_dtype": "default"
   }
  },
  "3": {
   "class_type": "UNETLoader",
   "inputs": {
-   "unet_name": "wan2.2_fun_vace_low_noise_14B_fp8_scaled.safetensors",
+   "unet_name": "wan2.2_fun_vace_low_noise_14B_bf16.safetensors",
    "weight_dtype": "default"
   }
  },
@@ -65,7 +65,7 @@
     "4",
     0
    ],
-   "text": "35mm Kodachrome photograph, Los Angeles 1955, a boulevard at dusk, magic hour, warm glowing sky, car headlights and neon signs switched on, 1940s and 1950s American cars with chrome bumpers and rounded fenders, neon and painted shop signs, telephone poles, pedestrians in 1950s clothes, natural film grain, realistic photographic detail, side view looking straight out to the LEFT of a car driving in the right-hand lane of a city boulevard, the adjacent lane close in the foreground with one or two cars passing us seen side-on, the centre line and oncoming lanes beyond with light evening traffic, only a few scattered cars, the road in the distance mostly open, the far sidewalk and storefronts across the street, viewpoint 1.8 m above the road, level horizon"
+   "text": "35mm Kodachrome photograph, Los Angeles 1955, a boulevard at dusk, magic hour, warm glowing sky, car headlights and neon signs switched on, 1940s and 1950s American cars with chrome bumpers and rounded fenders, neon and painted shop signs, telephone poles, pedestrians in 1950s clothes, natural film grain, realistic photographic detail, view looking straight BACKWARD out of the rear of a car driving in the right-hand lane of a two-way city street, the road recedes behind us to the vanishing point, a car following close behind us in our lane with its headlights facing the camera, more following cars further back, the painted centre line runs up the RIGHT third of the frame, traffic on the far side of the centre line driving away from us, a few cars parked at the kerb on the LEFT facing toward us so we see their front grilles and headlights, never their tail lights, moderate evening traffic, storefronts and sidewalks on both sides, the bottom edge of the frame is clean asphalt, viewpoint 1.8 m above the road"
   }
  },
  "9": {
@@ -208,7 +208,7 @@
     "16",
     0
    ],
-   "filename_prefix": "plates/still_1955_C7_cesium_v6_s0.8_noref"
+   "filename_prefix": "plates/still_1955_C5_cesium_v7_s0.8_noref_bf16"
   }
  },
  "18": {
@@ -220,7 +220,7 @@
    ],
    "frame_rate": 24,
    "loop_count": 0,
-   "filename_prefix": "plates/still_1955_C7_cesium_v6_s0.8_noref_clip",
+   "filename_prefix": "plates/still_1955_C5_cesium_v7_s0.8_noref_bf16_clip",
    "format": "video/h264-mp4",
    "pix_fmt": "yuv420p",
    "crf": 16,

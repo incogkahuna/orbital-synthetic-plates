@@ -32,7 +32,7 @@ CONFIG = {
     "content_root": "/Game/OrbitalPlates",
     "rig_name": "PlateRig",
     "route_name": "PlateRoute",
-    "camera_height_cm": 180.0,          # nodal origin above the road
+    "camera_height_cm": 150.0,          # nodal origin above the road: driver eye level (was 180, read as roof height)
     "yaw_step_deg": 45.0,
     "ring_count": 8,
     "reflection_pitch_deg": 35.0,

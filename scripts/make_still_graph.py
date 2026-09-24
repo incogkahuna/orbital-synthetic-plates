@@ -14,23 +14,23 @@ TAG = CAM + "_" + SRC + f"_s{STR}" + ("_noref" if NOREF else "_ref") + ("_bf16" 
 LANE = ("positioned in the RIGHT-HAND lane of a two-way city street, the painted centre line runs up the left third "
         "of the frame, a car ahead in the same lane, oncoming traffic on the far side of the centre line, cars parked "
         "at the kerb to the right, storefronts and sidewalks on both sides, the bottom edge of the frame is clean "
-        "asphalt of our lane, viewpoint 1.8 m above the road, looking straight ahead")
+        "asphalt of our lane, viewpoint at the driver's eye level, 1.5 m above the road, looking straight ahead")
 CAMTXT = {
  "C1": LANE,
  "C5": ("view looking straight BACKWARD out of the rear of a car driving in the right-hand lane of a two-way city street, "
         "the road recedes behind us to the vanishing point, a car following close behind us in our lane with its headlights "
         "facing the camera, more following cars further back, the painted centre line runs up the RIGHT third of the frame, "
         "traffic on the far side of the centre line driving away from us, a few cars parked at the kerb on the LEFT facing toward us so we "
-        "see their front grilles and headlights, never their tail lights, light evening traffic, storefronts and "
-        "sidewalks on both sides, the bottom edge of the frame is clean asphalt, viewpoint 1.8 m above the road"),
+        "see their front grilles and headlights, never their tail lights, moderate evening traffic, storefronts and "
+        "sidewalks on both sides, the bottom edge of the frame is clean asphalt, viewpoint at the driver's eye level, 1.5 m above the road"),
  "C3": ("side view looking straight out to the RIGHT of a car driving along a city boulevard, parked cars at the kerb close in "
         "the foreground seen side-on, the sidewalk with pedestrians, storefronts, shop windows and signs facing the camera, "
-        "motion from the side, light evening traffic with only a few scattered cars, the road in the distance is mostly open, "
-        "viewpoint 1.8 m above the road, level horizon"),
+        "motion from the side, moderate evening traffic, a handful of cars spread out at different distances along the street, "
+        "viewpoint at the driver's eye level, 1.5 m above the road, level horizon"),
  "C7": ("side view looking straight out to the LEFT of a car driving in the right-hand lane of a city boulevard, the adjacent "
-        "lane close in the foreground with one or two cars passing us seen side-on, the centre line and oncoming lanes beyond with "
-        "light evening traffic, only a few scattered cars, the road in the distance mostly open, the far "
-        "sidewalk and storefronts across the street, viewpoint 1.8 m above the road, level horizon"),
+        "lane close in the foreground with a car passing us seen side-on, the centre line and oncoming lanes beyond with "
+        "moderate evening traffic, a handful of cars spread out at different distances, the far "
+        "sidewalk and storefronts across the street, viewpoint at the driver's eye level, 1.5 m above the road, level horizon"),
 }
 ERA = {
  "1955": ("35mm Kodachrome photograph, Los Angeles 1955, a boulevard at dusk, magic hour, warm glowing sky, car headlights and neon signs switched on, 1940s and 1950s American cars "

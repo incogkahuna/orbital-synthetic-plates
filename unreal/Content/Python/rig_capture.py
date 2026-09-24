@@ -14,7 +14,7 @@ EAS = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)
 UES = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem)
 CUBE = "/Engine/BasicShapes/Cube"
 CYL = "/Engine/BasicShapes/Cylinder"
-RIG_H = 180.0                                   # nodal origin above road (orbital_plates_rig.CONFIG)
+RIG_H = 150.0                                   # nodal origin above road (orbital_plates_rig.CONFIG)
 CAR_L, CAR_W, BODY_H, CAB_H, CLEAR = 450.0, 180.0, 75.0, 60.0, 25.0
 S = {"phase": "wait", "t0": time.time(), "shots": 0}
 
