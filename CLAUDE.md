@@ -23,6 +23,10 @@ Full background: `handoff/HANDOFF.md`.
 - Demo pair: **1980s LA + 1955 LA, same route**. Real period photos as refs when available.
 - Real CFG for anything Danny judges (3.5 Wan 2.2 / 5 Wan 2.1) — cfg 1 ignores the negative prompt.
 - Depth strength ~0.6 to start; photo-style prompts; ≥25 frames per VACE run.
+- **Plates look like life, not like film.** No film stock, grain, faded/warm grade, vignette or retro filter —
+  the era comes only from content (cars, signs, clothes, street furniture). Grading and filtering happen on set,
+  through the lens. Time of day (dusk) is lighting, not a grade, and stays.
+- **Camera at driver eye level: 1.5 m** (`camera_height_cm` 150), not roof height.
 - **Never run Unreal and a Comfy render at the same time.**
 - Show Danny stills before any long render.
 
