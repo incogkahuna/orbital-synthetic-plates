@@ -22,7 +22,7 @@ GF_H = 4.2                            # ground-floor storefront height (m)
 # Palms dominate: primitive leaf-clump trees read as sign clusters to Wan (A/B v9d/v9e, 2026-09-24); leafy trees
 # stay rare until real tree meshes come from Fab. Frond-crown palms read as palms.
 ERA_MIX = {   # probabilities per era
-    "1955":     {"awning": 0.60, "blade": 0.80, "shelter": 0.0, "racks": 2, "palm": 0.85, "wires": 0.30},
+    "1955":     {"awning": 0.60, "blade": 0.80, "shelter": 0.0, "racks": 2, "palm": 0.85, "wires": 0.25},
     "1980s":    {"awning": 0.35, "blade": 0.40, "shelter": 1.0, "racks": 3, "palm": 0.90, "wires": 0.15},
     "timeless": {"awning": 0.45, "blade": 0.55, "shelter": 0.5, "racks": 2, "palm": 0.85, "wires": 0.20},
 }
@@ -194,8 +194,11 @@ class Dresser:
         """Some blocks get a line of wooden utility poles with three wires on ONE side; most blocks get none."""
         edges = [0.0] + list(self.cross) + [self.total_m]
         blocks, poles = 0, 0
-        for a, b in zip(edges, edges[1:]):
-            if b - a < 60 or self.rnd.random() > self.mix["wires"]:
+        # an exact share of the eligible blocks, not a coin flip per block: v12 rolled 7 of 14 at p = 0.3
+        spans = [(a, b) for a, b in zip(edges, edges[1:]) if b - a >= 60]
+        wired = set(self.rnd.sample(range(len(spans)), round(self.mix["wires"] * len(spans)))) if spans else set()
+        for i, (a, b) in enumerate(spans):
+            if i not in wired:
                 continue
             side, kerb, inward = (("S", KERB_S, 1.0), ("N", KERB_N, -1.0))[self.rnd.random() < 0.5]
             y = kerb + inward * 0.7
