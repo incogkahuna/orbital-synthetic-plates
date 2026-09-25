@@ -1,0 +1,83 @@
+{
+  "subjects": [
+    {
+      "description": "A late-1970s American sedan with a long hood and chrome grille following close behind us in our lane, headlights on",
+      "appearance_details": "Boxy full-size body, chrome bumper, square sealed-beam headlights glowing warm white, paint reflecting the dusk sky",
+      "relationship": "Following directly behind the camera car at a steady distance",
+      "location": "Center foreground to midground, our lane",
+      "relative_size": "Medium within frame",
+      "orientation": "Front facing the camera",
+      "pose": "Driving, upright on wheels",
+      "action": "Driving toward the camera at the same speed, the gap breathing slightly",
+      "state_changes": "Stays roughly the same size; the gap grows and shrinks a little.",
+      "clothing": "", "expression": "", "gender": "", "age": "", "skin_tone_and_texture": "", "facial_features": "",
+      "number_of_subjects": 1, "number_of_arms": 0, "number_of_legs": 0
+    },
+    {
+      "description": "Moderate evening traffic of early-1980s American cars: boxy sedans, a station wagon, the occasional van or pickup",
+      "appearance_details": "Period cars with chrome trim and square headlights; moving cars have their headlights on",
+      "relationship": "Cars further back in our lane and in the lane beside us; now and then a car overtakes us in the next lane",
+      "location": "Midground to background, both same-direction lanes",
+      "relative_size": "Small to medium within frame",
+      "orientation": "Front facing the camera",
+      "pose": "Driving",
+      "action": "Driving toward the camera, spaced out at natural distances",
+      "state_changes": "Overtaking cars grow larger and slide out of frame at the edge.",
+      "clothing": "", "expression": "", "gender": "", "age": "", "skin_tone_and_texture": "", "facial_features": "",
+      "number_of_subjects": 6, "number_of_arms": 0, "number_of_legs": 0
+    },
+    {
+      "description": "Cars parked at the kerb on both sides, lights off",
+      "appearance_details": "Period sedans and coupes, dark and unlit, parked parallel to the kerb",
+      "relationship": "Lining both kerbs",
+      "location": "Left and right edges, foreground into background",
+      "relative_size": "Medium",
+      "orientation": "Parallel to the kerb",
+      "pose": "Parked, stationary",
+      "action": "Parked",
+      "state_changes": "Recede into the distance as we drive away from them.",
+      "clothing": "", "expression": "", "gender": "", "age": "", "skin_tone_and_texture": "", "facial_features": "",
+      "number_of_subjects": 8, "number_of_arms": 0, "number_of_legs": 0
+    }
+  ],
+  "background_setting": "Sunset Boulevard in Hollywood, Los Angeles, in 1982, seen looking straight back out of the rear window of a car driving east. A wide four-lane boulevard recedes to a vanishing point near the setting sun. Both sides are lined with low one- and two-storey commercial buildings: storefronts with lit shop windows and painted and neon signs, a few taller office blocks, awnings, parking meters, bus benches and street lamps. Tall thin Mexican fan palms line the sidewalks in long rows. Occasional wooden utility poles carry overhead wires. The asphalt has painted lane dashes and a double yellow centre line.",
+  "lighting": {
+    "conditions": "Dusk, just after sunset: a clear sky glowing orange at the horizon fading to violet and deep blue overhead",
+    "direction": "Low warm glow from the west behind the scene; buildings and palms in near-silhouette",
+    "shadows": "Soft, long, low-contrast",
+    "illumination_effect": "Street lamps and shop windows are switched on and cast soft pools of warm light on the sidewalks and road; car headlights reflect gently on the asphalt"
+  },
+  "aesthetics": {
+    "composition": "One-point perspective straight down the boulevard, road, palms and buildings converging on the vanishing point",
+    "color_scheme": "Natural, true-to-life dusk colour: orange horizon, violet sky, warm tungsten and neon accents, neutral asphalt",
+    "mood_atmosphere": "An ordinary calm evening drive",
+    "patterns": "Repeating palm trunks, lamp posts and storefronts"
+  },
+  "cinematography": {
+    "camera_motion": "Perfectly steady, smooth motion straight backward along the road at a constant 30 mph, no shake, no panning, no tilting",
+    "framing": "Wide shot of the full road and both sidewalks",
+    "camera_angle": "Eye level of a seated driver, 1.5 m above the road, looking straight back",
+    "depth_of_field": "Deep",
+    "focus": "Sharp throughout",
+    "lens_focal_length": "Wide-angle, about 24 mm equivalent"
+  },
+  "style_medium": "Live-action video",
+  "artistic_style": "Photoreal footage from a clean modern digital cinema camera, neutral natural colour, true-to-life exposure and white balance, no film grain, no colour grade",
+  "context": "A driving plate for film production: the view out of the back of a moving car on Sunset Boulevard in 1982",
+  "actions": [
+    {"time": "0:00-0:04", "description": "The road recedes steadily behind us; the following car keeps its distance; parked cars and palms slide away toward the vanishing point."}
+  ],
+  "text_and_signage_elements": [
+    {"text": "Shop and business signs", "category": "scene_sign", "appearance": "Painted and neon signs on the storefronts, early-1980s styles", "spatial_temporal": "Both sides of the street throughout", "context": "Ordinary Sunset Boulevard businesses"}
+  ],
+  "segments": [
+    {"segment_index": 0, "time_range": "0:00-0:04", "description": "A continuous steady shot out of the rear of a car driving along Sunset Boulevard at dusk in 1982, period traffic following behind.", "key_changes": "The street recedes; traffic keeps its spacing.", "camera": "Rock-steady constant backward motion, no shake."}
+  ],
+  "transitions": [],
+  "temporal_caption": "Throughout, the camera moves smoothly and steadily backward along Sunset Boulevard at dusk in 1982, looking out of the rear of a car. A boxy late-1970s sedan follows in our lane with its headlights on, more period traffic behind it, parked cars and tall palms lining both kerbs and receding toward the orange sunset glow at the vanishing point.",
+  "audio_description": "",
+  "resolution": {"W": 1280, "H": 720},
+  "aspect_ratio": "16,9",
+  "duration": "4s",
+  "fps": 30
+}
