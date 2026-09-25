@@ -223,7 +223,16 @@ def dress_car(anchor, label, kind, rnd):
     lib = [(m, o) for m, o in car_library(CONFIG.get("era", "timeless")) if kind in o.get("kinds", ["moving", "parked"])]
     if not lib:
         return False
-    mesh, opt = lib[rnd.randrange(len(lib))]
+    # weighted pick: "weight" in the manifest, default 1. Uniform picks made ~40% of 1980s traffic vans / SUVs /
+    # pickups and Wan painted a street full of vans (Danny, 09-25); real traffic is mostly sedans and coupes.
+    tot = sum(o.get("weight", 1.0) for _, o in lib)
+    r, acc = rnd.random() * tot, 0.0
+    mesh, opt = lib[-1]
+    for m_, o_ in lib:
+        acc += o_.get("weight", 1.0)
+        if r <= acc:
+            mesh, opt = m_, o_
+            break
     for part in (label + "_Cabin", label + "_Screen"):
         p = find_actor(part)
         if p:

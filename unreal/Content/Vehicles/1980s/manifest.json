@@ -1,6 +1,13 @@
 {
-  "_comment": "Dekogon Retro Cars VOL.2 + VOL.3 + VOL.7, Danny's Fab library. Part 'a' = whole vehicle, real scale, wheels at z=0, front = +Y (auto yaw -90). Survey: Saved/car_parts_survey.json (unreal/Content/Python/car_parts_survey.py).",
+  "_comment": "Dekogon Retro Cars VOL.2 + VOL.3 + VOL.7, Danny's Fab library. Part 'a' = whole vehicle, real scale, wheels at z=0, front = +Y (auto yaw -90). Survey: Saved/car_parts_survey.json (unreal/Content/Python/car_parts_survey.py). Weights: sedans/coupes 1, tall vehicles (vans, SUV, pickups; bbox height >= 175 cm) occasional, ~19% of traffic in total (Danny 09-25: too many vans).",
   "_roots": ["/Game/Vehicles/VOL2_Cars", "/Game/Vehicles/VOL3_RetroCars", "/Game/Vehicles/VOL7_RetroCars"],
   "_only": "^SM_(Car|Suv|Truck|Van)_\\d+a$",
-  "SM_Car_54a": {"skip": true, "why": "exotic red sports car, reads out of place in LA traffic"}
+  "SM_Car_54a": {"skip": true, "why": "exotic red sports car, reads out of place in LA traffic"},
+  "SM_Van_01a":   {"weight": 0.10, "why": "van, 221 cm tall"},
+  "SM_Car_03a":   {"weight": 0.15, "why": "van, 197 cm tall"},
+  "SM_Suv_01a":   {"weight": 0.20, "why": "SUV, 210 cm tall"},
+  "SM_Truck_06a": {"weight": 0.30, "why": "pickup, 177 cm tall"},
+  "SM_Car_09a":   {"weight": 0.30, "why": "180 cm tall (pickup/van body)"},
+  "SM_Car_49a":   {"weight": 0.30, "why": "180 cm tall, short (compact van/wagon)"},
+  "SM_Car_01a":   {"weight": 0.30, "why": "178 cm tall - likely includes a roof light bar (police), keep rare"}
 }
