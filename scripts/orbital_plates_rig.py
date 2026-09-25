@@ -190,12 +190,24 @@ def car_library(era):
     man_path = os.path.join(unreal.Paths.project_content_dir(), "Vehicles", era, "manifest.json")
     man = json.load(open(man_path)) if os.path.exists(man_path) else {}
     lib = []
-    if unreal.EditorAssetLibrary.does_directory_exist(root):
-        for p in sorted(unreal.EditorAssetLibrary.list_assets(root, recursive=True, include_folder=False)):
+    # "_roots": extra folders to pull cars from in place (e.g. a Fab pack under /Game/Dekogon_...)
+    for r in [root] + list(man.get("_roots", [])):
+        if not unreal.EditorAssetLibrary.does_directory_exist(r):
+            continue
+        for p in sorted(unreal.EditorAssetLibrary.list_assets(r, recursive=True, include_folder=False)):
+            cls = str(unreal.EditorAssetLibrary.find_asset_data(p).asset_class_path.asset_name)
+            if cls not in ("StaticMesh", "Blueprint"):     # skip textures / materials without loading them
+                continue
             a = unreal.load_asset(p.split(".")[0])
-            if isinstance(a, unreal.StaticMesh):
-                name = a.get_name()
-                lib.append((a, man.get(name, {})))
+            name = a.get_name() if a else ""
+            opt = man.get(name, {})
+            if opt.get("skip"):
+                continue
+            # a single StaticMesh, or a Blueprint that assembles a split car (body + wheels, e.g. Dekogon BP_*)
+            if isinstance(a, unreal.StaticMesh) and not man.get("_blueprints_only"):
+                lib.append((a, opt))
+            elif isinstance(a, unreal.Blueprint) and name.upper().startswith("BP_"):
+                lib.append((a, opt))
     _CAR_LIB[era] = lib
     log(f"car library {era}: {len(lib)} meshes" + (f" ({', '.join(m.get_name() for m, _ in lib)})" if lib else
                                                    f" - none under {root}, box proxies stay"))
@@ -214,7 +226,22 @@ def dress_car(anchor, label, kind, rnd):
             EAS.destroy_actor(p)
     anchor.static_mesh_component.set_static_mesh(None)
     anchor.set_actor_scale3d(unreal.Vector(1, 1, 1))
-    bb = mesh.get_bounding_box()
+    stale = find_actor(label + "_Car")
+    if stale:
+        EAS.destroy_actor(stale)
+    if isinstance(mesh, unreal.Blueprint):
+        # spawn once at the world origin, unrotated, to measure it, then hang it off the anchor
+        body = EAS.spawn_actor_from_class(mesh.generated_class(), unreal.Vector(0, 0, 0), unreal.Rotator(0, 0, 0))
+        body.set_actor_label(label + "_Car")
+        for c in body.get_components_by_class(unreal.PrimitiveComponent):
+            c.set_editor_property("mobility", unreal.ComponentMobility.MOVABLE)
+        o, e = body.get_actor_bounds(False)
+        bb = unreal.Box(unreal.Vector(o.x - e.x, o.y - e.y, o.z - e.z), unreal.Vector(o.x + e.x, o.y + e.y, o.z + e.z))
+        body.attach_to_actor(anchor, "", unreal.AttachmentRule.KEEP_RELATIVE, unreal.AttachmentRule.KEEP_RELATIVE,
+                             unreal.AttachmentRule.KEEP_RELATIVE, False)
+    else:
+        bb = mesh.get_bounding_box()
+        body = None
     ex, ey = bb.max.x - bb.min.x, bb.max.y - bb.min.y
     yaw = opt.get("yaw", 0.0 if ex >= ey else -90.0)
     length = max(ex, ey)
@@ -222,14 +249,13 @@ def dress_car(anchor, label, kind, rnd):
     cx, cy = (bb.max.x + bb.min.x) / 2 * s, (bb.max.y + bb.min.y) / 2 * s
     r = math.radians(yaw)
     rx, ry = cx * math.cos(r) - cy * math.sin(r), cx * math.sin(r) + cy * math.cos(r)
-    body = find_actor(label + "_Car")
-    if not body:
+    if body is None:
         body = EAS.spawn_actor_from_class(unreal.StaticMeshActor, unreal.Vector(0, 0, 0))
         body.set_actor_label(label + "_Car")
         body.static_mesh_component.set_editor_property("mobility", unreal.ComponentMobility.MOVABLE)
         body.attach_to_actor(anchor, "", unreal.AttachmentRule.KEEP_RELATIVE, unreal.AttachmentRule.KEEP_RELATIVE,
                              unreal.AttachmentRule.KEEP_RELATIVE, False)
-    body.static_mesh_component.set_static_mesh(mesh)
+        body.static_mesh_component.set_static_mesh(mesh)
     body.root_component.set_relative_scale3d(unreal.Vector(s, s, s))
     body.root_component.set_relative_rotation(unreal.Rotator(0.0, 0.0, yaw), False, False)   # (roll, pitch, yaw)
     ground = -(CAR_CLEAR + CAR_BODY_H / 2.0)                  # anchor sits at body centre; wheels go on the road
