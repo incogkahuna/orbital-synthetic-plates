@@ -39,7 +39,8 @@ SKYLOCK = os.environ.get("PLATES_SKYLOCK", "") in ("1", "2", "3")
 SKY_EMA = float(os.environ.get("PLATES_SKY_EMA", "0.08"))   # mode 3: per-frame follow rate (0.08 ~ 0.5 s at 24 fps; 0.04 left palm ghosts)
 SKYMODE = os.environ.get("PLATES_SKYLOCK", "")        # "1" freeze sky pixels, "2" lock sky low frequencies only
 SKY_BLUR = float(os.environ.get("PLATES_SKY_BLUR", "40"))   # px sigma at 832x480 (18 let palm silhouettes into the sky average)
-COLORMATCH = os.environ.get("PLATES_COLORMATCH") == "1"
+COLORMATCH_MODE = os.environ.get("PLATES_COLORMATCH", "")      # "1" non-sky stats, "2" whole frame (no seams)
+COLORMATCH = COLORMATCH_MODE in ("1", "2")
 ANCHOR = os.environ.get("PLATES_ANCHOR") == "1"                  # VACE reference = a clean frame of window 0
 ANCHOR_FRAME = int(os.environ.get("PLATES_ANCHOR_FRAME", "24"))
 VARIANT = os.environ.get("PLATES_VARIANT", "")
@@ -47,6 +48,9 @@ SKY_T = 6                                  # depth PNG value at or below which a
 sky_plate = np.zeros((480, 832, 3), np.float32); sky_seen = np.zeros((480, 832), bool)
 ref_stats = None
 sky_ref = None
+cm_gain = cm_off = None
+CM_STRENGTH = float(os.environ.get("PLATES_CM_STRENGTH", "0.7"))
+CM_EMA = float(os.environ.get("PLATES_CM_EMA", "0.05"))
 
 
 def _sky_mask(di):
@@ -63,7 +67,22 @@ def lock(img, di):
     a = np.asarray(img, np.float32)
     m = _sky_mask(di)
     ground = m < 0.5
-    if COLORMATCH and ground.sum() > 1000:
+    if COLORMATCH_MODE == "2":
+        # global: one per-channel affine for the whole frame, matched to window 0's whole-frame stats. The masked
+        # version (mode 1) left see-through rectangles wherever Wan painted sky over a Cesium building (D1, 09-25).
+        # Partial (CM_STRENGTH) and time-smoothed (CM_EMA) so a bright car or storefront entering the frame doesn't
+        # pump the whole image; it only takes out the slow window-to-window drift.
+        global cm_gain, cm_off
+        mu, sd = a.reshape(-1, 3).mean(0), a.reshape(-1, 3).std(0) + 1e-3
+        if ref_stats is None:
+            ref_stats = (mu, sd); cm_gain, cm_off = np.ones(3, np.float32), np.zeros(3, np.float32)
+        else:
+            g_t = 1 + CM_STRENGTH * (ref_stats[1] / sd - 1)
+            o_t = CM_STRENGTH * (ref_stats[0] - mu * ref_stats[1] / sd)
+            cm_gain = (1 - CM_EMA) * cm_gain + CM_EMA * g_t
+            cm_off = (1 - CM_EMA) * cm_off + CM_EMA * o_t
+            a = a * cm_gain + cm_off
+    elif COLORMATCH and ground.sum() > 1000:
         mu, sd = a[ground].mean(0), a[ground].std(0) + 1e-3
         if ref_stats is None:
             ref_stats = (mu, sd)
