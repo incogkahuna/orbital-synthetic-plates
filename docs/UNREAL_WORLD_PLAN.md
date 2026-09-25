@@ -73,10 +73,15 @@ Only the **shape** matters (depth pass), so cheap low/mid-poly models are fine; 
   2026-09-24: `car_library()` / `dress_car()` in `orbital_plates_rig.py`; optional `manifest.json` per era folder
   for yaw / length / moving-vs-parked).
 
-### AI-use flag (checked 2026-09-24): most period cars on Fab are off-limits
+### AI-use flag (checked 2026-09-24)
 Every Fab listing carries a seller flag, **"Allows usage with AI"** (`isAiForbidden` in Fab's listing data).
-NoAI assets may not be used as input to generative AI, and our pipeline renders the car and feeds the depth to Wan,
-so **only AI-allowed listings qualify**. Of 272 car/bus/truck listings scanned, 79 allow AI. Almost every good period pack is
+**Correction (same day, after reading the Fab EULA, Standard Licence §6(vii) / §16(l)):** NoAI Content may not
+be used (a) in datasets used by generative AI programs, (b) in developing them, or (c) as *training* inputs. We
+train nothing: we render a depth map of the car's shape and use it as inference-time conditioning for Wan (textures
+never reach the model). On the plain wording that is outside all three restrictions, but it goes against the
+seller's evident intent, so it is a **studio sign-off call**. Danny's preferred packs: Dekogon Vehicles VOL.2 and
+VOL.3 (NoAI; 80s sedans, wagon, taxi, police, van; split meshes, so merge body and wheels per car on import).
+The AI-allowed lists below remain the no-question fallback. Of 272 car/bus/truck listings scanned, 79 allow AI. Almost every good period pack is
 NoAI: Dekogon Retro Cars VOL.2 and VOL.3, lyoshko 1980s Cars Pack, the Leartes 1950s NYC megapack, FinalFormStudio
 Classic Cars, ROH3D 1970s muscle car, and Leon Media generic classics. Studio licence tier = **Professional** (org over $100k revenue).
 Final licence call is Danny's / the studio's.
