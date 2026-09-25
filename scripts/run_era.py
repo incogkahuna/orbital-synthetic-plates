@@ -35,7 +35,8 @@ os.makedirs(os.path.dirname(LOG), exist_ok=True)
 #                    seen; on a straight road the sky is fixed on screen, so this removes sky flicker and stitch seams.
 # PLATES_COLORMATCH=1 every window's non-sky colour statistics are matched to window 0 before it seeds the next
 #                    window, so saturation/contrast can't compound from window to window.
-SKYLOCK = os.environ.get("PLATES_SKYLOCK", "") in ("1", "2")
+SKYLOCK = os.environ.get("PLATES_SKYLOCK", "") in ("1", "2", "3")
+SKY_EMA = float(os.environ.get("PLATES_SKY_EMA", "0.04"))   # mode 3: per-frame follow rate (0.04 ~ 1 s at 24 fps)
 SKYMODE = os.environ.get("PLATES_SKYLOCK", "")        # "1" freeze sky pixels, "2" lock sky low frequencies only
 SKY_BLUR = float(os.environ.get("PLATES_SKY_BLUR", "18"))   # px sigma at 832x480
 COLORMATCH = os.environ.get("PLATES_COLORMATCH") == "1"
@@ -43,6 +44,7 @@ VARIANT = os.environ.get("PLATES_VARIANT", "")
 SKY_T = 6                                  # depth PNG value at or below which a pixel is sky
 sky_plate = np.zeros((480, 832, 3), np.float32); sky_seen = np.zeros((480, 832), bool)
 ref_stats = None
+sky_ref = None
 
 
 def _sky_mask(di):
@@ -65,7 +67,29 @@ def lock(img, di):
             ref_stats = (mu, sd)
         else:
             a = np.where(ground[..., None], (a - mu) / sd * ref_stats[1] + ref_stats[0], a)
-    if SKYLOCK and SKYMODE == "2":
+    if SKYLOCK and SKYMODE == "3":
+        # v3 (after the first v14 windows): the sky's low frequencies FOLLOW the frames slowly (EMA, time constant
+        # ~1/SKY_EMA frames) instead of freezing. Stitch flicker is smoothed out; anything Wan painted into depth-sky
+        # (a rooftop taller than the Cesium one) fades out in ~1 s instead of staying as a ghost for the whole plate.
+        import cv2
+        global sky_ref
+        s = m > 0.99                                                   # sky colour anchored to window 0's sky too
+        if s.sum() > 500:
+            smu, ssd = a[s].mean(0), a[s].std(0) + 1e-3
+            if sky_ref is None:
+                sky_ref = (smu, ssd)
+            else:
+                a = np.where((m > 0.5)[..., None], (a - smu) / ssd * sky_ref[1] + sky_ref[0], a)
+        k = SKY_BLUR
+        wm = cv2.GaussianBlur(m, (0, 0), k) + 1e-4
+        low = cv2.GaussianBlur(a * m[..., None], (0, 0), k) / wm[..., None]
+        new = (m > 0.99) & ~sky_seen
+        sky_plate[new] = low[new]; sky_seen[new] = True
+        upd = (m > 0.5) & sky_seen
+        sky_plate[upd] = (1 - SKY_EMA) * sky_plate[upd] + SKY_EMA * low[upd]
+        kk = (m * sky_seen)[..., None]
+        a = a * (1 - kk) + (a - low + sky_plate) * kk
+    elif SKYLOCK and SKYMODE == "2":
         # v2 (after the v11 A/B): lock only the sky's LOW frequencies (colour, brightness, gradient) and keep each
         # frame's own detail. Freezing whole pixels (mode 1) killed the flicker but froze anything Wan had painted
         # into "sky" on first sight - rooftops, palm heads - into ghost smears that slid across the frame.
