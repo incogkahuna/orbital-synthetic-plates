@@ -27,6 +27,46 @@ def api(path, data=None):
                                  {"Content-Type": "application/json"})
     return json.load(urllib.request.urlopen(req))
 os.makedirs(os.path.dirname(LOG), exist_ok=True)
+
+# ---- v2 stabilisers (docs/ISSUES.md P1/P2/P3/P8/P9), off unless asked for ----------------------------------
+# PLATES_SKYLOCK=1   sky pixels (depth ~ black = infinitely far) keep the value they had the first time they were
+#                    seen; on a straight road the sky is fixed on screen, so this removes sky flicker and stitch seams.
+# PLATES_COLORMATCH=1 every window's non-sky colour statistics are matched to window 0 before it seeds the next
+#                    window, so saturation/contrast can't compound from window to window.
+SKYLOCK = os.environ.get("PLATES_SKYLOCK") == "1"
+COLORMATCH = os.environ.get("PLATES_COLORMATCH") == "1"
+VARIANT = os.environ.get("PLATES_VARIANT", "")
+SKY_T = 6                                  # depth PNG value at or below which a pixel is sky
+sky_plate = np.zeros((480, 832, 3), np.float32); sky_seen = np.zeros((480, 832), bool)
+ref_stats = None
+
+
+def _sky_mask(di):
+    d = np.asarray(Image.open(DEPTH[di]).convert("L"), np.float32)
+    m = (d <= SKY_T).astype(np.float32)
+    # erode 1 px then feather 2 px so building/palm edges never pick up frozen sky
+    from PIL import ImageFilter
+    mi = Image.fromarray((m * 255).astype(np.uint8)).filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(2))
+    return np.asarray(mi, np.float32) / 255.0
+
+
+def lock(img, di):
+    global ref_stats
+    a = np.asarray(img, np.float32)
+    m = _sky_mask(di)
+    ground = m < 0.5
+    if COLORMATCH and ground.sum() > 1000:
+        mu, sd = a[ground].mean(0), a[ground].std(0) + 1e-3
+        if ref_stats is None:
+            ref_stats = (mu, sd)
+        else:
+            a = np.where(ground[..., None], (a - mu) / sd * ref_stats[1] + ref_stats[0], a)
+    if SKYLOCK:
+        new = (m > 0.99) & ~sky_seen
+        sky_plate[new] = a[new]; sky_seen[new] = True
+        k = (m * sky_seen)[..., None]
+        a = a * (1 - k) + sky_plate * k
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
 out_frames, s, w = [], 0, 0
 while s < TOTAL - OV or w == 0:
     idx = [min(s + i, len(DEPTH) - 1) for i in range(N)]
@@ -52,6 +92,7 @@ while s < TOTAL - OV or w == 0:
     if st != "success":
         log(f"window {w} FAILED: {str(h[pid]['status'])[-800:]}"); sys.exit(1)
     frames = [Image.open(f).convert("RGB") for f in sorted(glob.glob(f"{SH}/output/{RUN}/w{w:02d}/f_*.png"))]
+    frames = [lock(fr, idx[i]) for i, fr in enumerate(frames)] if (SKYLOCK or COLORMATCH) else frames
     if w == 0:
         out_frames += frames
     else:   # crossfade the overlap with the previous window's tail
@@ -65,7 +106,7 @@ out_frames = out_frames[:TOTAL]
 fdir = f"{ROOT}/renders/{RUN.replace('/', '_')}_frames"; os.makedirs(fdir, exist_ok=True)
 for i, f in enumerate(out_frames): f.save(f"{fdir}/{i:06d}.png")
 ff = shutil.which("ffmpeg") or glob.glob(os.path.expanduser("~/AppData/Local/Microsoft/WinGet/Packages/*/*/bin/ffmpeg.exe"))[0]
-mp4 = f"{ROOT}/deliverables/{ERA}_{CAM}_cesium_{GEO}_{int(SECS)}s.mp4"; os.makedirs(os.path.dirname(mp4), exist_ok=True)
+mp4 = f"{ROOT}/deliverables/{ERA}_{CAM}_cesium_{GEO}_{int(SECS)}s{VARIANT}.mp4"; os.makedirs(os.path.dirname(mp4), exist_ok=True)
 subprocess.run([ff, "-y", "-loglevel", "error", "-framerate", "24000/1001", "-i", f"{fdir}/%06d.png",
                 "-c:v", "libx264", "-profile:v", "high", "-pix_fmt", "yuv420p", "-crf", "14", mp4], check=True)
 log(f"DONE {mp4} ({len(out_frames)} frames)")

@@ -168,6 +168,37 @@ def ensure_proxy(label, size=(CAR_L, CAR_W, CAR_H)):
     return a
 
 
+def passing_lane_plan(rnd):
+    """Same-direction traffic in the lane to our left, built around pass events (Danny, R4 / P7 2026-09-24):
+    a car overtakes us, or we overtake it, every 6-14 s. Relative speed is 2-5 m/s, so a car spends 2-5 s
+    alongside and never hovers (cars at ~our speed rocked back and forth in v1 C7). Each car gets a gentle speed
+    drift (WOBBLE, peak < 0.7 m/s, so it never reverses relative to us), cars keep a 12 m gap, and no car may pop
+    in within 200 m of the camera. Replaces the fixed Passer / Inner cars."""
+    T, v = CONFIG["duration_s"], CONFIG["speed_mps"]
+    cam0 = CONFIG.get("camera_start_cm", 0.0) / 100.0
+    cars, t = [], rnd.uniform(3.0, 7.0)
+    while t < T - 2.0:
+        dv = rnd.uniform(2.0, 5.0) if rnd.random() < 0.65 else -rnd.uniform(2.0, 4.0)
+        rel0 = -dv * t                                  # metres ahead of the camera at t = 0
+        d0 = cam0 + rel0                                # absolute route distance at t = 0
+        ok = True
+        if d0 < 0:                                      # clamped at the route start until it enters...
+            t_enter = -d0 / (v + dv)
+            ok = cam0 + v * t_enter > 200.0             # ...which must happen out of depth range (> 200 m)
+        pos = lambda c, tt: c[0] + c[1] * tt
+        if ok and all(abs(pos((rel0, dv), tt) - pos(c, tt)) > 12.0 for c in cars for tt in range(0, int(T) + 1)):
+            cars.append((rel0, dv))
+        t += rnd.uniform(6.0, 14.0)
+    plan = []
+    for i, (rel0, dv) in enumerate(cars):
+        label = f"Traffic_Pass{i + 1:02d}"
+        WOBBLE[label] = (rnd.uniform(60.0, 120.0), rnd.uniform(12.0, 25.0))
+        plan.append((label, -LANE_W, rel0 * 100.0, v + dv))
+    log(f"passing lane: {len(plan)} cars, passes every ~6-14 s "
+        f"({sum(1 for _, dv in cars if dv > 0)} overtake us, {sum(1 for _, dv in cars if dv < 0)} we overtake)")
+    return plan
+
+
 def ensure_traffic():
     """Returns [(actor, lane_offset_cm, start_dist_cm, speed_mps)].  Negative
     lane offset = left (oncoming lane), positive = right (kerb).  Speed 0 =
@@ -185,9 +216,14 @@ def ensure_traffic():
             ("Traffic_Follow1", 0.0, -1600.0, CONFIG["speed_mps"]),         # 16 m behind, gap breathes +/-4 m
             ("Traffic_Follow2", 0.0, -4200.0, CONFIG["speed_mps"]),
             ("Traffic_Follow3", 0.0, -7000.0, CONFIG["speed_mps"] * 1.01),
-            ("Traffic_Passer1", -LANE_W, -2600.0, CONFIG["speed_mps"] * 1.08),  # left lane, draws level ~20 s
-            ("Traffic_Passer2", -LANE_W, -6500.0, CONFIG["speed_mps"] * 1.05),
         ]
+        if not CONFIG.get("passing_traffic"):
+            plan += [
+                ("Traffic_Passer1", -LANE_W, -2600.0, CONFIG["speed_mps"] * 1.08),  # left lane, draws level ~20 s
+                ("Traffic_Passer2", -LANE_W, -6500.0, CONFIG["speed_mps"] * 1.05),
+            ]
+    if CONFIG.get("passing_traffic"):
+        plan += passing_lane_plan(rnd)
     # oncoming: spawn far enough ahead that they keep arriving for the whole drive
     for i in range(30):
         plan.append((f"Traffic_Oncoming{i+1:02d}",
@@ -358,6 +394,8 @@ def sample_traffic(spline, traffic, fps, duration_s):
                 d += wob[0] * math.sin(2 * math.pi * (f / fps) / wob[1])
             loc, rot = pose_on_route(spline, d, off, CONFIG.get("proxy_ground_cm", 15.0) + CAR_CLEAR + CAR_BODY_H / 2.0,
                                      face_backward=(spd < 0))
+            if spd != 0.0 and not (0.0 <= d <= spline.get_spline_length()):
+                loc = unreal.Vector(loc.x, loc.y, loc.z - 10000.0)   # off the route: hide underground, don't pile up at its ends
             keys.append((f, loc, rot))
         out.append((actor, keys))
     return out

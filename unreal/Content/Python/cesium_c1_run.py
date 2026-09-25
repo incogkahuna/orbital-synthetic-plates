@@ -38,7 +38,8 @@ rig.CONFIG.update({
     "content_root": "/Game/OrbitalPlates/Cesium",
     "oncoming_offsets_cm": [-1000.0, -1350.0],   # oncoming lanes beyond the centre turn lane
     "parked_offset_cm": 290.0,                   # centre of the 2.4 m parking lane, kerb at +410
-    "inner_lane_cars": 5,                        # same-direction cars in the lane to our left
+    "inner_lane_cars": 0,                        # replaced by passing_traffic (R4 / P7)
+    "passing_traffic": True,                     # lane to our left: a pass every 6-14 s, 2-5 m/s relative
     "proxy_ground_cm": 0.0,                      # spline sits on the real asphalt
     "camera_start_cm": 6000.0,                   # 60 m of road behind us for following traffic
     "following_traffic": True,
@@ -288,11 +289,14 @@ def build_and_render():
 
     build_street_edges(spl)
     build_street_furniture(spl)
+    # traffic sets that are re-planned every run (parked around driveways, left lane around pass events):
+    # drop the old actors and their cabin/screen parts so nothing stale keeps its old keys
+    replan = ["Traffic_Parked", "Traffic_Inner", "Traffic_Passer", "Traffic_Pass"] if OPTS.get("dress") else \
+             ["Traffic_Inner", "Traffic_Passer", "Traffic_Pass"]
+    for a in EAS.get_all_level_actors():
+        if any(a.get_actor_label().startswith(p) for p in replan):
+            EAS.destroy_actor(a)
     if OPTS.get("dress"):
-        # parked proxies are re-planned around driveways / bus stops, so drop the old set (and their cabin parts)
-        for a in EAS.get_all_level_actors():
-            if a.get_actor_label().startswith("Traffic_Parked"):
-                EAS.destroy_actor(a)
         rig.CONFIG["no_park_m"] = world_dress.dress(spl, OPTS.get("era", "timeless"), OPTS.get("seed", 1978),
                                                     INTERSECTIONS_M, mark)
     else:

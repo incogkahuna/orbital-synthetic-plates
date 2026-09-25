@@ -37,15 +37,16 @@ CAMTXT = {
 NEUTRAL = ("photoreal footage from a clean modern digital cinema camera, neutral natural colour, true-to-life exposure "
            "and white balance, sharp, no film grain, no colour grade, ")
 ERA = {
- "1955": (NEUTRAL + "Los Angeles in 1955, a boulevard at dusk, magic hour, warm glowing sky, car headlights and neon signs switched on, 1940s and 1950s American cars "
+ "1955": (NEUTRAL + "Los Angeles in 1955, a boulevard at dusk, magic hour, warm glowing sky, street lamps and neon signs switched on, the street lamps cast soft pools of light on the road, moving cars have their headlights on, parked cars are dark and unlit, 1940s and 1950s American cars "
           "with chrome bumpers and rounded fenders, neon and painted shop signs, leafy street trees and palm trees along the sidewalks, telephone poles, pedestrians in 1950s clothes, "
           "realistic detail, ", "ref_1955_lane.png"),
- "1980s": (NEUTRAL + "Los Angeles in 1982, a boulevard at dusk, magic hour, warm glowing sky, car headlights and neon signs switched on, late-1970s and early-1980s "
+ "1980s": (NEUTRAL + "Los Angeles in 1982, a boulevard at dusk, magic hour, warm glowing sky, street lamps and neon signs switched on, the street lamps cast soft pools of light on the road, moving cars have their headlights on, parked cars are dark and unlit, late-1970s and early-1980s "
            "American cars, boxy sedans and station wagons, leafy street trees and palm trees along the sidewalks, billboards and storefront signs, "
            "realistic detail, ", "ref_1978_lane.png"),
 }[era]
 NEG = ("film grain, vintage photo, film stock look, sepia, faded colours, colour grading, colour cast, retro filter, "
-       "vignette, soft focus, car hood, bonnet, dashboard, car door, window frame, side mirror, rear window, windshield, camera rig, roof mount, part of our car, modern cars, modern signage, "
+       "vignette, soft focus, police lights, flashing lights, strobing coloured lights, oversaturated neon reflections, "
+       "camera shake, handheld camera, wobbling horizon, parked cars with lights on, car hood, bonnet, dashboard, car door, window frame, side mirror, rear window, windshield, camera rig, roof mount, part of our car, modern cars, modern signage, "
        "LED screens, traffic jam, gridlock, bumper-to-bumper traffic, crowded road, dozens of cars, cars facing the wrong way, video game, 3D render, CGI, cartoon, plastic, flat grey buildings, blocky slabs, blurry, text, watermark, "
        "distorted, low quality")
 g = {

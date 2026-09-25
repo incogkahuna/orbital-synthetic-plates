@@ -22,9 +22,9 @@ GF_H = 4.2                            # ground-floor storefront height (m)
 # Palms dominate: primitive leaf-clump trees read as sign clusters to Wan (A/B v9d/v9e, 2026-09-24); leafy trees
 # stay rare until real tree meshes come from Fab. Frond-crown palms read as palms.
 ERA_MIX = {   # probabilities per era
-    "1955":     {"awning": 0.60, "blade": 0.80, "shelter": 0.0, "racks": 2, "palm": 0.85},
-    "1980s":    {"awning": 0.35, "blade": 0.40, "shelter": 1.0, "racks": 3, "palm": 0.90},
-    "timeless": {"awning": 0.45, "blade": 0.55, "shelter": 0.5, "racks": 2, "palm": 0.85},
+    "1955":     {"awning": 0.60, "blade": 0.80, "shelter": 0.0, "racks": 2, "palm": 0.85, "wires": 0.30},
+    "1980s":    {"awning": 0.35, "blade": 0.40, "shelter": 1.0, "racks": 3, "palm": 0.90, "wires": 0.15},
+    "timeless": {"awning": 0.45, "blade": 0.55, "shelter": 0.5, "racks": 2, "palm": 0.85, "wires": 0.20},
 }
 
 
@@ -198,6 +198,33 @@ class Dresser:
                     c["corners"] += 1
         self.log(f"dress sidewalks: {c}")
 
+    # ---- overhead wires: occasional only (Danny, R3 2026-09-24) ----------------------------------------------
+    def wires(self):
+        """Some blocks get a line of wooden utility poles with three wires on ONE side; most blocks get none."""
+        edges = [0.0] + list(self.cross) + [self.total_m]
+        blocks, poles = 0, 0
+        for a, b in zip(edges, edges[1:]):
+            if b - a < 60 or self.rnd.random() > self.mix["wires"]:
+                continue
+            side, kerb, inward = (("S", KERB_S, 1.0), ("N", KERB_N, -1.0))[self.rnd.random() < 0.5]
+            y = kerb + inward * 0.7
+            xs, x = [], a + 12.0
+            while x < b - 12.0:
+                if not self.blocked(x, side):
+                    xs.append(x)
+                x += self.rnd.uniform(38.0, 45.0)
+            if len(xs) < 2:
+                continue
+            for x in xs:
+                self.put("UtilityPole", CYL, x, y, KERH(5.5), (0.3, 0.3, 11.0))
+                self.put("UtilityCrossarm", CUBE, x, y, KERH(10.3), (0.12, 2.2, 0.12))
+                poles += 1
+            for x0, x1 in zip(xs, xs[1:]):
+                for dy in (-0.9, 0.0, 0.9):
+                    self.put("UtilityWire", CUBE, (x0 + x1) / 2, y + dy, KERH(10.4), (x1 - x0, 0.05, 0.05))
+            blocks += 1
+        self.log(f"dress wires: {blocks} of {len(edges) - 1} blocks, {poles} poles")
+
     def no_park_m(self):
         """Stretches of our (south) kerb where cars can't park: driveways, bus stops, hydrant zones, crossings."""
         zones = [(o["x"] - o["half_w"] - 1.0, o["x"] + o["half_w"] + 1.0) for o in self.openings if o["side"] == "S"]
@@ -227,5 +254,6 @@ def dress(spl, era="timeless", seed=1978, intersections_m=(), log=print):
     d = Dresser(spl, data, era, seed, list(intersections_m), log)
     d.storefronts()
     d.sidewalks()
+    d.wires()
     log(f"dress: {d.n} actors")
     return d.no_park_m()
