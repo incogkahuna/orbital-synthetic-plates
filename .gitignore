@@ -8,3 +8,7 @@ DerivedDataCache/
 *.gguf
 renders/
 __pycache__/
+
+# Fab packs (licensed, never redistribute - repo is public). Re-add on each machine via Epic Launcher > Fab > Add to project.
+unreal/Content/Vehicles/*
+!unreal/Content/Vehicles/*/manifest.json
