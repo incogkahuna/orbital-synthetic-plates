@@ -158,6 +158,10 @@ def ensure_proxy(label, size=(CAR_L, CAR_W, CAR_H)):
     L, W, H = size
     body_h = CAR_BODY_H
     a = _cube_actor(label)
+    stale = find_actor(label + "_Car")                    # a real mesh from an earlier run: back to a box
+    if stale:
+        EAS.destroy_actor(stale)
+    a.static_mesh_component.set_static_mesh(unreal.load_asset("/Engine/BasicShapes/Cube"))
     a.set_actor_scale3d(unreal.Vector(L / 100.0, W / 100.0, body_h / 100.0))
     cab_l, cab_w, cab_h = L * 0.40, W * 0.78, CAR_CAB_H
     cab_x = -0.13 * L                                     # cabin spans -0.33L..+0.07L: hood 0.43L, trunk 0.17L
@@ -166,6 +170,71 @@ def ensure_proxy(label, size=(CAR_L, CAR_W, CAR_H)):
     _proxy_part(a, label + "_Screen", L, W, body_h, (scr_l, cab_w, scr_h),
                 (cab_x + cab_l / 2 + scr_l / 2, 0.0, body_h / 2 + scr_h / 2))
     return a
+
+
+# ---- real car meshes (Fab) -----------------------------------------------------------------------------------
+# Static meshes under /Game/Vehicles/<era>/ replace the box proxies (P10, backward parked cars). The keyed proxy
+# actor stays as an invisible anchor (pivot = body centre, +X = front); the car is a child actor placed on the
+# ground. Optional /Game/Vehicles/<era>/manifest.json (Content/Vehicles/<era>/manifest.json on disk):
+#   {"SM_Sedan_A": {"yaw": 90, "length_m": 5.2, "kinds": ["moving", "parked"]}, "SM_Bus": {"kinds": ["moving"]}}
+# yaw = degrees to turn the mesh so its front points +X (default: auto - long axis, front assumed +X/+Y);
+# length_m forces a length; otherwise meshes already at real scale (3.5-13 m long) are kept, others go to 4.5 m.
+_CAR_LIB = {}
+
+
+def car_library(era):
+    if era in _CAR_LIB:
+        return _CAR_LIB[era]
+    import json, os
+    root = f"/Game/Vehicles/{era}"
+    man_path = os.path.join(unreal.Paths.project_content_dir(), "Vehicles", era, "manifest.json")
+    man = json.load(open(man_path)) if os.path.exists(man_path) else {}
+    lib = []
+    if unreal.EditorAssetLibrary.does_directory_exist(root):
+        for p in sorted(unreal.EditorAssetLibrary.list_assets(root, recursive=True, include_folder=False)):
+            a = unreal.load_asset(p.split(".")[0])
+            if isinstance(a, unreal.StaticMesh):
+                name = a.get_name()
+                lib.append((a, man.get(name, {})))
+    _CAR_LIB[era] = lib
+    log(f"car library {era}: {len(lib)} meshes" + (f" ({', '.join(m.get_name() for m, _ in lib)})" if lib else
+                                                   f" - none under {root}, box proxies stay"))
+    return lib
+
+
+def dress_car(anchor, label, kind, rnd):
+    """Swap one proxy for a real mesh. kind = 'moving' | 'parked'. Returns True if a mesh was used."""
+    lib = [(m, o) for m, o in car_library(CONFIG.get("era", "timeless")) if kind in o.get("kinds", ["moving", "parked"])]
+    if not lib:
+        return False
+    mesh, opt = lib[rnd.randrange(len(lib))]
+    for part in (label + "_Cabin", label + "_Screen"):
+        p = find_actor(part)
+        if p:
+            EAS.destroy_actor(p)
+    anchor.static_mesh_component.set_static_mesh(None)
+    anchor.set_actor_scale3d(unreal.Vector(1, 1, 1))
+    bb = mesh.get_bounding_box()
+    ex, ey = bb.max.x - bb.min.x, bb.max.y - bb.min.y
+    yaw = opt.get("yaw", 0.0 if ex >= ey else -90.0)
+    length = max(ex, ey)
+    s = (opt["length_m"] * 100.0 / length) if "length_m" in opt else (1.0 if 350.0 <= length <= 1300.0 else CAR_L / length)
+    cx, cy = (bb.max.x + bb.min.x) / 2 * s, (bb.max.y + bb.min.y) / 2 * s
+    r = math.radians(yaw)
+    rx, ry = cx * math.cos(r) - cy * math.sin(r), cx * math.sin(r) + cy * math.cos(r)
+    body = find_actor(label + "_Car")
+    if not body:
+        body = EAS.spawn_actor_from_class(unreal.StaticMeshActor, unreal.Vector(0, 0, 0))
+        body.set_actor_label(label + "_Car")
+        body.static_mesh_component.set_editor_property("mobility", unreal.ComponentMobility.MOVABLE)
+        body.attach_to_actor(anchor, "", unreal.AttachmentRule.KEEP_RELATIVE, unreal.AttachmentRule.KEEP_RELATIVE,
+                             unreal.AttachmentRule.KEEP_RELATIVE, False)
+    body.static_mesh_component.set_static_mesh(mesh)
+    body.root_component.set_relative_scale3d(unreal.Vector(s, s, s))
+    body.root_component.set_relative_rotation(unreal.Rotator(0.0, 0.0, yaw), False, False)   # (roll, pitch, yaw)
+    ground = -(CAR_CLEAR + CAR_BODY_H / 2.0)                  # anchor sits at body centre; wheels go on the road
+    body.root_component.set_relative_location(unreal.Vector(-rx, -ry, ground - bb.min.z * s), False, False)
+    return True
 
 
 def passing_lane_plan(rnd):
@@ -254,10 +323,14 @@ def ensure_traffic():
         if rnd.random() > 0.25 and not no_park:
             plan.append((f"Traffic_Parked{i+1:02d}", CONFIG.get("parked_offset_cm", LANE_W * 0.95), x, 0.0)); i += 1
         x += rnd.uniform(600, 2400)
-    out = []
+    out, real = [], 0
+    crnd = random.Random(CONFIG.get("car_seed", 1955))
     for label, off, start, spd in plan:
-        out.append((ensure_proxy(label), off, start, spd))
-    log(f"traffic: {len(out)} proxies")
+        a = ensure_proxy(label)
+        if CONFIG.get("car_meshes", True) and dress_car(a, label, "parked" if spd == 0.0 else "moving", crnd):
+            real += 1
+        out.append((a, off, start, spd))
+    log(f"traffic: {len(out)} cars, {real} real meshes, {len(out) - real} box proxies")
     return out
 
 

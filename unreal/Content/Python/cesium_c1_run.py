@@ -47,6 +47,8 @@ rig.CONFIG.update({
 rig.CONFIG["render"]["output_dir"] = "{project_dir}/Saved/PlateRenders/Cesium/{sequence_name}"
 if "duration_s" in OPTS:
     rig.CONFIG["duration_s"] = float(OPTS["duration_s"])
+rig.CONFIG["era"] = OPTS.get("era", "timeless")            # picks /Game/Vehicles/<era>/ car meshes
+rig.CONFIG["car_meshes"] = OPTS.get("car_meshes", True)
 
 
 def mark(s):

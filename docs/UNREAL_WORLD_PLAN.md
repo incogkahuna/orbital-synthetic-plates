@@ -69,7 +69,33 @@ Only the **shape** matters (depth pass), so cheap low/mid-poly models are fine; 
 - **Avoid:** branded logos (not needed and a clearance risk), modern cars (read as modern at depth strength 0.8).
 - **Search terms:** "1950s car pack low poly", "vintage american car", "classic sedan 1955", "retro pickup truck",
   "1980s car pack", "80s sedan", "boxy station wagon", "vintage bus", "old city bus".
-- Once imported under `/Game/Vehicles/<era>/`, the rig swaps proxies for them by `CONFIG["era"]` (to build).
+- Once imported under `/Game/Vehicles/<era>/`, the rig swaps proxies for them by `CONFIG["era"]` (built
+  2026-09-24: `car_library()` / `dress_car()` in `orbital_plates_rig.py`; optional `manifest.json` per era folder
+  for yaw / length / moving-vs-parked).
+
+### AI-use flag (checked 2026-09-24): most period cars on Fab are off-limits
+Every Fab listing carries a seller flag, **"Allows usage with AI"** (`isAiForbidden` in Fab's listing data).
+NoAI assets may not be used as input to generative AI, and our pipeline renders the car and feeds the depth to Wan,
+so **only AI-allowed listings qualify**. Of 272 car/bus/truck listings scanned, 79 allow AI. Almost every good period pack is
+NoAI: Dekogon Retro Cars VOL.2 and VOL.3, lyoshko 1980s Cars Pack, the Leartes 1950s NYC megapack, FinalFormStudio
+Classic Cars, ROH3D 1970s muscle car, and Leon Media generic classics. Studio licence tier = **Professional** (org over $100k revenue).
+Final licence call is Danny's / the studio's.
+
+**Shortlist (AI allowed, unbranded, American shapes):**
+
+| Era | Listing | Seller | Pro price | Format | Fab listing id |
+|---|---|---|---|---|---|
+| 1955 | Mid-Century Classic Sedan – Generic Vintage Car | ROH3D | $49.99 | OBJ | 1bee1f4f-bd84-46ad-972e-a02e0a11d4a1 |
+| 1955 | Mid-Century Classic Family Wagon – Generic | ROH3D | $49.99 | OBJ | 0c5388e0-1206-4e9e-b47e-50050a263d25 |
+| 1955 | Vintage American-Style Coupe – Generic (late-50s, fins) | ROH3D | $49.99 | OBJ | c0e1cb7b-4e69-46d0-a007-5a5b9af2907a |
+| 1980s | 1980s Classic Pickup Truck "Torvo" | andersonfo | $4.99 | FBX | bd5df33f-8138-4aa8-95ea-9cb1d42319a5 |
+| 1980s | Vintage 1970s Classic Sedan (GLB) | CGDeluxe | $9.99 | OBJ/GLB | 2bb097f9-e909-465d-8eba-5c6f792ffc7d |
+| 1980s | Van Classic | DmytroZavora | $14.99 | FBX | d83d2f36-aa61-42df-9de1-5bbe164cb524 |
+| both | Bus (low poly, "for Unreal") | Pasquill3D | $10.99 | FBX | 846b0dd1-aebd-497e-a940-b236dfaa411b |
+
+Links: `https://www.fab.com/listings/<id>`. 1955 set: about $150. 1980s set: about $40, but thin on the key boxy
+full-size sedan (Caprice / LTD class). Gap filler: generate the missing body types as meshes from our own period stills
+with an image-to-3D model (TRELLIS is MIT-licensed). Only the silhouette matters for depth.
 
 ## Needs from Danny
 1. **Car models on Fab** (his Epic account; purchases are his call). Search terms and a shortlist to come.
