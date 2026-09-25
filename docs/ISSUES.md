@@ -24,6 +24,7 @@ timestamps in a new render). Every version gets a report card against this list.
 | P7 | 1955 C7 | throughout | Blue car on the left keeps moving forward and back | Car nearly matching our speed and/or Wan re-placing it per window | Traffic model with real relative speeds and smooth passing (R4) | open |
 | P8 | 1980s C7 | throughout | Sky: blurry sections, flickering dark streaks | Same as P2 | Stable sky layer | open |
 | P9 | 1980s C7 | ~18 s | Smears on frame left, like water on a lens | Late-window degradation (drift) | P1 re-anchoring | open |
+| P10 | 1980s C5 v11 A | 2–6 s | The first car passing us looks terrible: smeared, box-like, changes shape as it goes by (Danny, 2026-09-24: "ok" otherwise) | The closest car is a plain box proxy filling a third of the frame at 832×480; Wan re-invents its detail every frame | Next phase: real Fab car meshes, then a fidelity pass (SeedVR2 / higher-res) | next phase |
 
 ## Found by Claude
 | ID | Plate | When | Issue | Likely cause | Planned fix | Status |
