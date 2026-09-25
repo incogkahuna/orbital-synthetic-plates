@@ -41,7 +41,7 @@ rig.CONFIG.update({
     "inner_lane_cars": 0,                        # replaced by passing_traffic (R4 / P7)
     "passing_traffic": True,                     # lane to our left: a pass every 6-14 s, 2-5 m/s relative
     "proxy_ground_cm": 0.0,                      # spline sits on the real asphalt
-    "camera_start_cm": 6000.0,                   # 60 m of road behind us for following traffic
+    "camera_start_cm": 20000.0,                  # 200 m behind us: following traffic, and passing cars enter out of depth range
     "following_traffic": True,
 })
 rig.CONFIG["render"]["output_dir"] = "{project_dir}/Saved/PlateRenders/Cesium/{sequence_name}"

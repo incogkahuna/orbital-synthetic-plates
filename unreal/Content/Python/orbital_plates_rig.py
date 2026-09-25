@@ -176,19 +176,32 @@ def passing_lane_plan(rnd):
     in within 200 m of the camera. Replaces the fixed Passer / Inner cars."""
     T, v = CONFIG["duration_s"], CONFIG["speed_mps"]
     cam0 = CONFIG.get("camera_start_cm", 0.0) / 100.0
+    # The lane flows in phases of 25-45 s, faster (65%) or slower than us; cars in one phase share its speed
+    # (+/-0.3 m/s) so they can't run into each other. v10 drew per-car speeds and rejected any pair that ever met,
+    # which in one lane is nearly every pair: 1 car in 30 s.
+    phases, pt = [], 0.0
+    while pt < T:
+        dv = rnd.uniform(2.0, 5.0) if rnd.random() < 0.65 else -rnd.uniform(2.0, 4.0)
+        phases.append((pt, dv)); pt += rnd.uniform(25.0, 45.0)
     cars, t = [], rnd.uniform(3.0, 7.0)
     while t < T - 2.0:
-        dv = rnd.uniform(2.0, 5.0) if rnd.random() < 0.65 else -rnd.uniform(2.0, 4.0)
-        rel0 = -dv * t                                  # metres ahead of the camera at t = 0
+        dv = [p for p in phases if p[0] <= t][-1][1] + rnd.uniform(-0.3, 0.3)
+        rel0 = -dv * t                                  # metres ahead of the camera at t = 0; passes us at t
         d0 = cam0 + rel0                                # absolute route distance at t = 0
         ok = True
-        if d0 < 0:                                      # clamped at the route start until it enters...
+        if d0 < 0:                                      # hidden until it enters at the route start...
             t_enter = -d0 / (v + dv)
             ok = cam0 + v * t_enter > 200.0             # ...which must happen out of depth range (> 200 m)
-        pos = lambda c, tt: c[0] + c[1] * tt
-        if ok and all(abs(pos((rel0, dv), tt) - pos(c, tt)) > 12.0 for c in cars for tt in range(0, int(T) + 1)):
+        # 12 m gap, checked only where it can be seen (within 150 m of the camera)
+        for c in cars if ok else []:
+            for k in range(int(T * 2) + 1):
+                a, b = rel0 + dv * k / 2, c[0] + c[1] * k / 2
+                if abs(a) < 150 and abs(b) < 150 and abs(a - b) < 12.0:
+                    ok = False; break
+            if not ok: break
+        if ok:
             cars.append((rel0, dv))
-        t += rnd.uniform(6.0, 14.0)
+        t += rnd.uniform(6.0, 14.0) if ok else rnd.uniform(1.5, 3.0)   # blocked: try again a little later
     plan = []
     for i, (rel0, dv) in enumerate(cars):
         label = f"Traffic_Pass{i + 1:02d}"

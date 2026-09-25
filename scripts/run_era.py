@@ -13,6 +13,8 @@ GEO = sys.argv[7] if len(sys.argv) > 7 else "v4"
 ROOT = os.environ.get("ORBITAL_ROOT", os.path.expanduser("~/Documents/OrbitalPlates")).replace("\\", "/")
 SH = os.environ.get("COMFY_DIR", "C:/ComfyUI")   # Comfy input/output root (old desktop: Comfy-Desktop\ComfyUI-Shared)
 _dd = f"{ROOT}/renders/Cesium_{CAM}_{GEO}_png"   # e.g. Cesium_C5_v7_png; falls back to the unversioned folder
+if not os.path.isdir(_dd) and GEO != "v4":
+    sys.exit(f"no depth folder {_dd}")   # never silently fall back to old depth for a versioned run
 DEPTH = sorted(glob.glob(f"{_dd if os.path.isdir(_dd) else f'{ROOT}/renders/Cesium_{CAM}_png'}/depth_*.png"))[START:]
 TOTAL = min(int(SECS * 24) + 1, len(DEPTH)); STEP = N - OV
 sys.argv = ["x", ERA, str(N), "0.8", "1955" if ERA == "1955" else "1980", "--noref", f"--cam={CAM}"]
