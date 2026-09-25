@@ -93,6 +93,23 @@ Final licence call is Danny's / the studio's.
 | 1980s | Van Classic | DmytroZavora | $14.99 | FBX | d83d2f36-aa61-42df-9de1-5bbe164cb524 |
 | both | Bus (low poly, "for Unreal") | Pasquill3D | $10.99 | FBX | 846b0dd1-aebd-497e-a940-b236dfaa411b |
 
+**Free and AI-allowed (checked by eye 2026-09-24; only the silhouette has to be right, Wan does the look).**
+Of 220 free vehicle listings, 131 allow AI. These have usable period shapes; the 1980s is well covered, 1955 is not:
+
+| Fits | Listing | Licence | Fab listing id |
+|---|---|---|---|
+| 1980s boxy sedan | Retro Car With Interior - PSX asset (Free) | CC-BY | bfedc6b4-0896-40b8-b2b0-f97060a0ec06 |
+| 1980s boxy sedans, van, bus | Low Poly Soviet Cars (Volga/Lada shapes) | free, Fab standard | cab1012b-3315-4f5e-a9d3-5ddf3dca1d2f |
+| 1980s full-size sedan | Police car (Crown Vic shape; delete the light bar) | CC-BY | 009451b7-15f4-4a95-a29b-cfbc55b23d89 |
+| 1980s compact | Low-poly Golden Sedan | CC-BY | 3b5cddc8-927b-4e4b-a8bf-d66dfc8520d3 |
+| 1970s/80s coupe | Low-Poly Classic Car (Free) | free, Fab standard | a6ef56c4-914b-4e8e-b5ba-47d2b2c33aa3 |
+| 1980s sedan, compact, van | Low-Poly Cars | CC-BY | 552016ac-1961-4ef3-a285-e1d4ed0a671f |
+| 1970s/80s panel van | Van | CC-BY | dc3ec1a2-56a9-4099-b702-418b686690da |
+| 1980s transit bus | CityBus | CC-BY | 0fc6a55c-51b7-474c-896f-87fce87ce3e1 |
+
+CC-BY assets need a credit line; keep `docs/CREDITS.md` when imported. No free listing has a usable
+1950s rounded body (only 1930s cars, cartoons, or rusted wrecks), so for 1955 it's the ROH3D set above or generated meshes.
+
 Links: `https://www.fab.com/listings/<id>`. 1955 set: about $150. 1980s set: about $40, but thin on the key boxy
 full-size sedan (Caprice / LTD class). Gap filler: generate the missing body types as meshes from our own period stills
 with an image-to-3D model (TRELLIS is MIT-licensed). Only the silhouette matters for depth.
