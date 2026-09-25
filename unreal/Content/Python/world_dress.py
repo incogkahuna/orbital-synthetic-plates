@@ -124,10 +124,10 @@ class Dresser:
             while x < self.total_m:
                 if not self.blocked(x, side):
                     if self.rnd.random() < self.mix["palm"]:
-                        # palm: tall thin trunk + a spiky crown of drooping fronds (a disc read as a street lamp)
+                        # palm: tall thin trunk + a spiky crown of drooping fronds (a disc read as a street lamp;
+                        # a head sphere read as a globe sign - Danny 2026-09-24: no spheres anywhere)
                         h = self.rnd.uniform(14, 20)
                         self.put("PalmTrunk", CYL, x, ty, KERH(h / 2), (0.4, 0.4, h))
-                        self.put("PalmHead", SPH, x, ty, KERH(h), (0.9, 0.9, 0.9))
                         for k in range(9):
                             yaw = k * 40.0 + self.rnd.uniform(-12, 12)
                             L, droop = self.rnd.uniform(2.6, 3.4), self.rnd.uniform(18, 38)
@@ -137,20 +137,11 @@ class Dresser:
                                      yaw_off=yaw, pitch=-droop)
                         c["palms"] += 1
                     else:
-                        # street tree: trunk + a ragged cloud of small leaf clumps. A few big smooth spheres read
-                        # as round neon signs to Wan (A/B 2026-09-24); foliage needs a broken, clumpy silhouette.
-                        th = self.rnd.uniform(3.0, 4.0)
-                        self.put("TreeTrunk", CYL, x, ty, KERH(th / 2), (0.32, 0.32, th))
-                        R = self.rnd.uniform(2.0, 2.8)
-                        for k in range(self.rnd.randint(10, 14)):
-                            a, e = self.rnd.uniform(0, 2 * math.pi), self.rnd.uniform(-0.6, 1.0)
-                            r = R * self.rnd.uniform(0.3, 1.0)
-                            s = self.rnd.uniform(0.9, 1.7)
-                            self.put("TreeClump", SPH if k % 3 else CUBE,
-                                     x + math.cos(a) * r, ty + math.sin(a) * r * 0.8,
-                                     KERH(th + 1.8 + e * R * 0.7), (s, s * self.rnd.uniform(0.7, 1.0), s * 0.8),
-                                     yaw_off=self.rnd.uniform(0, 90), roll=self.rnd.uniform(-20, 20))
-                        c["trees"] += 1
+                        # no leafy street trees until real tree meshes (Fab): every primitive leaf clump, round or
+                        # clumpy, came back from Wan as a cluster of globe / neon signs (v9d-v11, Danny 2026-09-24).
+                        # The slot stays empty - a gap in the palm row.
+                        x += self.rnd.uniform(11, 15)
+                        continue
                     trees.append(x)
                 x += self.rnd.uniform(11, 15)
             x = 3.0
@@ -164,7 +155,7 @@ class Dresser:
             while x < self.total_m:                      # hydrants ~ every 90-110 m
                 if not self.blocked(x, side):
                     self.put("Hydrant", CYL, x, kerb + inward * 0.6, KERH(0.38), (0.28, 0.28, 0.75))
-                    self.put("HydrantCap", SPH, x, kerb + inward * 0.6, KERH(0.78), (0.3, 0.3, 0.2))
+                    self.put("HydrantCap", CYL, x, kerb + inward * 0.6, KERH(0.8), (0.24, 0.24, 0.1))
                     c["hydrants"] += 1
                 x += self.rnd.uniform(90, 110)
         # real bus stops: bench at the back of the sidewalk, sign pole at the kerb, 1980s shelters
