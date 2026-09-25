@@ -40,6 +40,8 @@ SKY_EMA = float(os.environ.get("PLATES_SKY_EMA", "0.08"))   # mode 3: per-frame 
 SKYMODE = os.environ.get("PLATES_SKYLOCK", "")        # "1" freeze sky pixels, "2" lock sky low frequencies only
 SKY_BLUR = float(os.environ.get("PLATES_SKY_BLUR", "40"))   # px sigma at 832x480 (18 let palm silhouettes into the sky average)
 COLORMATCH = os.environ.get("PLATES_COLORMATCH") == "1"
+ANCHOR = os.environ.get("PLATES_ANCHOR") == "1"                  # VACE reference = a clean frame of window 0
+ANCHOR_FRAME = int(os.environ.get("PLATES_ANCHOR_FRAME", "24"))
 VARIANT = os.environ.get("PLATES_VARIANT", "")
 SKY_T = 6                                  # depth PNG value at or below which a pixel is sky
 sky_plate = np.zeros((480, 832, 3), np.float32); sky_seen = np.zeros((480, 832), bool)
@@ -122,6 +124,12 @@ while s < TOTAL - OV or w == 0:
     G["20"] = {"class_type": "VHS_LoadImagesPath", "inputs": {"directory": mdir, "image_load_cap": N, "skip_first_images": 0, "select_every_nth": 1}}
     G["21"] = {"class_type": "ImageToMask", "inputs": {"image": ["20", 0], "channel": "red"}}
     G["11"]["inputs"]["control_masks"] = ["21", 0]
+    if ANCHOR and w > 0:
+        # every later window is also conditioned on one clean frame from window 0 (VACE reference image), so the look
+        # is pulled back to the start instead of only following the previous window's (drifting) tail. The 60 s v14
+        # plate without it was clean at 5 s, ghosting by 15 s and abstract by 30 s (compounding window-to-window).
+        G["10"] = {"class_type": "LoadImage", "inputs": {"image": f"{RUN}/anchor.png"}}
+        G["11"]["inputs"]["reference_image"] = ["10", 0]
     G["17"] = {"class_type": "SaveImage", "inputs": {"images": ["15", 0], "filename_prefix": f"{RUN}/w{w:02d}/f"}}
     del G["16"]; del G["18"]
     pid = api("/prompt", {"prompt": G})["prompt_id"]; t0 = time.time()
@@ -135,6 +143,8 @@ while s < TOTAL - OV or w == 0:
     frames = [lock(fr, idx[i]) for i, fr in enumerate(frames)] if (SKYLOCK or COLORMATCH) else frames
     if w == 0:
         out_frames += frames
+        if ANCHOR:
+            out_frames[min(ANCHOR_FRAME, len(out_frames) - 1)].save(f"{SH}/input/{RUN}/anchor.png")
     else:   # crossfade the overlap with the previous window's tail
         for i in range(OV):
             a = (i + 1) / (OV + 1)
