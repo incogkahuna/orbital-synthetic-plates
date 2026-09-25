@@ -2,7 +2,7 @@
 # windowed Wan run per camera. Never runs Unreal and Comfy at the same time (waits for Comfy to go idle first).
 # usage: overnight_batch.ps1 -Tag v14 -Era 1980s -Seconds 60 -Cams C5,C1,C3 [-SkipDepth] [-Variant _v2stab]
 param([string]$Tag = 'v14', [string]$Era = '1980s', [int]$Seconds = 60, [string[]]$Cams = @('C5','C1','C3'),
-      [switch]$SkipDepth, [string]$Variant = '_v2stab', [string]$SkyLock = '2')
+      [switch]$SkipDepth, [switch]$DepthOnly, [string]$Variant = '_v2stab', [string]$SkyLock = '2')
 $Cams = @($Cams | ForEach-Object { $_ -split ',' } | Where-Object { $_ })
 $env:Path = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')
 $Root = Split-Path $PSScriptRoot -Parent; $Sv = "$Root\unreal\Saved"; $vpy = 'C:\ComfyUI\.venv\Scripts\python.exe'
@@ -36,6 +36,7 @@ if (-not $SkipDepth) {
   }
 }
 
+if ($DepthOnly) { log 'DEPTH ONLY DONE'; exit 0 }
 $env:PLATES_BF16 = '1'; $env:PLATES_SKYLOCK = $SkyLock; $env:PLATES_COLORMATCH = '1'; $env:PLATES_VARIANT = $Variant
 foreach ($c in $Cams) {
   $need = [int]($Seconds * 24) + 1

@@ -46,6 +46,7 @@ ANCHOR_FRAME = int(os.environ.get("PLATES_ANCHOR_FRAME", "24"))
 # PLATES_NOKEEP=1: windows still overlap by OV frames for the crossfade, but every window is generated from depth +
 # the anchor only - no generated frames are fed forward, so errors cannot compound (60 s D3 still collapsed by 29 s).
 NOKEEP = os.environ.get("PLATES_NOKEEP") == "1"
+RESET_EVERY = int(os.environ.get("PLATES_RESET_EVERY", "0"))     # e.g. 7 windows of 41 new frames ~ every 12 s
 VARIANT = os.environ.get("PLATES_VARIANT", "")
 SKY_T = 6                                  # depth PNG value at or below which a pixel is sky
 sky_plate = np.zeros((480, 832, 3), np.float32); sky_seen = np.zeros((480, 832), bool)
@@ -137,7 +138,10 @@ while s < TOTAL - OV or w == 0:
     cdir, mdir = f"{SH}/input/{RUN}/w{w:02d}/ctrl", f"{SH}/input/{RUN}/w{w:02d}/mask"
     os.makedirs(cdir, exist_ok=True); os.makedirs(mdir, exist_ok=True)
     for i, di in enumerate(idx):
-        keep = w > 0 and i < OV and not NOKEEP   # NOKEEP: no generated pixels fed forward, depth + anchor only
+        # NOKEEP: no generated pixels fed forward, depth + anchor only. RESET_EVERY=n: feed forward as usual (no
+        # double-exposure seams) but restart from depth + anchor every n windows, before drift builds (D2 held ~20 s)
+        reset = RESET_EVERY > 0 and w % RESET_EVERY == 0
+        keep = w > 0 and i < OV and not NOKEEP and not reset
         img = out_frames[-OV + i] if keep else Image.open(DEPTH[di]).convert("RGB")
         img.save(f"{cdir}/{i:04d}.png")
         Image.new("RGB", (832, 480), (0, 0, 0) if keep else (255, 255, 255)).save(f"{mdir}/{i:04d}.png")
