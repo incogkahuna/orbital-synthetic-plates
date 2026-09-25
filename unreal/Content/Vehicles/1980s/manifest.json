@@ -1,0 +1,6 @@
+{
+  "_comment": "Dekogon Retro Cars VOL.2 + VOL.3 (+ VOL.7 when installed), Danny's Fab library. Part 'a' = whole car, real scale, front = +Y (auto yaw -90). Survey: Saved/car_parts_survey.json.",
+  "_roots": ["/Game/Vehicles/VOL2_Cars", "/Game/Vehicles/VOL3_RetroCars"],
+  "_only": "^SM_Car_\\d+a$",
+  "SM_Car_54a": {"skip": true, "why": "exotic red sports car, reads out of place in LA traffic"}
+}

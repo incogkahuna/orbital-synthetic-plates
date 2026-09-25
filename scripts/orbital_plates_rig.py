@@ -185,7 +185,7 @@ _CAR_LIB = {}
 def car_library(era):
     if era in _CAR_LIB:
         return _CAR_LIB[era]
-    import json, os
+    import json, os, re
     root = f"/Game/Vehicles/{era}"
     man_path = os.path.join(unreal.Paths.project_content_dir(), "Vehicles", era, "manifest.json")
     man = json.load(open(man_path)) if os.path.exists(man_path) else {}
@@ -197,6 +197,10 @@ def car_library(era):
         for p in sorted(unreal.EditorAssetLibrary.list_assets(r, recursive=True, include_folder=False)):
             cls = str(unreal.EditorAssetLibrary.find_asset_data(p).asset_class_path.asset_name)
             if cls not in ("StaticMesh", "Blueprint"):     # skip textures / materials without loading them
+                continue
+            # "_only": regex on the asset name, e.g. Dekogon's whole-car part "a" (the other letters are loose
+            # doors, wheels, lids and variant shells with their own pivots)
+            if man.get("_only") and not re.match(man["_only"], p.split("/")[-1].split(".")[0]):
                 continue
             a = unreal.load_asset(p.split(".")[0])
             name = a.get_name() if a else ""
