@@ -36,9 +36,9 @@ os.makedirs(os.path.dirname(LOG), exist_ok=True)
 # PLATES_COLORMATCH=1 every window's non-sky colour statistics are matched to window 0 before it seeds the next
 #                    window, so saturation/contrast can't compound from window to window.
 SKYLOCK = os.environ.get("PLATES_SKYLOCK", "") in ("1", "2", "3")
-SKY_EMA = float(os.environ.get("PLATES_SKY_EMA", "0.04"))   # mode 3: per-frame follow rate (0.04 ~ 1 s at 24 fps)
+SKY_EMA = float(os.environ.get("PLATES_SKY_EMA", "0.08"))   # mode 3: per-frame follow rate (0.08 ~ 0.5 s at 24 fps; 0.04 left palm ghosts)
 SKYMODE = os.environ.get("PLATES_SKYLOCK", "")        # "1" freeze sky pixels, "2" lock sky low frequencies only
-SKY_BLUR = float(os.environ.get("PLATES_SKY_BLUR", "18"))   # px sigma at 832x480
+SKY_BLUR = float(os.environ.get("PLATES_SKY_BLUR", "40"))   # px sigma at 832x480 (18 let palm silhouettes into the sky average)
 COLORMATCH = os.environ.get("PLATES_COLORMATCH") == "1"
 VARIANT = os.environ.get("PLATES_VARIANT", "")
 SKY_T = 6                                  # depth PNG value at or below which a pixel is sky

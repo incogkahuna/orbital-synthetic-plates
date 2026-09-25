@@ -8,6 +8,7 @@ from PIL import Image, ImageFilter
 fdir, ddir, out = sys.argv[1:4]
 mode = sys.argv[4] if len(sys.argv) > 4 else "2"
 k = float(sys.argv[5]) if len(sys.argv) > 5 else 18.0
+ema = float(sys.argv[6]) if len(sys.argv) > 6 else 0.04
 frames = sorted(glob.glob(f"{fdir}/*.png")); depth = sorted(glob.glob(f"{ddir}/depth_*.png"))
 sky_plate = np.zeros((480, 832, 3), np.float32); seen = np.zeros((480, 832), bool); ref = None; sref = None
 tmp = out + "_frames"; os.makedirs(tmp, exist_ok=True)
@@ -31,7 +32,7 @@ for i, f in enumerate(frames):
         wm = cv2.GaussianBlur(m, (0, 0), k) + 1e-4
         low = cv2.GaussianBlur(a * m[..., None], (0, 0), k) / wm[..., None]
         new = (m > 0.99) & ~seen; sky_plate[new] = low[new]; seen[new] = True
-        upd = (m > 0.5) & seen; sky_plate[upd] = 0.96 * sky_plate[upd] + 0.04 * low[upd]
+        upd = (m > 0.5) & seen; sky_plate[upd] = (1 - ema) * sky_plate[upd] + ema * low[upd]
         kk = (m * seen)[..., None]; a = a * (1 - kk) + (a - low + sky_plate) * kk
     elif mode == "2":
         wm = cv2.GaussianBlur(m, (0, 0), k) + 1e-4
