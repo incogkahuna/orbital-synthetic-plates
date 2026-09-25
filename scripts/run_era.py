@@ -43,6 +43,9 @@ COLORMATCH_MODE = os.environ.get("PLATES_COLORMATCH", "")      # "1" non-sky sta
 COLORMATCH = COLORMATCH_MODE in ("1", "2")
 ANCHOR = os.environ.get("PLATES_ANCHOR") == "1"                  # VACE reference = a clean frame of window 0
 ANCHOR_FRAME = int(os.environ.get("PLATES_ANCHOR_FRAME", "24"))
+# PLATES_NOKEEP=1: windows still overlap by OV frames for the crossfade, but every window is generated from depth +
+# the anchor only - no generated frames are fed forward, so errors cannot compound (60 s D3 still collapsed by 29 s).
+NOKEEP = os.environ.get("PLATES_NOKEEP") == "1"
 VARIANT = os.environ.get("PLATES_VARIANT", "")
 SKY_T = 6                                  # depth PNG value at or below which a pixel is sky
 sky_plate = np.zeros((480, 832, 3), np.float32); sky_seen = np.zeros((480, 832), bool)
@@ -134,7 +137,7 @@ while s < TOTAL - OV or w == 0:
     cdir, mdir = f"{SH}/input/{RUN}/w{w:02d}/ctrl", f"{SH}/input/{RUN}/w{w:02d}/mask"
     os.makedirs(cdir, exist_ok=True); os.makedirs(mdir, exist_ok=True)
     for i, di in enumerate(idx):
-        keep = w > 0 and i < OV
+        keep = w > 0 and i < OV and not NOKEEP   # NOKEEP: no generated pixels fed forward, depth + anchor only
         img = out_frames[-OV + i] if keep else Image.open(DEPTH[di]).convert("RGB")
         img.save(f"{cdir}/{i:04d}.png")
         Image.new("RGB", (832, 480), (0, 0, 0) if keep else (255, 255, 255)).save(f"{mdir}/{i:04d}.png")
