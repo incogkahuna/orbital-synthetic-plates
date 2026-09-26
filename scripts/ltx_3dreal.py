@@ -6,13 +6,14 @@ usage: python ltx_3dreal.py <source.mp4> [--lora strong|light|strong-v2] [--fram
 import argparse, glob, json, os, shutil, sys, time, urllib.request
 
 ap = argparse.ArgumentParser()
-ap.add_argument("source"); ap.add_argument("--lora", default="strong", choices=["strong", "light", "strong-v2"])
+ap.add_argument("source"); ap.add_argument("--lora", default="strong", choices=["strong", "light", "strong-v2", "union"])
 ap.add_argument("--frames", type=int, default=121); ap.add_argument("--start", type=int, default=0)
 ap.add_argument("--w", type=int, default=1280); ap.add_argument("--h", type=int, default=704)
 ap.add_argument("--strength", type=float, default=1.0); ap.add_argument("--guide_strength", type=float, default=1.0)
 ap.add_argument("--seed", type=int, default=42); ap.add_argument("--steps", type=int, default=8)
 ap.add_argument("--tag", default=""); ap.add_argument("--prompt_file", default="")
 ap.add_argument("--context", type=int, default=0, help=">0: LTXVContextWindows length in frames for long clips")
+ap.add_argument("--overlap", type=int, default=24, help="context window overlap in frames")
 a = ap.parse_args()
 assert (a.frames - 1) % 8 == 0, "LTX needs 8n+1 frames"
 
@@ -26,7 +27,8 @@ PROMPT = open(a.prompt_file).read().strip() if a.prompt_file else (
     "colour and exposure, clean modern digital cinema camera, sharp, steady camera, no film grain, no colour grade.")
 NEG = ("blurry, out of focus, low detail, CGI, 3D render, video game, cartoon, plastic, film grain, vintage filter, "
        "colour grading, oversaturated, flicker, camera shake, warping, morphing cars, distorted, watermark, text, "
-       "smoke, clouds of smoke, fog, haze blobs, cartoon storefronts")
+       "smoke, clouds of smoke, fog, haze blobs, cartoon storefronts, car hood, car trunk, dashboard, window frame, "
+       "foreground vehicle body, ghosting, double exposure")
 
 
 def api(path, data=None):
@@ -38,7 +40,8 @@ def api(path, data=None):
 # copy the source into Comfy's input folder (VHS_LoadVideo reads from there)
 src_name = f"3dreal_src_{os.path.splitext(os.path.basename(a.source))[0]}.mp4"
 shutil.copy(a.source, os.path.join(r"C:\ComfyUI\input", src_name))
-LORA = {"strong": "3DREAL-strong.safetensors", "light": "3DREAL-light.safetensors", "strong-v2": "3DREAL-strong-v2.safetensors"}[a.lora]
+LORA = {"strong": "3DREAL-strong.safetensors", "light": "3DREAL-light.safetensors", "strong-v2": "3DREAL-strong-v2.safetensors",
+        "union": "ltx-2.3-22b-ic-lora-union-control-ref0.5.safetensors"}[a.lora]  # union = depth/canny/pose control
 FPS = 24
 prefix = f"ltx3dreal/{os.path.splitext(os.path.basename(a.source))[0]}_{a.lora}{('_' + a.tag) if a.tag else ''}"
 
@@ -74,7 +77,7 @@ g = {
            "pingpong": False, "save_output": True}},
 }
 if a.context:
-    g["20"] = {"class_type": "LTXVContextWindows", "inputs": {"model": ["3", 0], "context_length": a.context, "context_overlap": 24,
+    g["20"] = {"class_type": "LTXVContextWindows", "inputs": {"model": ["3", 0], "context_length": a.context, "context_overlap": a.overlap,
                "context_schedule": "standard_static", "context_stride": 1, "closed_loop": False, "fuse_method": "pyramid",
                "freenoise": True, "retain_first_frame": False, "split_conds_to_windows": True}}
     g["15"]["inputs"]["model"] = ["20", 0]
