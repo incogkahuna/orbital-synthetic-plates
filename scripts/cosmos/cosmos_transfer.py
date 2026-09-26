@@ -14,6 +14,8 @@ ap.add_argument("--control_guidance", type=float, default=1.5); ap.add_argument(
 ap.add_argument("--seed", type=int, default=2026); ap.add_argument("--tag", default="test")
 ap.add_argument("--offload", action="store_true")
 ap.add_argument("--res", type=int, default=720, help="480 or 720 (16:9)")
+ap.add_argument("--blur_from", default="", help="mp4 of a finished plate to use as a blur hint")
+ap.add_argument("--blur_sigma", type=float, default=6.0, help="blur sigma in px at 832 wide")
 a = ap.parse_args()
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -47,6 +49,23 @@ if a.edge > 0:
         edges.append(np.repeat(e[..., None], 3, -1))
     controls["edge"] = edges
     log(f"edges from {len(edges)} beauty EXRs")
+
+if a.blur_from:
+    # "blur" hint from a finished Wan plate: Cosmos takes colour and layout from it and rebuilds the fine detail
+    # itself, so Wan's invented palms/storefronts carry over while its seams and flicker (fine detail) do not.
+    cap = cv2.VideoCapture(a.blur_from); frames = []
+    cap.set(cv2.CAP_PROP_POS_FRAMES, a.start)
+    while len(frames) < a.frames:
+        ok, fr = cap.read()
+        if not ok:
+            break
+        fr = cv2.resize(fr, (W, H), interpolation=cv2.INTER_AREA)
+        fr = cv2.GaussianBlur(fr, (0, 0), a.blur_sigma * W / 832)
+        frames.append(cv2.cvtColor(fr, cv2.COLOR_BGR2RGB))
+    if len(frames) < a.frames:
+        sys.exit(f"blur source has only {len(frames)} frames")
+    controls["blur"] = frames
+    log(f"blur hint from {os.path.basename(a.blur_from)}, sigma {a.blur_sigma}")
 
 from PIL import Image
 controls = {k: [Image.fromarray(x) for x in v] for k, v in controls.items()}
