@@ -13,6 +13,10 @@ ap.add_argument("--strength", type=float, default=1.0); ap.add_argument("--guide
 ap.add_argument("--seed", type=int, default=42); ap.add_argument("--steps", type=int, default=8)
 ap.add_argument("--tag", default=""); ap.add_argument("--prompt_file", default="")
 ap.add_argument("--context", type=int, default=0, help=">0: LTXVContextWindows length in frames for long clips")
+ap.add_argument("--guide2", default="", help="second control video (e.g. lane lines), added as another IC guide")
+ap.add_argument("--guide2_strength", type=float, default=1.0)
+ap.add_argument("--sampler", default="euler_ancestral")
+ap.add_argument("--schedule", default="standard_static", help="context windows: standard_static (fixed seams) | standard_uniform (shift each step)")
 ap.add_argument("--overlap", type=int, default=24, help="context window overlap in frames")
 a = ap.parse_args()
 assert (a.frames - 1) % 8 == 0, "LTX needs 8n+1 frames"
@@ -28,7 +32,8 @@ PROMPT = open(a.prompt_file).read().strip() if a.prompt_file else (
 NEG = ("blurry, out of focus, low detail, CGI, 3D render, video game, cartoon, plastic, film grain, vintage filter, "
        "colour grading, oversaturated, flicker, camera shake, warping, morphing cars, distorted, watermark, text, "
        "smoke, clouds of smoke, fog, haze blobs, cartoon storefronts, car hood, car trunk, dashboard, window frame, "
-       "foreground vehicle body, ghosting, double exposure")
+       "foreground vehicle body, ghosting, double exposure, modern cars, 1990s cars, 2000s cars, rounded aerodynamic cars, SUVs, "
+       "crossovers, LED lights")
 
 
 def api(path, data=None):
@@ -67,7 +72,7 @@ g = {
            "frame_rate": FPS * min(a.frames, 1000) / a.frames, "batch_size": 1, "audio_vae": ["6", 0]}},
     "14": {"class_type": "LTXVConcatAVLatent", "inputs": {"video_latent": ["12", 2], "audio_latent": ["13", 0]}},
     "15": {"class_type": "KSampler", "inputs": {"model": ["3", 0], "positive": ["12", 0], "negative": ["12", 1], "latent_image": ["14", 0],
-           "seed": a.seed, "steps": a.steps, "cfg": 1.0, "sampler_name": "euler_ancestral", "scheduler": "linear_quadratic", "denoise": 1.0}},
+           "seed": a.seed, "steps": a.steps, "cfg": 1.0, "sampler_name": a.sampler, "scheduler": "linear_quadratic", "denoise": 1.0}},
     "16": {"class_type": "LTXVSeparateAVLatent", "inputs": {"av_latent": ["15", 0]}},
     "17": {"class_type": "LTXVCropGuides", "inputs": {"positive": ["12", 0], "negative": ["12", 1], "latent": ["16", 0]}},
     "18": {"class_type": "VAEDecodeTiled", "inputs": {"samples": ["17", 2], "vae": ["5", 0], "tile_size": 768, "overlap": 64,
@@ -76,9 +81,18 @@ g = {
            "filename_prefix": prefix, "format": "video/h264-mp4", "pix_fmt": "yuv420p", "crf": 14, "save_metadata": False,
            "pingpong": False, "save_output": True}},
 }
+if a.guide2:   # second IC guide over the same frames; the sampler/crop read from node 22 instead of 12
+    g2 = f"3dreal_g2_{os.path.splitext(os.path.basename(a.guide2))[0]}.mp4"; shutil.copy(a.guide2, os.path.join(r"C:\ComfyUI\input", g2))
+    g["21"] = {"class_type": "VHS_LoadVideo", "inputs": {"video": g2, "force_rate": 0, "custom_width": a.w, "custom_height": a.h,
+               "frame_load_cap": a.frames, "skip_first_frames": a.start, "select_every_nth": 1}}
+    g["22"] = {"class_type": "LTXVAddGuide", "inputs": {"positive": ["12", 0], "negative": ["12", 1], "vae": ["5", 0], "latent": ["12", 2],
+               "image": ["21", 0], "frame_idx": 0, "strength": a.guide2_strength, "iclora_parameters": ["4", 0]}}
+    g["14"]["inputs"]["video_latent"] = ["22", 2]
+    for k in ("15", "17"):
+        g[k]["inputs"]["positive"] = ["22", 0]; g[k]["inputs"]["negative"] = ["22", 1]
 if a.context:
     g["20"] = {"class_type": "LTXVContextWindows", "inputs": {"model": ["3", 0], "context_length": a.context, "context_overlap": a.overlap,
-               "context_schedule": "standard_static", "context_stride": 1, "closed_loop": False, "fuse_method": "pyramid",
+               "context_schedule": a.schedule, "context_stride": 1, "closed_loop": False, "fuse_method": "pyramid",
                "freenoise": True, "retain_first_frame": False, "split_conds_to_windows": True}}
     g["15"]["inputs"]["model"] = ["20", 0]
 
