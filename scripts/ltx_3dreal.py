@@ -25,7 +25,8 @@ PROMPT = open(a.prompt_file).read().strip() if a.prompt_file else (
     "buildings with lit shop windows, painted and neon signs, awnings and street lamps glowing. Natural true-to-life "
     "colour and exposure, clean modern digital cinema camera, sharp, steady camera, no film grain, no colour grade.")
 NEG = ("blurry, out of focus, low detail, CGI, 3D render, video game, cartoon, plastic, film grain, vintage filter, "
-       "colour grading, oversaturated, flicker, camera shake, warping, morphing cars, distorted, watermark, text")
+       "colour grading, oversaturated, flicker, camera shake, warping, morphing cars, distorted, watermark, text, "
+       "smoke, clouds of smoke, fog, haze blobs, cartoon storefronts")
 
 
 def api(path, data=None):
