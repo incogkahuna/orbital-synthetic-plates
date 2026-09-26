@@ -305,6 +305,14 @@ def build_and_render():
         world_dress.clear()
     rig.main()
     mark("rig built + level saved")
+    # hide_traffic: the same world with every car hidden, rendered to get a car mask by depth difference (cross-camera
+    # car colour matching, 2026-09-26). Always reset explicitly so a hidden flag can never leak into a normal run.
+    hide = bool(OPTS.get("hide_traffic"))
+    n = 0
+    for a in EAS.get_all_level_actors():
+        if a.get_actor_label().startswith("Traffic_"):
+            a.set_actor_hidden_in_game(hide); n += 1
+    mark(f"traffic {'HIDDEN' if hide else 'visible'} ({n} actors)")
     # diagnostics: where traffic sits relative to our lane at frame 0 (lateral + = right/kerb)
     for lbl in ["PlateRig", "Traffic_Lead", "Traffic_Inner01", "Traffic_Oncoming01", "Traffic_Parked01"]:
         a = rig.find_actor(lbl)

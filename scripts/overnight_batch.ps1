@@ -2,7 +2,7 @@
 # windowed Wan run per camera. Never runs Unreal and Comfy at the same time (waits for Comfy to go idle first).
 # usage: overnight_batch.ps1 -Tag v14 -Era 1980s -Seconds 60 -Cams C5,C1,C3 [-SkipDepth] [-Variant _v2stab]
 param([string]$Tag = 'v14', [string]$Era = '1980s', [int]$Seconds = 60, [string[]]$Cams = @('C5','C1','C3'),
-      [switch]$SkipDepth, [switch]$DepthOnly, [string]$Variant = '_v2stab', [string]$SkyLock = '2')
+      [switch]$SkipDepth, [switch]$DepthOnly, [switch]$HideTraffic, [string]$Variant = '_v2stab', [string]$SkyLock = '2')
 $Cams = @($Cams | ForEach-Object { $_ -split ',' } | Where-Object { $_ })
 $env:Path = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')
 $Root = Split-Path $PSScriptRoot -Parent; $Sv = "$Root\unreal\Saved"; $vpy = 'C:\ComfyUI\.venv\Scripts\python.exe'
@@ -12,7 +12,7 @@ function WaitComfy { do { Start-Sleep 15; try { $q = Invoke-RestMethod http://12
 if (-not $SkipDepth) {
   WaitComfy
   Invoke-RestMethod http://127.0.0.1:8188/free -Method Post -ContentType 'application/json' -Body '{"unload_models":true,"free_memory":true}' | Out-Null
-  @{ era = $Era; dress = $true; duration_s = $Seconds + 2; jobs = @($Cams | ForEach-Object { "SEQ_PlateRing_$_" }) } |
+  @{ era = $Era; dress = $true; hide_traffic = [bool]$HideTraffic; duration_s = $Seconds + 2; jobs = @($Cams | ForEach-Object { "SEQ_PlateRing_$_" }) } |
     ConvertTo-Json -Compress | Set-Content -Encoding ascii -Path "$Sv\run_options.json"
   Remove-Item "$Sv\PlateRenders\Cesium" -Recurse -Force -ErrorAction SilentlyContinue; Remove-Item "$Sv\cesium_c1_status.txt" -ErrorAction SilentlyContinue
   New-Item -ItemType File -Force "$Sv\run_cesium_c1.flag" | Out-Null
