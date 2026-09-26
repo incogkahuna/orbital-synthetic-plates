@@ -58,7 +58,10 @@ g = {
     "11": {"class_type": "EmptyLTXVLatentVideo", "inputs": {"width": a.w, "height": a.h, "length": a.frames, "batch_size": 1}},
     "12": {"class_type": "LTXVAddGuide", "inputs": {"positive": ["10", 0], "negative": ["10", 1], "vae": ["5", 0], "latent": ["11", 0],
            "image": ["1", 0], "frame_idx": 0, "strength": a.guide_strength, "iclora_parameters": ["4", 0]}},
-    "13": {"class_type": "LTXVEmptyLatentAudio", "inputs": {"frames_number": a.frames, "frame_rate": FPS, "batch_size": 1, "audio_vae": ["6", 0]}},
+    # the audio latent node caps at 1000 frames (60 s = 1441 was rejected, HTTP 400); keep the same DURATION by
+    # describing it as 1000 frames at a proportionally lower rate. We never decode the audio.
+    "13": {"class_type": "LTXVEmptyLatentAudio", "inputs": {"frames_number": min(a.frames, 1000),
+           "frame_rate": FPS * min(a.frames, 1000) / a.frames, "batch_size": 1, "audio_vae": ["6", 0]}},
     "14": {"class_type": "LTXVConcatAVLatent", "inputs": {"video_latent": ["12", 2], "audio_latent": ["13", 0]}},
     "15": {"class_type": "KSampler", "inputs": {"model": ["3", 0], "positive": ["12", 0], "negative": ["12", 1], "latent_image": ["14", 0],
            "seed": a.seed, "steps": a.steps, "cfg": 1.0, "sampler_name": "euler_ancestral", "scheduler": "linear_quadratic", "denoise": 1.0}},
