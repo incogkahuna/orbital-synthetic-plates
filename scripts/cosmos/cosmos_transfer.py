@@ -13,12 +13,13 @@ ap.add_argument("--depth", type=float, default=1.0); ap.add_argument("--steps", 
 ap.add_argument("--control_guidance", type=float, default=1.5); ap.add_argument("--guidance", type=float, default=3.0)
 ap.add_argument("--seed", type=int, default=2026); ap.add_argument("--tag", default="test")
 ap.add_argument("--offload", action="store_true")
+ap.add_argument("--res", type=int, default=720, help="480 or 720 (16:9)")
 a = ap.parse_args()
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-W, H = 1280, 720
+W, H = (848, 480) if a.res == 480 else (1280, 720)   # multiples of 16
 out_dir = os.path.join(ROOT, "deliverables", "cosmos"); os.makedirs(out_dir, exist_ok=True)
-name = f"{a.era}_{a.cam}_{a.geo}_cosmos_{a.frames}f_{a.tag}"
+name = f"{a.era}_{a.cam}_{a.geo}_cosmos_{a.res}p_{a.frames}f_{a.tag}"
 
 
 def log(s):
@@ -73,7 +74,7 @@ neg = json.load(open(r"C:\models\cosmos-assets\negative_prompt.json"))
 kw = dict(prompt=json.dumps(prompt), negative_prompt=json.dumps(neg), control_videos=controls, num_frames=a.frames,
           height=H, width=W, fps=30.0, num_inference_steps=a.steps, guidance_scale=a.guidance,
           control_guidance=a.control_guidance, output="videos", generator=torch.Generator("cuda").manual_seed(a.seed))
-kw["enable_safety_checker"] = False     # content-filter guardrail; our own street renders
+pipe.disable_safety_checker()          # content-filter guardrail (supported opt-out); our own street renders
 t0 = time.time()
 videos = pipe(**kw)
 log(f"generated {a.frames} frames in {time.time() - t0:.0f}s, peak VRAM {torch.cuda.max_memory_allocated() / 1e9:.1f} GB")
