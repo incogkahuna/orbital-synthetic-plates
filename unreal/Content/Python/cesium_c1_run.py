@@ -38,6 +38,7 @@ rig.CONFIG.update({
     "content_root": "/Game/OrbitalPlates/Cesium",
     "oncoming_offsets_cm": [-1000.0, -1350.0],   # oncoming lanes beyond the centre turn lane
     "parked_offset_cm": 290.0,                   # centre of the 2.4 m parking lane, kerb at +410
+    "parked_far_offset_cm": -1630.0,             # north kerb parking lane (road symmetric about the -6.6 m centreline)
     "inner_lane_cars": 0,                        # replaced by passing_traffic (R4 / P7)
     "passing_traffic": True,                     # lane to our left: a pass every 6-14 s, 2-5 m/s relative
     "proxy_ground_cm": 0.0,                      # spline sits on the real asphalt
@@ -293,8 +294,8 @@ def build_and_render():
     build_street_furniture(spl)
     # traffic sets that are re-planned every run (parked around driveways, left lane around pass events):
     # drop the old actors and their cabin/screen parts so nothing stale keeps its old keys
-    replan = ["Traffic_Parked", "Traffic_Inner", "Traffic_Passer", "Traffic_Pass"] if OPTS.get("dress") else \
-             ["Traffic_Inner", "Traffic_Passer", "Traffic_Pass"]
+    replan = ["Traffic_Parked", "Traffic_Inner", "Traffic_Passer", "Traffic_Pass", "Traffic_Oncoming"] if OPTS.get("dress") else \
+             ["Traffic_Inner", "Traffic_Passer", "Traffic_Pass", "Traffic_Oncoming"]
     for a in EAS.get_all_level_actors():
         if any(a.get_actor_label().startswith(p) for p in replan):
             EAS.destroy_actor(a)
@@ -314,7 +315,7 @@ def build_and_render():
             a.set_actor_hidden_in_game(hide); n += 1
     mark(f"traffic {'HIDDEN' if hide else 'visible'} ({n} actors)")
     # diagnostics: where traffic sits relative to our lane at frame 0 (lateral + = right/kerb)
-    for lbl in ["PlateRig", "Traffic_Lead", "Traffic_Inner01", "Traffic_Oncoming01", "Traffic_Parked01"]:
+    for lbl in ["PlateRig", "Traffic_Lead", "Traffic_Inner01", "Traffic_Oncoming1_01", "Traffic_Parked001", "Traffic_ParkedFar001"]:
         a = rig.find_actor(lbl)
         if a:
             loc = a.get_actor_location()

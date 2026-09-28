@@ -11,6 +11,9 @@ import numpy as np, cv2, imageio_ffmpeg
 ap = argparse.ArgumentParser()
 ap.add_argument("cam"); ap.add_argument("geo"); ap.add_argument("geo_nc"); ap.add_argument("out")
 ap.add_argument("--frames", type=int, default=0); ap.add_argument("--check", type=int, default=-1)
+ap.add_argument("--car_edges", type=float, default=0.0,
+                help=">0: draw the Unreal beauty's edges inside each car (grille/lights vs trunk) at this brightness 0-1, "
+                     "so the AI can tell which way a car faces (depth alone is front/back symmetric)")
 a = ap.parse_args()
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -27,7 +30,8 @@ DASH, GAP = 300.0, 900.0                                         # 10 ft dash, 3
 
 dA = sorted(glob.glob(os.path.join(ROOT, "renders", f"Cesium_{a.cam}_{a.geo}_png", "depth_*.png")))
 dB = sorted(glob.glob(os.path.join(ROOT, "renders", f"Cesium_{a.cam}_{a.geo_nc}_png", "depth_*.png")))
-n = min(len(dA), len(dB), a.frames or 10 ** 9)
+bt = sorted(glob.glob(os.path.join(ROOT, "renders", f"Beauty_{a.cam}_{a.geo}_png", "beauty_*.png"))) if a.car_edges else []
+n = min(len(dA), len(dB), a.frames or 10 ** 9, len(bt) if a.car_edges else 10 ** 9)
 W, H = cv2.imread(dA[0]).shape[1], cv2.imread(dA[0]).shape[0]
 
 # per-pixel ground hit in rig space (x forward along the route, y right), fixed for the whole clip
@@ -73,6 +77,11 @@ for i in range(n):
     m = p.max(2, keepdims=True) / 255
     wl.stdin.write(p.astype(np.uint8).tobytes())
     d = cv2.cvtColor(A.astype(np.uint8), cv2.COLOR_GRAY2BGR).astype(np.float32)
+    if a.car_edges:
+        car = cv2.dilate(((A - B) > 3).astype(np.uint8), k)
+        e = cv2.Canny(cv2.GaussianBlur(cv2.cvtColor(cv2.imread(bt[i]), cv2.COLOR_BGR2GRAY), (3, 3), 0), 60, 140)
+        e = (e > 0) & (cv2.erode(car, k) > 0)                  # inner detail only, not the silhouette
+        d[e] = d[e] * (1 - a.car_edges) + 255 * a.car_edges
     wd.stdin.write((d * (1 - m) + p * m).astype(np.uint8).tobytes())
 for w in (wl, wd):
     w.stdin.close(); w.wait()

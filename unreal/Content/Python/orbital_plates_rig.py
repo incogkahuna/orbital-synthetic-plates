@@ -346,22 +346,34 @@ def ensure_traffic():
     if CONFIG.get("passing_traffic"):
         plan += passing_lane_plan(rnd)
     # oncoming: spawn far enough ahead that they keep arriving for the whole drive
-    for i in range(30):
-        plan.append((f"Traffic_Oncoming{i+1:02d}",
-                     CONFIG.get("oncoming_offsets_cm", [-LANE_W])[i % len(CONFIG.get("oncoming_offsets_cm", [-LANE_W]))],
-                     8000.0 + i * rnd.uniform(9000, 16000),
-                     -CONFIG["speed_mps"] * rnd.uniform(0.8, 1.15)))
+    # (Danny 2026-09-28: the far side was nearly empty, so the AI invented cars there facing any way.) Each oncoming
+    # lane gets its own stream, 25-70 m apart, covering the whole closing distance plus what the rear camera sees receding.
+    onc = CONFIG.get("oncoming_offsets_cm", [-LANE_W])
+    reach = 2 * CONFIG["speed_mps"] * 100.0 * CONFIG["duration_s"] + 20000.0
+    for li, loff in enumerate(onc):
+        x, k = -15000.0 + rnd.uniform(0, 3000), 0
+        while x < reach and k < 90:
+            plan.append((f"Traffic_Oncoming{li + 1}_{k + 1:02d}", loff, x, -CONFIG["speed_mps"] * rnd.uniform(0.85, 1.1)))
+            x += rnd.uniform(2500, 7000); k += 1
     # same-direction cars in the lane to our left (multi-lane boulevards)
     for i in range(CONFIG.get("inner_lane_cars", 0)):
         plan.append((f"Traffic_Inner{i+1:02d}", -LANE_W, 2000.0 + i * rnd.uniform(5000, 9000),
                      CONFIG["speed_mps"] * rnd.uniform(0.9, 1.12)))
     # kerb parking with gaps (driveways, hydrants)
-    x, i = 1200.0, 0
-    while x < route_len and i < 60:
-        no_park = any(a * 100 <= x <= b * 100 for a, b in CONFIG.get("no_park_m", []))   # driveways, bus stops, corners
-        if rnd.random() > 0.25 and not no_park:
-            plan.append((f"Traffic_Parked{i+1:02d}", CONFIG.get("parked_offset_cm", LANE_W * 0.95), x, 0.0)); i += 1
-        x += rnd.uniform(600, 2400)
+    # both kerbs, dense like 1980s Sunset, only where some camera can see them (camera path +/- 150 m).
+    # Far-kerb cars park with the westbound flow, so they face backward (ParkedFar -> face_backward in sample_traffic).
+    cam0 = CONFIG.get("camera_start_cm", 0.0)
+    lo, hi = max(1200.0, cam0 - 15000.0), min(route_len, cam0 + CONFIG["speed_mps"] * 100.0 * CONFIG["duration_s"] + 15000.0)
+    for label, off in (("Traffic_Parked", CONFIG.get("parked_offset_cm", LANE_W * 0.95)),
+                       ("Traffic_ParkedFar", CONFIG.get("parked_far_offset_cm", None))):
+        if off is None:
+            continue
+        x, i = lo, 0
+        while x < hi and i < 220:
+            no_park = any(a * 100 <= x <= b * 100 for a, b in CONFIG.get("no_park_m", []))   # driveways, bus stops, corners
+            if rnd.random() > 0.15 and not no_park:
+                plan.append((f"{label}{i+1:03d}", off, x, 0.0)); i += 1
+            x += rnd.uniform(560, 900)
     out, real = [], 0
     crnd = random.Random(CONFIG.get("car_seed", 1955))
     for label, off, start, spd in plan:
@@ -518,7 +530,7 @@ def sample_traffic(spline, traffic, fps, duration_s):
             if wob:
                 d += wob[0] * math.sin(2 * math.pi * (f / fps) / wob[1])
             loc, rot = pose_on_route(spline, d, off, CONFIG.get("proxy_ground_cm", 15.0) + CAR_CLEAR + CAR_BODY_H / 2.0,
-                                     face_backward=(spd < 0))
+                                     face_backward=(spd < 0 or actor.get_actor_label().startswith("Traffic_ParkedFar")))
             if spd != 0.0 and not (0.0 <= d <= spline.get_spline_length()):
                 loc = unreal.Vector(loc.x, loc.y, loc.z - 10000.0)   # off the route: hide underground, don't pile up at its ends
             keys.append((f, loc, rot))
