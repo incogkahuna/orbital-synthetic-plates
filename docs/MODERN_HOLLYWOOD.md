@@ -23,4 +23,5 @@ Look like the real street, not an invented one (Danny, 2026-10-01). Three layers
 ## Status
 - 10 s night test on the v16 (invented-street) geometry: good night look, cars face the right way, lanes correct.
 - Cars: Dekogon retro meshes until **City Sample Vehicles** is in Danny's Fab library.
-- Open: plate length (60 s or 2 min); billboard text gibberish.
+- Length: **60 s first** (Danny, 2026-10-01); 2 min is the ideal and the pipeline has no length limit (about 1.5 h GPU per camera at 2 min).
+- Open: billboard text gibberish.

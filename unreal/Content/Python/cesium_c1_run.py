@@ -9,7 +9,7 @@ Cesium World Terrain (async sampler; falls back to streamed line traces).
 Renders SEQ_PlateRing_C1 (30 s) to Saved/PlateRenders/Cesium, writes Saved/cesium_c1_status.txt,
 quits the editor. PlatesMain / box-street assets are not touched.
 """
-import sys, os, json, math, traceback, unreal
+import time, sys, os, json, math, traceback, unreal
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import orbital_plates_rig as rig
 import cesium_route_level as crl
@@ -106,6 +106,7 @@ def setup():
         if t:
             t.set_actor_hidden_in_game(G)
     S["ground"] = S["google"] if G else S["terrain"]
+    S["google_mode"] = G
     mark(f"level loaded; georef {geos[0].get_actor_label()}, tilesets {[t.get_actor_label() for t in tiles]}")
     S["ll"] = lane_lonlat()
 
@@ -152,14 +153,25 @@ def trace_step():
     if S["wait"] == 0:
         UES.set_level_viewport_camera_info(unreal.Vector(top.x - 3000, top.y, top.z), unreal.Rotator(0, -60, 0))
     S["wait"] += 1
-    if S["wait"] < 20 or (S["ground"].get_editor_property("load_progress") < 99.9 and S["wait"] < 600):
+    if S.get("google_mode"):
+        # Google's tileset never reports ~100% loaded (it is the whole planet); the tiles under a parked camera stream in
+        # within a second or two. Wait by wall-clock time (a background editor ticks slowly), then retry up to 10 s.
+        if S["wait"] == 1:
+            S["t_park"] = time.time()
+        if time.time() - S["t_park"] < 2.5:
+            return
+    elif S["wait"] < 20 or (S["ground"].get_editor_property("load_progress") < 99.9 and S["wait"] < 600):
         return
     ignore = [a for a in [S["buildings"]] if a]
     hit = unreal.SystemLibrary.line_trace_single(UES.get_editor_world(), top, bot,
                                                  unreal.TraceTypeQuery.TRACE_TYPE_QUERY1, True, ignore,
                                                  unreal.DrawDebugTrace.NONE, True)
+    if not hit and S.get("google_mode") and time.time() - S["t_park"] < 10.0:
+        return
     S["hits"].append(hit.to_tuple()[4] if hit else None)
     S["i"] += 1; S["wait"] = 0
+    if S["i"] % 10 == 0:
+        mark(f"traced {S['i']}/{len(S['ll'])}")
     if S["i"] >= len(S["ll"]):
         S["phase"] = "build"
 
@@ -312,8 +324,8 @@ def build_and_render():
         if any(a.get_actor_label().startswith(p) for p in replan):
             EAS.destroy_actor(a)
     if OPTS.get("dress"):
-        rig.CONFIG["no_park_m"] = world_dress.dress(spl, OPTS.get("era", "timeless"), OPTS.get("seed", 1978), real_city=bool(OPTS.get("google_tiles")),
-                                                    INTERSECTIONS_M, mark)
+        rig.CONFIG["no_park_m"] = world_dress.dress(spl, OPTS.get("era", "timeless"), OPTS.get("seed", 1978),
+                                                    INTERSECTIONS_M, mark, real_city=bool(OPTS.get("google_tiles")))
     else:
         world_dress.clear()
     rig.main()

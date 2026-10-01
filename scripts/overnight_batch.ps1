@@ -16,6 +16,9 @@ if (-not $SkipDepth) {
     ConvertTo-Json -Compress | Set-Content -Encoding ascii -Path "$Sv\run_options.json"
   Remove-Item "$Sv\PlateRenders\Cesium" -Recurse -Force -ErrorAction SilentlyContinue; Remove-Item "$Sv\cesium_c1_status.txt" -ErrorAction SilentlyContinue
   New-Item -ItemType File -Force "$Sv\run_cesium_c1.flag" | Out-Null
+  # a force-closed editor leaves an auto-save restore list whose "Restore Packages" dialog blocks startup; the run script
+  # rebuilds the level anyway, so set the list aside instead of restoring it
+  if (Test-Path "$Sv\Autosaves\PackageRestoreData.json") { Move-Item -Force "$Sv\Autosaves\PackageRestoreData.json" "$Sv\Autosaves\PackageRestoreData.skipped.json" }
   log "unreal depth: $Era ${Seconds}s cams $($Cams -join ',')"
   Start-Process "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe" -ArgumentList "`"$Root\unreal\OrbitalPlates.uproject`" /Game/OrbitalPlates/Cesium/PlatesCesium"
   $st = "$Sv\cesium_c1_status.txt"; $t0 = Get-Date
@@ -23,6 +26,9 @@ if (-not $SkipDepth) {
     Start-Sleep 20
     if ((Test-Path $st) -and (Select-String -Path $st -Pattern 'render finished|ERROR' -Quiet)) { Start-Sleep 25; break }
     if (((Get-Date) - $t0).TotalMinutes -gt 3 -and -not (Get-Process UnrealEditor -ErrorAction SilentlyContinue)) { log "editor gone early"; break }
+    if (((Get-Date) - $t0).TotalMinutes -gt 2 -and -not (Test-Path $st) -and
+        (Select-String -Path "$Sv\Logs\OrbitalPlates.log" -Pattern 'Content/Python/init_unreal.py", line|SyntaxError' -Quiet -ErrorAction SilentlyContinue)) {
+      log "startup script failed:"; Select-String -Path "$Sv\Logs\OrbitalPlates.log" -Pattern 'LogPython: Error' | Select-Object -Last 6 | ForEach-Object { log "  $($_.Line)" }; break }
   }
   Get-Process UnrealEditor, CrashReportClientEditor -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
   Get-Content $st -ErrorAction SilentlyContinue | Select-String 'render finished|ERROR|passing lane|wires' | ForEach-Object { log "status: $_" }

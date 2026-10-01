@@ -13,3 +13,5 @@ __pycache__/
 unreal/Content/Vehicles/**
 !unreal/Content/Vehicles/*/
 !unreal/Content/Vehicles/*/manifest.json
+refs/commons/*.jpg
+refs/route_photos/*.jpg
