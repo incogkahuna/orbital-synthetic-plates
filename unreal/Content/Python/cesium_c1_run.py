@@ -28,6 +28,8 @@ RENDER_JOBS = ["SEQ_PlateRing_C5", "SEQ_PlateRing_C3", "SEQ_PlateRing_C7"]   # r
 OPTS_PATH = os.path.join(unreal.Paths.project_saved_dir(), "run_options.json")
 OPTS = json.load(open(OPTS_PATH)) if os.path.exists(OPTS_PATH) else {}
 RENDER_JOBS = OPTS.get("jobs", RENDER_JOBS)
+if OPTS.get("google_tiles"):     # heights sampled from the Google road surface, cached separately
+    RAW = os.path.join(SAVED, "cesium_route_raw_google.json")
 EAS = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)
 UES = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem)
 S = {"t": 0, "h": None, "phase": "wait", "act": None, "llh": [], "hits": [], "i": 0, "wait": 0}
@@ -84,16 +86,26 @@ def setup():
     S["geo"].set_editor_property("origin_latitude", LANE_START[1])
     S["geo"].set_editor_property("origin_longitude", LANE_START[0])
     tiles = actors(unreal.Cesium3DTileset)
-    S["terrain"] = S["buildings"] = None
+    S["terrain"] = S["buildings"] = S["google"] = None
     for t in tiles:
         aid = t.get_editor_property("ion_asset_id")
         if aid == 1:
             S["terrain"] = t
         elif aid == 96188:
             S["buildings"] = t
-        elif aid == 2275207:        # Google: layout reference only, never rendered
-            t.set_actor_hidden_in_game(True)
-            t.set_editor_property("suspend_update", True)
+        elif aid == 2275207:        # Google Photorealistic 3D Tiles
+            S["google"] = t
+    # google_tiles (studio sign-off 2026-10-01, modern Hollywood test): the real city is the geometry. Google is shown and
+    # sampled for heights; the generic terrain and OSM extrusions are hidden so nothing doubles up. Otherwise Google stays
+    # a hidden layout reference as before. Always set explicitly so a run can never inherit the other mode.
+    G = bool(OPTS.get("google_tiles")) and S.get("google") is not None
+    if S.get("google") is not None:
+        S["google"].set_actor_hidden_in_game(not G)
+        S["google"].set_editor_property("suspend_update", not G)
+    for t in (S["terrain"], S["buildings"]):
+        if t:
+            t.set_actor_hidden_in_game(G)
+    S["ground"] = S["google"] if G else S["terrain"]
     mark(f"level loaded; georef {geos[0].get_actor_label()}, tilesets {[t.get_actor_label() for t in tiles]}")
     S["ll"] = lane_lonlat()
 
@@ -104,7 +116,7 @@ def start_sampling():
         S["phase"] = "build"; mark(f"reusing {len(S['hits'])} traced points"); return
     try:
         A = unreal.CesiumSampleHeightMostDetailedAsyncAction
-        act = A.sample_height_most_detailed(S["terrain"], [unreal.Vector(lo, la, 0.0) for lo, la in S["ll"]])
+        act = A.sample_height_most_detailed(S["ground"], [unreal.Vector(lo, la, 0.0) for lo, la in S["ll"]])
         act.on_heights_sampled.add_callable(on_heights)
         S["act"] = act
         act.activate()
@@ -140,7 +152,7 @@ def trace_step():
     if S["wait"] == 0:
         UES.set_level_viewport_camera_info(unreal.Vector(top.x - 3000, top.y, top.z), unreal.Rotator(0, -60, 0))
     S["wait"] += 1
-    if S["wait"] < 20 or (S["terrain"].get_editor_property("load_progress") < 99.9 and S["wait"] < 600):
+    if S["wait"] < 20 or (S["ground"].get_editor_property("load_progress") < 99.9 and S["wait"] < 600):
         return
     ignore = [a for a in [S["buildings"]] if a]
     hit = unreal.SystemLibrary.line_trace_single(UES.get_editor_world(), top, bot,
@@ -300,7 +312,7 @@ def build_and_render():
         if any(a.get_actor_label().startswith(p) for p in replan):
             EAS.destroy_actor(a)
     if OPTS.get("dress"):
-        rig.CONFIG["no_park_m"] = world_dress.dress(spl, OPTS.get("era", "timeless"), OPTS.get("seed", 1978),
+        rig.CONFIG["no_park_m"] = world_dress.dress(spl, OPTS.get("era", "timeless"), OPTS.get("seed", 1978), real_city=bool(OPTS.get("google_tiles")),
                                                     INTERSECTIONS_M, mark)
     else:
         world_dress.clear()

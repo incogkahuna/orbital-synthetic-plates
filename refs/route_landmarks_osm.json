@@ -1,0 +1,597 @@
+{
+ "rows": [
+  [
+   -39.84103874930215,
+   "Mobil",
+   "S (kerb side)",
+   "fuel",
+   ""
+  ],
+  [
+   -38.57814603591591,
+   "El Pollo Loco",
+   "N (driver-left)",
+   "fast_food",
+   ""
+  ],
+  [
+   -2.452039867297002,
+   "Nick The Greek",
+   "N (driver-left)",
+   "fast_food",
+   ""
+  ],
+  [
+   19.45039142922869,
+   "Burger King",
+   "N (driver-left)",
+   "fast_food",
+   "7079"
+  ],
+  [
+   21.718067397182004,
+   "Tacos el Gavilan",
+   "S (kerb side)",
+   "restaurant",
+   "7070"
+  ],
+  [
+   23.524833615466108,
+   "Pa Ord Noodle",
+   "N (driver-left)",
+   "restaurant",
+   "7075"
+  ],
+  [
+   49.84278031358702,
+   "Starbucks",
+   "N (driver-left)",
+   "cafe",
+   "7055"
+  ],
+  [
+   80.25360558683174,
+   "Comfort Inn",
+   "N (driver-left)",
+   "hotel",
+   ""
+  ],
+  [
+   83.91322899823587,
+   "Ohana Hawaiian BBQ",
+   "S (kerb side)",
+   "fast_food",
+   ""
+  ],
+  [
+   84.0146291423509,
+   "Subway",
+   "S (kerb side)",
+   "fast_food",
+   "7040"
+  ],
+  [
+   84.1897748472514,
+   "7-Eleven",
+   "S (kerb side)",
+   "convenience",
+   "7040"
+  ],
+  [
+   85.69234063057043,
+   "Comfort Inn Near Hollywood Walk of Fame",
+   "N (driver-left)",
+   "yes",
+   "7051"
+  ],
+  [
+   167.50382117131028,
+   "Palihotel Hollywood",
+   "N (driver-left)",
+   "hotel",
+   "7023"
+  ],
+  [
+   209.4650447683048,
+   "IHOP",
+   "S (kerb side)",
+   "restaurant",
+   ""
+  ],
+  [
+   219.88160510742296,
+   "In-N-Out Burger",
+   "N (driver-left)",
+   "fast_food",
+   "7009"
+  ],
+  [
+   282.41783992252465,
+   "Off Broadway Shoe Warehouse",
+   "S (kerb side)",
+   "shoes",
+   ""
+  ],
+  [
+   393.2942892678943,
+   "Budget Inn Hollywood",
+   "S (kerb side)",
+   "motel",
+   "6830"
+  ],
+  [
+   415.0215748595195,
+   "Rodeway Inn Hollywood",
+   "S (kerb side)",
+   "motel",
+   "6826"
+  ],
+  [
+   464.6523366891233,
+   "Raising Cane's",
+   "S (kerb side)",
+   "fast_food",
+   "6800"
+  ],
+  [
+   537.0243855580526,
+   "Chick-fil-A",
+   "S (kerb side)",
+   "fast_food",
+   "6750"
+  ],
+  [
+   618.3933927393196,
+   "Catalina Jazz club",
+   "N (driver-left)",
+   "restaurant",
+   ""
+  ],
+  [
+   622.8734355046371,
+   "Hollywood Center Motel",
+   "S (kerb side)",
+   "motel",
+   ""
+  ],
+  [
+   657.3863575487587,
+   "The Hollywood Reporter Building",
+   "N (driver-left)",
+   "commercial",
+   ""
+  ],
+  [
+   668.1993002725138,
+   "Hollywood Guest Inn",
+   "S (kerb side)",
+   "motel",
+   "6700"
+  ],
+  [
+   720.3097565540542,
+   "The Los Angeles Recording School",
+   "S (kerb side)",
+   "music_school",
+   ""
+  ],
+  [
+   757.2931548556692,
+   "Luv2eat Thai Bistro",
+   "S (kerb side)",
+   "restaurant",
+   "6660"
+  ],
+  [
+   828.7986933971591,
+   "Blessed Sacrament Catholic Church",
+   "N (driver-left)",
+   "place_of_worship",
+   "6657"
+  ],
+  [
+   938.6242685131258,
+   "Psychiatry: An Industry of Death Museum",
+   "S (kerb side)",
+   "museum",
+   "6616"
+  ],
+  [
+   984.6691524908009,
+   "Ponchik Factory",
+   "N (driver-left)",
+   "restaurant",
+   "6601"
+  ],
+  [
+   986.9460466531974,
+   "Gwen Speciaty",
+   "S (kerb side)",
+   "restaurant",
+   ""
+  ],
+  [
+   1062.4154090397465,
+   "Superba Food + Bread",
+   "S (kerb side)",
+   "restaurant",
+   "6530"
+  ],
+  [
+   1109.4558580762357,
+   "Hollywood Athletic Club",
+   "N (driver-left)",
+   "retail",
+   ""
+  ],
+  [
+   1124.7857163457008,
+   "Eden Sunset",
+   "N (driver-left)",
+   "nightclub",
+   "6523"
+  ],
+  [
+   1175.1539337726795,
+   "Wilcox Apartments",
+   "N (driver-left)",
+   "apartments",
+   ""
+  ],
+  [
+   1177.2649004259285,
+   "Arena Cinelounge Hollywood",
+   "S (kerb side)",
+   "cinema",
+   "6464"
+  ],
+  [
+   1179.191503178524,
+   "Sunset Wilcox",
+   "N (driver-left)",
+   "yes",
+   ""
+  ],
+  [
+   1189.74633644346,
+   "IKI Nori",
+   "S (kerb side)",
+   "restaurant",
+   "6464"
+  ],
+  [
+   1189.74633644346,
+   "IKI Nori",
+   "S (kerb side)",
+   "restaurant",
+   "6464"
+  ],
+  [
+   1239.183516176657,
+   "Staples",
+   "S (kerb side)",
+   "stationery",
+   "6450"
+  ],
+  [
+   1306.1076118074043,
+   "CNN",
+   "S (kerb side)",
+   "studio",
+   "6430"
+  ],
+  [
+   1377.3273863041256,
+   "Lighthouse Immersive (Los Angeles)",
+   "S (kerb side)",
+   "museum",
+   "6200"
+  ],
+  [
+   1429.0783329801118,
+   "The Oyster Boys",
+   "N (driver-left)",
+   "restaurant",
+   ""
+  ],
+  [
+   1433.2173025313814,
+   "Blue C Sushi",
+   "S (kerb side)",
+   "restaurant",
+   "6374"
+  ],
+  [
+   1447.9018871505239,
+   "The Los Angeles Film School",
+   "N (driver-left)",
+   "university",
+   "6363"
+  ],
+  [
+   1475.1047805675905,
+   "Pacific Theatres Cinerama Dome",
+   "S (kerb side)",
+   "yes",
+   ""
+  ],
+  [
+   1526.8833818295261,
+   "Baja Fresh",
+   "N (driver-left)",
+   "fast_food",
+   "6922"
+  ],
+  [
+   1530.5522234353734,
+   "Arclight Cinemas - Los Angeles - Hollywood",
+   "S (kerb side)",
+   "yes",
+   "6360"
+  ],
+  [
+   1626.36614216585,
+   "Chipotle",
+   "S (kerb side)",
+   "fast_food",
+   "6290"
+  ],
+  [
+   1627.2695252749922,
+   "Blaze Pizza",
+   "S (kerb side)",
+   "restaurant",
+   ""
+  ],
+  [
+   1630.9383668808396,
+   "Go Burger",
+   "S (kerb side)",
+   "restaurant",
+   ""
+  ],
+  [
+   1641.5946002898904,
+   "Sunset and Vine Tower",
+   "S (kerb side)",
+   "retail",
+   ""
+  ],
+  [
+   1643.3921483137315,
+   "Chase Bank (Hollywood Main)",
+   "N (driver-left)",
+   "commercial",
+   ""
+  ],
+  [
+   1643.4935484578464,
+   "Tender Greens",
+   "S (kerb side)",
+   "fast_food",
+   ""
+  ],
+  [
+   1669.2215306762337,
+   "Off Vine",
+   "S (kerb side)",
+   "restaurant",
+   ""
+  ],
+  [
+   1720.5023494081074,
+   "Kraut Law Group Criminal & DUI Lawyers",
+   "N (driver-left)",
+   null,
+   "6255"
+  ],
+  [
+   1726.2084121077282,
+   "Toastique LA",
+   "N (driver-left)",
+   "restaurant",
+   ""
+  ],
+  [
+   1736.505135912535,
+   "Wallace on Sunset",
+   "S (kerb side)",
+   "apartments",
+   "6240"
+  ],
+  [
+   1787.6845544989837,
+   "Earl Carroll Theatre Building",
+   "S (kerb side)",
+   "yes",
+   "6230"
+  ],
+  [
+   1822.7413500480034,
+   "Hollywood Palladium",
+   "N (driver-left)",
+   "theatre",
+   "6215"
+  ],
+  [
+   1839.2050463007904,
+   "Hanover Hollywood",
+   "S (kerb side)",
+   "apartments",
+   "6200"
+  ],
+  [
+   1904.737194488087,
+   "NeueHouse",
+   "N (driver-left)",
+   null,
+   "6121"
+  ],
+  [
+   1930.861559091111,
+   "Kickin' Crab",
+   "S (kerb side)",
+   "restaurant",
+   ""
+  ],
+  [
+   1941.4993561099657,
+   "Noodle World",
+   "S (kerb side)",
+   "restaurant",
+   ""
+  ],
+  [
+   1941.6468472302265,
+   "Columbia Square",
+   "N (driver-left)",
+   "yes",
+   ""
+  ],
+  [
+   1963.134459751919,
+   "Vala Kitchen",
+   "S (kerb side)",
+   "restaurant",
+   "6110"
+  ],
+  [
+   1978.8330458213816,
+   "Lucifer's Pizza",
+   "S (kerb side)",
+   "restaurant",
+   ""
+  ],
+  [
+   1980.1328113151606,
+   "Denny's",
+   "S (kerb side)",
+   "restaurant",
+   "6100"
+  ],
+  [
+   1990.1253346850024,
+   "SUGARFISH Hollywood",
+   "N (driver-left)",
+   "restaurant",
+   "6115"
+  ],
+  [
+   2026.5279867013267,
+   "Roscoes's chicken",
+   "N (driver-left)",
+   "restaurant",
+   "1514"
+  ],
+  [
+   2035.653999742419,
+   "Building 35",
+   "S (kerb side)",
+   "industrial",
+   ""
+  ],
+  [
+   2039.4242414936914,
+   "Building 1",
+   "S (kerb side)",
+   "yes",
+   ""
+  ],
+  [
+   2042.9271555903915,
+   "Building 1448",
+   "S (kerb side)",
+   "industrial",
+   ""
+  ],
+  [
+   2049.6195651530734,
+   "Building 2",
+   "S (kerb side)",
+   "yes",
+   ""
+  ],
+  [
+   2064.285713383329,
+   "Building 19",
+   "S (kerb side)",
+   "yes",
+   ""
+  ],
+  [
+   2067.09726285487,
+   "Building 6060",
+   "S (kerb side)",
+   "industrial",
+   ""
+  ],
+  [
+   2070.2406673460164,
+   "Building 15",
+   "S (kerb side)",
+   "yes",
+   ""
+  ],
+  [
+   2074.287454947614,
+   "Stage 5",
+   "S (kerb side)",
+   "yes",
+   ""
+  ],
+  [
+   2086.3171994099193,
+   "Building 16",
+   "S (kerb side)",
+   "yes",
+   ""
+  ],
+  [
+   2087.358855443569,
+   "United Recording",
+   "S (kerb side)",
+   "industrial",
+   ""
+  ],
+  [
+   2089.137967077214,
+   "Building 55",
+   "S (kerb side)",
+   "industrial",
+   ""
+  ],
+  [
+   2138.8240380760967,
+   "Technicolor",
+   "S (kerb side)",
+   "yes",
+   "6040"
+  ]
+ ],
+ "streets": {
+  "North Hudson Avenue": -118.3315778,
+  "Cassil Place": -118.3338248,
+  "Morningside Court": -118.3277385,
+  "Wilcox Avenue": -118.3310391,
+  "North Las Palmas Avenue": -118.3363243,
+  "North Sycamore Avenue": -118.3425078,
+  "Leland Way": -118.3337249,
+  "Cole Place": -118.3302946,
+  "Harold Way": -118.3214367,
+  "North McCadden Place": -118.3375653,
+  "North Highland Avenue": -118.3386772,
+  "West Sunset Boulevard": -118.3320207,
+  "North Gower Street": -118.3223191,
+  "Walk of Fame": -118.3266737,
+  "North Mansfield Avenue": -118.3404897,
+  "North Cahuenga Boulevard": -118.3295078,
+  "Vine Street": -118.3266738,
+  "North La Brea Avenue": -118.344192,
+  "Ivar Avenue": -118.3285245,
+  "Argyle Avenue": -118.3251858,
+  "El Centro Avenue": -118.3237454,
+  "North Beachwood Drive": -118.3212218,
+  "Alley 81821": -118.3381271,
+  "Alley 81820": -118.331094
+ }
+}

@@ -17,6 +17,8 @@ ap.add_argument("--guide2", default="", help="second control video (e.g. lane li
 ap.add_argument("--guide2_strength", type=float, default=1.0)
 ap.add_argument("--sampler", default="euler_ancestral")
 ap.add_argument("--schedule", default="standard_static", help="context windows: standard_static (fixed seams) | standard_uniform (shift each step)")
+ap.add_argument("--segments", default="", help="JSON list of {prompt} (landmark_prompts.py): one prompt per equal time "
+                "segment; each context window uses the segment its centre falls in")
 ap.add_argument("--overlap", type=int, default=24, help="context window overlap in frames")
 a = ap.parse_args()
 assert (a.frames - 1) % 8 == 0, "LTX needs 8n+1 frames"
@@ -81,6 +83,18 @@ g = {
            "filename_prefix": prefix, "format": "video/h264-mp4", "pix_fmt": "yuv420p", "crf": 14, "save_metadata": False,
            "pingpong": False, "save_output": True}},
 }
+if a.segments:   # per-segment prompts, combined; LTXVContextWindows(split_conds_to_windows) picks one per window
+    segs = json.load(open(a.segments, encoding="utf-8"))
+    prev = None
+    for i, sg in enumerate(segs):
+        g[f"30{i}"] = {"class_type": "CLIPTextEncode", "inputs": {"clip": ["7", 0], "text": sg["prompt"]}}
+        if prev is None:
+            prev = [f"30{i}", 0]
+        else:
+            g[f"31{i}"] = {"class_type": "ConditioningCombine", "inputs": {"conditioning_1": prev, "conditioning_2": [f"30{i}", 0]}}
+            prev = [f"31{i}", 0]
+    g["10"]["inputs"]["positive"] = prev
+    print(f"{len(segs)} prompt segments", flush=True)
 if a.guide2:   # second IC guide over the same frames; the sampler/crop read from node 22 instead of 12
     g2 = f"3dreal_g2_{os.path.splitext(os.path.basename(a.guide2))[0]}.mp4"; shutil.copy(a.guide2, os.path.join(r"C:\ComfyUI\input", g2))
     g["21"] = {"class_type": "VHS_LoadVideo", "inputs": {"video": g2, "force_rate": 0, "custom_width": a.w, "custom_height": a.h,

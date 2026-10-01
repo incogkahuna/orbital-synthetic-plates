@@ -240,14 +240,17 @@ def clear():
     return n
 
 
-def dress(spl, era="timeless", seed=1978, intersections_m=(), log=print):
+def dress(spl, era="timeless", seed=1978, intersections_m=(), log=print, real_city=False):
+    """real_city: Google 3D Tiles supply the buildings, trees and poles, so only add what photogrammetry can't capture
+    (overhead wires); invented storefronts and sidewalk props would double up with the real ones."""
     root = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".."))   # repo root from unreal/Content/Python
     path = os.environ.get("ORBITAL_FRONTAGE", os.path.join(root, "refs", "route_frontage.json"))
     data = json.load(open(path, encoding="utf-8"))
     log(f"dress: cleared {clear()} old actors; era {era}, seed {seed}, data {os.path.basename(path)}")
     d = Dresser(spl, data, era, seed, list(intersections_m), log)
-    d.storefronts()
-    d.sidewalks()
+    if not real_city:
+        d.storefronts()
+        d.sidewalks()
     d.wires()
     log(f"dress: {d.n} actors")
     return d.no_park_m()
